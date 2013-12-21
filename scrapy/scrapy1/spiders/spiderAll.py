@@ -1,6 +1,6 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.selector import Selector
-from ScrapeAll.items import URLItem
+from scrapy1.items import URLItem
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy import log
 import string

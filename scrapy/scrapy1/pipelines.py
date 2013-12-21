@@ -8,7 +8,7 @@ from scrapy import log
 import string
 class AllPipeline(object):
     def __init__(self):
-        self.connection = dbapi2.connect('/Users/yuanzai/Google Drive/bblio/Development Code/Build/db.sqlite3',check_same_thread=False)
+        self.connection = dbapi2.connect('/mnt/my-data/db.sqlite3',check_same_thread=False)
         self.cursor = self.connection.cursor()
         self.cursor.execute('CREATE TABLE IF NOT EXISTS doc (id INTEGER PRIMARY KEY, urlAddress TEXT, document_text TEXT, title TEXT)')
 
