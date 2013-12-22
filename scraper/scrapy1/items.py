@@ -6,6 +6,7 @@
 from scrapy.item import Item, Field
 
 class URLItem(Item):
+    domain = Field()
     title = Field()
     urlAddress = Field()
     document_text = Field()

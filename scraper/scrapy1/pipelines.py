@@ -6,11 +6,12 @@
 from sqlite3 import dbapi2 
 from scrapy import log, signals
 import string
+
 class AllPipeline(object):
     def __init__(self):
         self.connection = dbapi2.connect('//mnt/my-data/db.sqlite3',check_same_thread=False)
         self.cursor = self.connection.cursor()
-        self.cursor.execute('CREATE TABLE IF NOT EXISTS doc (id INTEGER PRIMARY KEY, urlAddress TEXT, document_text TEXT, title TEXT)')
+        self.cursor.execute('CREATE TABLE IF NOT EXISTS doc (id INTEGER PRIMARY KEY, urlAddress TEXT, document_text TEXT, title TEXT, domain TEXT)')
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -31,9 +32,15 @@ class AllPipeline(object):
         if result:
             log.msg("Item already in database: %s" % item, level=log.DEBUG)
         else:
-            self.cursor.execute(
-                "INSERT INTO doc (urlAddress, document_text, title) VALUES (?, ?, ?)",
-                    (string.join(item['urlAddress'],""), string.join(item['document_text'],""), string.join(item['title'],"")))
+
+            self.cursor.execute("INSERT INTO doc \
+                (urlAddress, document_text, title, domain) \
+                VALUES (?, ?, ?, ?)",\
+                string.join(item['urlAddress'],''),\
+                string.join(item['document_text'],''),\
+                string.join(item['title'],''),\
+                string.join(item['domain'],''))
+
             self.connection.commit()
             log.msg("Item stored : " % item, level=log.DEBUG)
         return item
