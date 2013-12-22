@@ -33,7 +33,7 @@ class AllPipeline(object):
         else:
             self.cursor.execute(
                 "INSERT INTO doc (urlAddress, document_text, title) VALUES (?, ?, ?)",
-                    (item['urlAddress'], string.join(item['document_text'],""), string.join(item['title'],"")))
+                    (string.join(item['urlAddress'],""), string.join(item['document_text'],""), string.join(item['title'],"")))
             self.connection.commit()
             log.msg("Item stored : " % item, level=log.DEBUG)
         return item

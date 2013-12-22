@@ -10,8 +10,7 @@ class SpiderAll(CrawlSpider):
     name = None
     allowed_domains = None
     rules = None
-    sitesxPath = None
-    
+
     def __init__(self, *a, **kw):
         self.allowed_domains = kw['source_allowed_domains'].split(';')
         self.start_urls = kw['source_start_urls'].split(';')
@@ -26,13 +25,14 @@ class SpiderAll(CrawlSpider):
             denyParse = kw['source_denyParse'].split(";")
         
         self.rules = (
-        #Rule(SgmlLinkExtractor(allow=allowFollow,deny=denyFollow), follow='true'),
-        Rule(SgmlLinkExtractor(allow=allowParse,deny=denyParse), callback='parse_item', follow='true'),
+        Rule(SgmlLinkExtractor(allow=allowParse,deny=denyParse, unique=True), 
+        callback='parse_item', follow='true'),
+        
+        Rule(SgmlLinkExtractor(allow=allowFollow,deny=denyFollow,unique=True), follow='true'),
+ 
         )    
         super(SpiderAll, self).__init__(*a, **kw) 
-        #dispatcher.connect(self.spider_closed, signals.spider_closed)
-    
-
+        
     def parse_item(self, response):
         sel = Selector(response)
         sites = sel.xpath("//p|//li|//td")        
