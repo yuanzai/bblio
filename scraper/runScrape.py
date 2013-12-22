@@ -1,7 +1,7 @@
 from twisted.internet import reactor
 from scrapy.crawler import Crawler
 from scrapy import log
-from ScrapeAll.spiders.spiderAll import SpiderAll
+from scrapy1.spiders.spiderAll import SpiderAll
 from scrapy.settings import CrawlerSettings
 import importlib
 import csv
