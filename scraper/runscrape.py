@@ -3,10 +3,12 @@ from scrapy.crawler import Crawler
 from scrapy import log
 from scrapy1.spiders.spiderAll import SpiderAll
 from scrapy.settings import CrawlerSettings
+from scrapy.xlib.pydispatch import dispatcher
 import importlib
 import csv
 import sys
 
+dispatcher.connect(stop_reactor, signal=signals.spider_closed)
 arg = sys.argv
 filePath =arg[1]    
 

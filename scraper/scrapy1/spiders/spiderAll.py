@@ -30,7 +30,7 @@ class SpiderAll(CrawlSpider):
         Rule(SgmlLinkExtractor(allow=allowParse,deny=denyParse), callback='parse_item', follow='true'),
         )    
         super(SpiderAll, self).__init__(*a, **kw) 
-        dispatcher.connect(self.spider_closed, signals.spider_closed)
+        #dispatcher.connect(self.spider_closed, signals.spider_closed)
     
 
     def parse_item(self, response):
