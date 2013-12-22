@@ -1,4 +1,4 @@
-from twisted.internet import reactor
+fom twisted.internet import reactor
 from scrapy.crawler import Crawler
 from scrapy import log
 from scrapy1.spiders.spiderAll import SpiderAll
@@ -10,7 +10,10 @@ import sys
 
 dispatcher.connect(stop_reactor, signal=signals.spider_closed)
 arg = sys.argv
-filePath =arg[1]    
+filePath =arg[1]  
+
+def stop_reactor():
+    reactor.stop()
 
 def setup_crawler(spider):
     settings_module = importlib.import_module('scrapy1.settings')
