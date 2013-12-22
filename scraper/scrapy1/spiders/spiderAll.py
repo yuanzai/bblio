@@ -2,7 +2,8 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.selector import Selector
 from scrapy1.items import URLItem
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy import log
+from scrapy import log, signals
+from scrapy.xlib.pydispatch import dispatcher
 import string
 
 class SpiderAll(CrawlSpider):
@@ -29,7 +30,9 @@ class SpiderAll(CrawlSpider):
         Rule(SgmlLinkExtractor(allow=allowParse,deny=denyParse), callback='parse_item', follow='true'),
         )    
         super(SpiderAll, self).__init__(*a, **kw) 
+        dispatcher.connect(self.spider_closed, signals.spider_closed)
     
+
     def parse_item(self, response):
         sel = Selector(response)
         sites = sel.xpath("//p|//li|//td")        
@@ -40,3 +43,4 @@ class SpiderAll(CrawlSpider):
         item['urlAddress'] = response.url
         items.append(item)
         return items
+
