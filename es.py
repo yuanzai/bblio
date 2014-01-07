@@ -5,22 +5,19 @@ import pprint
 
 def index():
     print('INDEX')
-    es = Elasticsearch("0.0.0.0:9200")
+    es = Elasticsearch("172.31.41.53:9300")
     es.indices.delete(index='_all')
     
     dList = docdata.getData()
     for d in dList:
-        print(d)
-        """
         doc = {
-               "filename" : d.file_name,
-               "title" : d.title,
-               "urlAddress" : d.urlAddress,
-               "text" : re.sub('</br>','  ',d.document_text),
+               "filename" : d['file_name'],
+               "title" : d['title'],
+               "urlAddress" : d['urlAddress'],
+               "text" : re.sub('</br>','  ',d['document_text']),
                }
         es.index(index="legal-index", doc_type='legaltext', id=d.id, body=doc)
-        """
-
+ 
 def search(search_term):
     es = Elasticsearch("0.0.0.0:9200")
     q = {   
