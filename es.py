@@ -5,7 +5,7 @@ import pprint
 
 def index():
     print('INDEX')
-    es = Elasticsearch("172.31.41.53:9300")
+    es = Elasticsearch("0.0.0.0:9300")
     es.indices.delete(index='_all')
     
     dList = docdata.getData()

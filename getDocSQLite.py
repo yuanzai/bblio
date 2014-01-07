@@ -6,6 +6,7 @@ def getData():
     con = None
 
     try:
+        con.row_factory = lite.Row    
         con = lite.connect('//mnt/my-data/db.sqlite3')
         cur = con.cursor()    
         cur.execute('SELECT * FROM doc')
