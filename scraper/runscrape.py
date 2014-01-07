@@ -1,4 +1,4 @@
-fom twisted.internet import reactor
+from twisted.internet import reactor
 from scrapy.crawler import Crawler
 from scrapy import log
 from scrapy1.spiders.spiderAll import SpiderAll
