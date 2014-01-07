@@ -11,7 +11,6 @@ def index():
     dList = docdata.getData()
     for d in dList:
         doc = {
-               "filename" : d['file_name'],
                "title" : d['title'],
                "urlAddress" : d['urlAddress'],
                "text" : re.sub('</br>','  ',d['document_text']),
