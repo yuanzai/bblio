@@ -4,6 +4,7 @@ import re
 import pprint
 
 def index():
+    print('INDEX')
     es = Elasticsearch("0.0.0.0:9200")
     es.indices.delete(index='_all')
     
