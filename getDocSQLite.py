@@ -11,6 +11,7 @@ def getData():
         cur = con.cursor()    
         cur.execute('SELECT * FROM doc')
         data = cur.fetchall()
+        return data
     
     except lite.Error, e:
     
