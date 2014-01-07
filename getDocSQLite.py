@@ -20,6 +20,4 @@ def getData():
     finally:
         if con:
             con.close()
-        if data:
-            return data
     
