@@ -8,7 +8,7 @@ import importlib
 import csv
 import sys
 
-dispatcher.connect(stop_reactor, signal=signals.spider_closed)
+#dispatcher.connect(stop_reactor, signal=signals.spider_closed)
 arg = sys.argv
 filePath =arg[1]  
 

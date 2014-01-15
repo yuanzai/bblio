@@ -41,6 +41,7 @@ class SpiderAll(CrawlSpider):
         item['title'] = sel.xpath("//title/text()").extract()
         item['document_text'] = string.join(sites.xpath('text()').extract(),"")
         item['urlAddress'] = response.url
+	item['domain'] = self.allowed_domains
         items.append(item)
         return items
 
