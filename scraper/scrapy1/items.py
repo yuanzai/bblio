@@ -10,3 +10,4 @@ class URLItem(Item):
     title = Field()
     urlAddress = Field()
     document_text = Field()
+    lastupdate = Field()

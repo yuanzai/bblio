@@ -5,6 +5,7 @@
 
 from sqlite3 import dbapi2 
 from scrapy import log, signals
+from scrapy.stats import stats
 import string
 
 class AllPipeline(object):
@@ -24,6 +25,13 @@ class AllPipeline(object):
         log.msg("Pipeline.spider_opened called", level=log.DEBUG)
 
     def spider_closed(self, spider):
+	self.cursor.execute("INSERT INTO crawlLOG \
+				(name, startTime, endTime, parseCount)\
+				VALUES (?, ?, ?, ?)",\
+				(spider.name,\
+ 				str(stats.get_value('start_time')),\
+				str(stats.get_value('finish_time')),\
+				stats.get_value('item_scraped_count'))) 
         log.msg("Pipeline.spider_closed called", level=log.DEBUG)
     
     def process_item(self, item, spider):
@@ -34,12 +42,13 @@ class AllPipeline(object):
         else:
 
             self.cursor.execute("INSERT INTO doc \
-                (urlAddress, document_text, title, domain) \
-                VALUES (?, ?, ?, ?)",\
+                (urlAddress, document_text, title, domain, lastupdate)\
+                VALUES (?, ?, ?, ?, ?)",\
                 (string.join(item['urlAddress'],''),\
                 string.join(item['document_text'],''),\
                 string.join(item['title'],''),\
-                string.join(item['domain'],'')))
+                string.join(item['domain'],''),\
+		string.join(item['lastupdate'],'')))
 
             self.connection.commit()
             log.msg("Item stored : " % item, level=log.DEBUG)

@@ -5,12 +5,15 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy import log, signals
 from scrapy.xlib.pydispatch import dispatcher
 import string
+from datetime import datetime
 
 class SpiderAll(CrawlSpider):
     name = None
     allowed_domains = None
     rules = None
-
+    lastUpdate = None
+    parseCount = None
+    groupName = None
     def __init__(self, *a, **kw):
         self.allowed_domains = kw['source_allowed_domains'].split(';')
         self.start_urls = kw['source_start_urls'].split(';')
@@ -42,6 +45,7 @@ class SpiderAll(CrawlSpider):
         item['document_text'] = string.join(sites.xpath('text()').extract(),"")
         item['urlAddress'] = response.url
 	item['domain'] = self.allowed_domains
+	item['lastupdate'] = str(datetime.now())
         items.append(item)
         return items
 
