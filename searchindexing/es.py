@@ -1,5 +1,5 @@
 from elasticsearch import Elasticsearch
-import getDocSQLite as docdata
+import getdoc as docdata
 import re
 import pprint
 
