@@ -11,22 +11,15 @@ from scrapy import log, signals
 from scrapy1.spiders.spiderAll import SpiderAll
 from scrapy.settings import CrawlerSettings
 from scrapy.xlib.pydispatch import dispatcher
-from scrapy.resolver import CachingThreadedResolver
 import importlib
 import csv
 import sys
 from pprint import pprint
-from Queue import *
-q = Queue()
 
 def stop_reactor():
     reactor.stop()
 
-def start_crawler():
-    r = q.get()
-    print('********** start crawl ***********')
-    pprint(r)
-    spider = SpiderAll(**r)
+def setup_crawler(spider):
     settings_module = importlib.import_module('scrapy1.settings')
     settings = CrawlerSettings(settings_module)
     crawler = Crawler(settings)
@@ -34,31 +27,22 @@ def start_crawler():
     crawler.crawl(spider)   
     crawler.start()
 
-def spider_closed():
-    if q.empty():
-        reactor.stop()
-    else:
-        reactor.callLater(0, start_crawler)
-
 def run_grouping(grouping):
-    dispatcher.connect(spider_closed, signal=signals.spider_closed)
+    dispatcher.connect(stop_reactor, signal=signals.spider_closed)
     if grouping:    
 	result = Site.objects.filter(grouping=grouping)
     else:
         result = Site.objects.all()
-
     for r in result:
 	r = model_to_dict(r)
-	q.put(r)
-
-    for i in range(12):
-        reactor.callLater(0, start_crawler)    
-    reactor.installResolver(CachingThreadedResolver(reactor))
-    reactor.run(installSignalHandlers=False)
+	pprint(r)
+	spider = SpiderAll(**r)
+	setup_crawler(spider)
+    reactor.run()
 
 if __name__ == '__main__':
-    arg = sys.argv
-    if len(sys.argv) > 1:
+    if sys.argv:
+	arg = sys.argv
 	run_grouping(arg[1])
     else:
         run_grouping('')

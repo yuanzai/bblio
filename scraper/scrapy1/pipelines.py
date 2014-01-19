@@ -7,9 +7,10 @@ import sys
 sys.path.append('/home/ec2-user/bblio/build/')
 from sqlite3 import dbapi2 
 from scrapy import log, signals
-from search.models import Document
+from search.models import Document, Site
 import string
 import MySQLdb
+import pytz
 
 class AllPipeline(object):
     def __init__(self):
@@ -27,18 +28,15 @@ class AllPipeline(object):
 
     def spider_closed(self, spider):
 	stats = spider.crawler.stats
-	"""
-	self.cursor.execute("INSERT INTO crawlLOG \
-	    (name, startTime, endTime, scrapeCount)\
-	    VALUES (?, ?, ?, ?)",\
-	    (spider.name,\
- 	    str(stats.get_value('start_time')),\
-	    str(stats.get_value('finish_time')),\
-	    stats.get_value('item_scraped_count'))) 
-	"""
+	result = Site.objects.get(pk=spider.name)
+	result.parseCount = stats.get_value('item_scraped_count')
+	result.responseCount = stats.get_value('response_received_count')
+	result.lastupdate = pytz.UTC.localize(stats.get_value('finish_time'))
+	result.save()
+	from pprint import pprint
+	pprint(stats.get_stats())
         log.msg("Pipeline.spider_closed called", level=log.DEBUG)
    
- 
     def process_item(self, item, spider):
         item.save()
 	return item

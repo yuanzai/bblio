@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'search',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -62,7 +63,7 @@ DATABASES = {
         'NAME': 'scrapedata',
 	'USER': 'root',
 	'PASSWORD': '',
-	'HOST': 'localhost',
+	'HOST': '127.0.0.1',
 	'PORT': '3306',
     }
 }
