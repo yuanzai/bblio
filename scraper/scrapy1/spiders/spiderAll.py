@@ -28,24 +28,25 @@ class SpiderAll(CrawlSpider):
             denyParse = kw['source_denyParse'].split(";")
         
         self.rules = (
-        Rule(SgmlLinkExtractor(allow=allowParse,deny=denyParse, unique=True), 
-        callback='parse_item', follow='true'),
+	Rule(SgmlLinkExtractor(allow=allowParse,deny=denyParse, unique=True), 
+        callback='parse_start_url', follow='true'),
         
         Rule(SgmlLinkExtractor(allow=allowFollow,deny=denyFollow,unique=True), follow='true'),
  
         )    
         super(SpiderAll, self).__init__(*a, **kw) 
         
-    def parse_item(self, response):
+    def parse_start_url(self, response):
         sel = Selector(response)
         sites = sel.xpath("//p|//li|//td")        
         items = []
         item = URLItem()
         item['title'] = sel.xpath("//title/text()").extract()
-        item['document_text'] = string.join(sites.xpath('text()').extract(),"")
-        item['urlAddress'] = response.url
+        #item['document_text'] = string.join(sites.xpath('text()').extract(),"")
+        item['document_text'] = str(sites.xpath('text()').extract()).encode('utf8')
+	item['urlAddress'] = response.url
 	item['domain'] = self.allowed_domains
-	item['lastupdate'] = str(datetime.now())
+	#item['lastupdate'] = str(datetime.now())
         items.append(item)
         return items
 

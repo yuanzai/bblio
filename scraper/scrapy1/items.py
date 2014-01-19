@@ -3,11 +3,11 @@
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/items.html
 
-from scrapy.item import Item, Field
+import sys
+sys.path.append('/home/ec2-user/bblio/build/')
+from scrapy.contrib.djangoitem import DjangoItem
+from search.models import Document
 
-class URLItem(Item):
-    domain = Field()
-    title = Field()
-    urlAddress = Field()
-    document_text = Field()
-    lastupdate = Field()
+
+class URLItem(DjangoItem):
+    django_model = Document

@@ -16,7 +16,7 @@ def index():
                "text" : re.sub('</br>','  ',d['document_text']),
                }
         es.index(index="legal-index", doc_type='legaltext', id=d['id'], body=doc)
- 
+index() 
 def search(search_term):
     es = Elasticsearch("0.0.0.0:9200")
     q = {   

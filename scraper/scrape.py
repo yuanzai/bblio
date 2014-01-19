@@ -1,3 +1,12 @@
+#!/usr/bin/env python
+def setup_django():
+    import sys
+    sys.path.append('/home/ec2-user/bblio/build/')
+    import os
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'Build.settings'
+
+setup_django()
+
 from twisted.internet import reactor
 from scrapy.crawler import Crawler
 from scrapy import log, signals
@@ -18,7 +27,6 @@ def setup_crawler(spider):
     crawler.configure()
     crawler.crawl(spider)   
     crawler.start()
-
 dispatcher.connect(stop_reactor, signal=signals.spider_closed)
 arg = sys.argv
 filePath =arg[1]

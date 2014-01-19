@@ -7,8 +7,6 @@ from django.http.response import HttpResponse
 from lib2to3.fixer_util import Newline
 
 def index(request):
-    #sqlite.populateSites('/Users/yuanzai/Google Drive/bblio/Development Code/Scrapy/tutorial/CrawledText/')
-    #es.index()
     try:
         context = es.search(str(request.POST['search_term']))
     except:
@@ -30,4 +28,6 @@ def create(request):
 def result(request, key_id):
     d = get_object_or_404(Document, pk=key_id)
     return HttpResponse(d.document_text)
-    
+
+def testscrape(request):
+    return render(request, 'search/testscrape.html')    

@@ -13,5 +13,12 @@ NEWSPIDER_MODULE = 'scrapy1.spiders'
 ITEM_PIPELINES = {'scrapy1.pipelines.AllPipeline':1000}
 DOWNLOAD_DELAY = 1
 DEPTH_LIMIT = 0
+
+import sys
+sys.path.append('/home/ec2-user/bblio/build/')
+
+import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'Build.settings'
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'tutorial (+http://www.yourdomain.com)'
