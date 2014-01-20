@@ -16,7 +16,8 @@ import importlib
 import csv
 import sys
 from pprint import pprint
-from Queue import *
+from Queue import * 
+
 q = Queue()
 
 def stop_reactor():
@@ -24,8 +25,7 @@ def stop_reactor():
 
 def start_crawler():
     r = q.get()
-    print('********** start crawl ***********')
-    pprint(r)
+    print(r['name'] + ' Started >>>')
     spider = SpiderAll(**r)
     settings_module = importlib.import_module('scrapy1.settings')
     settings = CrawlerSettings(settings_module)
@@ -35,12 +35,17 @@ def start_crawler():
     crawler.start()
 
 def spider_closed():
+    global k 
+    k = k - 1
+    print(k)
     if q.empty():
-        reactor.stop()
+        if k == 0:
+            reactor.stop()
     else:
         reactor.callLater(0, start_crawler)
 
 def run_grouping(grouping):
+    global k
     dispatcher.connect(spider_closed, signal=signals.spider_closed)
     if grouping:    
 	result = Site.objects.filter(grouping=grouping)
@@ -50,8 +55,9 @@ def run_grouping(grouping):
     for r in result:
 	r = model_to_dict(r)
 	q.put(r)
-
-    for i in range(12):
+    print('Grouping ['+ grouping +'] queue size: ' + str(len(result)))
+    k = min(len(result),10)
+    for i in range(1):
         reactor.callLater(0, start_crawler)    
     reactor.installResolver(CachingThreadedResolver(reactor))
     reactor.run(installSignalHandlers=False)

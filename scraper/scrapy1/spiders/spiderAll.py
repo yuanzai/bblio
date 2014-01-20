@@ -14,6 +14,7 @@ class SpiderAll(CrawlSpider):
     lastUpdate = None
     parseCount = None
     groupName = None
+    count = 0
     def __init__(self, *a, **kw):
         self.allowed_domains = kw['source_allowed_domains'].split(';')
         self.start_urls = kw['source_start_urls'].split(';')
@@ -37,16 +38,24 @@ class SpiderAll(CrawlSpider):
         super(SpiderAll, self).__init__(*a, **kw) 
         
     def parse_start_url(self, response):
-        sel = Selector(response)
-        sites = sel.xpath("//p|//li|//td")        
-        items = []
-        item = URLItem()
-        item['title'] = sel.xpath("//title/text()").extract()
-        #item['document_text'] = string.join(sites.xpath('text()').extract(),"")
-        item['document_text'] = str(sites.xpath('text()').extract()).encode('utf8')
-	item['urlAddress'] = response.url
-	item['domain'] = self.allowed_domains
-	#item['lastupdate'] = str(datetime.now())
-        items.append(item)
-        return items
+        try:
+            sel = Selector(response)
+            sites = sel.xpath("//p|//li|//td")
+            items = []
+            item = URLItem()
+            item['title'] = sel.xpath("//title/text()").extract()
+            item['document_text'] = str(sites.xpath('text()').extract()).encode('utf8')
+            item['urlAddress'] = response.url
+            item['domain'] = self.allowed_domains
+            items.append(item)
+
+        except AttributeError: 
+            print('Cannot parse - ' + self.name  + ': ' + response.url)
+        except:
+	    print('Cannot parse - ' + self.name  + ': ' + response.url)
+	else:
+            self.count += 1
+            if self.count % 10 == 0:
+                print('Scrape count - ' + self.name +': ' +  str(self.count))  
+            return items
 
