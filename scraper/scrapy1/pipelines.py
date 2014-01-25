@@ -28,15 +28,14 @@ class AllPipeline(object):
 
     def spider_closed(self, spider):
 	stats = spider.crawler.stats
-	result = Site.objects.get(pk=spider.name)
+	result = Site.objects.get(pk=spider.id)
 	result.parseCount = stats.get_value('item_scraped_count')
 	result.responseCount = stats.get_value('response_received_count')
 	result.lastupdate = pytz.UTC.localize(stats.get_value('finish_time'))
 	result.save()
-	from pprint import pprint
-	pprint(stats.get_stats())
         log.msg("Pipeline.spider_closed called", level=log.DEBUG)
    
     def process_item(self, item, spider):
-        item.save()
+        if item:
+            item.save()
 	return item
