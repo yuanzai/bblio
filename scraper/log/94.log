@@ -1,0 +1,34 @@
+2014-01-31 18:13:22+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-31 18:13:22+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-31 18:13:22+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-31 18:13:22+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-31 18:13:22+0000 [civillitigationbrief] INFO: Spider opened
+2014-01-31 18:13:22+0000 [civillitigationbrief] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-31 18:13:34+0000 [scrapy] INFO: Scraped 10 items
+2014-01-31 18:14:30+0000 [civillitigationbrief] INFO: Crawled 21 pages (at 21 pages/min), scraped 18 items (at 18 items/min)
+2014-01-31 18:15:30+0000 [civillitigationbrief] INFO: Crawled 30 pages (at 9 pages/min), scraped 24 items (at 6 items/min)
+2014-01-31 18:16:22+0000 [civillitigationbrief] INFO: Crawled 54 pages (at 24 pages/min), scraped 40 items (at 16 items/min)
+2014-01-31 18:17:22+0000 [civillitigationbrief] INFO: Crawled 79 pages (at 25 pages/min), scraped 60 items (at 20 items/min)
+2014-01-31 18:18:22+0000 [civillitigationbrief] INFO: Crawled 116 pages (at 37 pages/min), scraped 89 items (at 29 items/min)
+2014-01-31 18:19:22+0000 [civillitigationbrief] INFO: Crawled 148 pages (at 32 pages/min), scraped 113 items (at 24 items/min)
+2014-01-31 18:20:23+0000 [civillitigationbrief] INFO: Crawled 174 pages (at 26 pages/min), scraped 135 items (at 22 items/min)
+2014-01-31 18:21:22+0000 [civillitigationbrief] INFO: Crawled 194 pages (at 20 pages/min), scraped 153 items (at 18 items/min)
+2014-01-31 18:22:22+0000 [civillitigationbrief] INFO: Crawled 217 pages (at 23 pages/min), scraped 172 items (at 19 items/min)
+2014-01-31 18:23:22+0000 [civillitigationbrief] INFO: Crawled 245 pages (at 28 pages/min), scraped 193 items (at 21 items/min)
+2014-01-31 18:24:24+0000 [civillitigationbrief] INFO: Crawled 265 pages (at 20 pages/min), scraped 210 items (at 17 items/min)
+2014-01-31 18:25:30+0000 [civillitigationbrief] INFO: Crawled 272 pages (at 7 pages/min), scraped 217 items (at 7 items/min)
+2014-01-31 18:26:22+0000 [civillitigationbrief] INFO: Crawled 307 pages (at 35 pages/min), scraped 244 items (at 27 items/min)
+2014-01-31 18:27:30+0000 [civillitigationbrief] INFO: Crawled 316 pages (at 9 pages/min), scraped 251 items (at 7 items/min)
+2014-01-31 18:28:22+0000 [civillitigationbrief] INFO: Crawled 325 pages (at 9 pages/min), scraped 258 items (at 7 items/min)
+2014-01-31 18:29:22+0000 [civillitigationbrief] INFO: Crawled 354 pages (at 29 pages/min), scraped 282 items (at 24 items/min)
+2014-01-31 18:30:22+0000 [civillitigationbrief] INFO: Crawled 383 pages (at 29 pages/min), scraped 304 items (at 22 items/min)
+2014-01-31 18:31:22+0000 [civillitigationbrief] INFO: Crawled 416 pages (at 33 pages/min), scraped 330 items (at 26 items/min)
+2014-01-31 18:32:22+0000 [civillitigationbrief] INFO: Crawled 443 pages (at 27 pages/min), scraped 350 items (at 20 items/min)
+2014-01-31 18:33:22+0000 [civillitigationbrief] INFO: Crawled 465 pages (at 22 pages/min), scraped 369 items (at 19 items/min)
+2014-01-31 18:34:22+0000 [civillitigationbrief] INFO: Crawled 491 pages (at 26 pages/min), scraped 389 items (at 20 items/min)
+2014-01-31 18:35:22+0000 [civillitigationbrief] INFO: Crawled 517 pages (at 26 pages/min), scraped 408 items (at 19 items/min)
+2014-01-31 18:36:22+0000 [civillitigationbrief] INFO: Crawled 543 pages (at 26 pages/min), scraped 429 items (at 21 items/min)
+2014-01-31 18:37:23+0000 [civillitigationbrief] INFO: Crawled 578 pages (at 35 pages/min), scraped 456 items (at 27 items/min)
+2014-01-31 18:38:22+0000 [civillitigationbrief] INFO: Crawled 607 pages (at 29 pages/min), scraped 478 items (at 22 items/min)
+2014-01-31 18:39:28+0000 [civillitigationbrief] INFO: Crawled 634 pages (at 27 pages/min), scraped 501 items (at 23 items/min)
+2014-01-31 18:40:31+0000 [civillitigationbrief] INFO: Crawled 640 pages (at 6 pages/min), scraped 507 items (at 6 items/min)

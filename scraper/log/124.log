@@ -1,0 +1,16 @@
+2014-01-31 17:43:57+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-31 17:43:57+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-31 17:43:57+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-31 17:43:57+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-31 17:43:57+0000 [12kingsbenchcaselib] INFO: Spider opened
+2014-01-31 17:43:57+0000 [12kingsbenchcaselib] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-31 17:44:57+0000 [12kingsbenchcaselib] INFO: Crawled 40 pages (at 40 pages/min), scraped 1 items (at 1 items/min)
+2014-01-31 17:45:57+0000 [12kingsbenchcaselib] INFO: Crawled 57 pages (at 17 pages/min), scraped 1 items (at 0 items/min)
+2014-01-31 17:46:57+0000 [12kingsbenchcaselib] INFO: Crawled 77 pages (at 20 pages/min), scraped 1 items (at 0 items/min)
+2014-01-31 17:48:01+0000 [12kingsbenchcaselib] INFO: Crawled 95 pages (at 18 pages/min), scraped 1 items (at 0 items/min)
+2014-01-31 17:48:57+0000 [12kingsbenchcaselib] INFO: Crawled 110 pages (at 15 pages/min), scraped 1 items (at 0 items/min)
+2014-01-31 17:49:57+0000 [12kingsbenchcaselib] INFO: Crawled 134 pages (at 24 pages/min), scraped 1 items (at 0 items/min)
+2014-01-31 17:50:38+0000 [scrapy] INFO: Received SIGINT, shutting down gracefully. Send again to force 
+2014-01-31 18:30:15+0000 [scrapy] INFO: Received SIGTERM twice, forcing unclean shutdown
+2014-01-31 18:30:15+0000 [12kingsbenchcaselib] INFO: Closing spider (shutdown)
+2014-01-31 18:30:15+0000 [12kingsbenchcaselib] INFO: Crawled 142 pages (at 8 pages/min), scraped 1 items (at 0 items/min)
