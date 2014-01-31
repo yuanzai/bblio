@@ -1,0 +1,28 @@
+2014-01-27 08:20:58+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-27 08:20:58+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-27 08:20:58+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-27 08:20:58+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-27 08:20:58+0000 [brickcourt] INFO: Spider opened
+2014-01-27 08:20:58+0000 [brickcourt] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-27 08:20:59+0000 [brickcourt] INFO: Closing spider (finished)
+2014-01-27 08:20:59+0000 [brickcourt] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 223,
+	 'downloader/request_count': 1,
+	 'downloader/request_method_count/GET': 1,
+	 'downloader/response_bytes': 24176,
+	 'downloader/response_count': 1,
+	 'downloader/response_status_count/200': 1,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 27, 8, 20, 59, 291476),
+	 'item_scraped_count': 1,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 44531712,
+	 'memusage/startup': 44531712,
+	 'response_received_count': 1,
+	 'scheduler/dequeued': 1,
+	 'scheduler/dequeued/disk': 1,
+	 'scheduler/enqueued': 1,
+	 'scheduler/enqueued/disk': 1,
+	 'start_time': datetime.datetime(2014, 1, 27, 8, 20, 58, 480399)}
+2014-01-27 08:20:59+0000 [brickcourt] INFO: Spider closed (finished)

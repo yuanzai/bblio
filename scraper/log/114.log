@@ -1,0 +1,15 @@
+2014-01-31 16:30:31+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-31 16:30:31+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-31 16:30:31+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-31 16:30:31+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-31 16:30:31+0000 [cavanaghlitigation] INFO: Spider opened
+2014-01-31 16:30:31+0000 [cavanaghlitigation] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-31 16:31:01+0000 [scrapy] INFO: Scraped 10 items
+2014-01-31 16:31:31+0000 [cavanaghlitigation] INFO: Crawled 17 pages (at 17 pages/min), scraped 15 items (at 15 items/min)
+2014-01-31 16:32:32+0000 [cavanaghlitigation] INFO: Crawled 38 pages (at 21 pages/min), scraped 33 items (at 18 items/min)
+2014-01-31 16:33:36+0000 [cavanaghlitigation] INFO: Crawled 59 pages (at 21 pages/min), scraped 54 items (at 21 items/min)
+2014-01-31 16:34:31+0000 [cavanaghlitigation] INFO: Crawled 79 pages (at 20 pages/min), scraped 72 items (at 18 items/min)
+2014-01-31 16:35:33+0000 [cavanaghlitigation] INFO: Crawled 104 pages (at 25 pages/min), scraped 94 items (at 22 items/min)
+2014-01-31 16:36:40+0000 [cavanaghlitigation] INFO: Crawled 118 pages (at 14 pages/min), scraped 106 items (at 12 items/min)
+2014-01-31 16:37:39+0000 [cavanaghlitigation] INFO: Crawled 145 pages (at 27 pages/min), scraped 131 items (at 25 items/min)
+2014-01-31 16:38:31+0000 [cavanaghlitigation] INFO: Crawled 168 pages (at 23 pages/min), scraped 153 items (at 22 items/min)

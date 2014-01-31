@@ -1,0 +1,49 @@
+2014-01-30 10:04:07+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-30 10:04:08+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-30 10:04:08+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-30 10:04:08+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-30 10:04:08+0000 [thelitigatrca] INFO: Spider opened
+2014-01-30 10:04:08+0000 [thelitigatrca] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-30 10:04:21+0000 [scrapy] INFO: Scraped 10 items
+2014-01-30 10:05:08+0000 [thelitigatrca] INFO: Crawled 44 pages (at 44 pages/min), scraped 20 items (at 20 items/min)
+2014-01-30 10:06:08+0000 [thelitigatrca] INFO: Crawled 83 pages (at 39 pages/min), scraped 54 items (at 34 items/min)
+2014-01-30 10:07:08+0000 [thelitigatrca] INFO: Crawled 133 pages (at 50 pages/min), scraped 85 items (at 31 items/min)
+2014-01-30 10:08:08+0000 [thelitigatrca] INFO: Crawled 180 pages (at 47 pages/min), scraped 112 items (at 27 items/min)
+2014-01-30 10:09:08+0000 [thelitigatrca] INFO: Crawled 227 pages (at 47 pages/min), scraped 152 items (at 40 items/min)
+2014-01-30 10:10:08+0000 [thelitigatrca] INFO: Crawled 265 pages (at 38 pages/min), scraped 171 items (at 19 items/min)
+2014-01-30 10:11:08+0000 [thelitigatrca] INFO: Crawled 304 pages (at 39 pages/min), scraped 191 items (at 20 items/min)
+2014-01-30 10:12:08+0000 [thelitigatrca] INFO: Crawled 349 pages (at 45 pages/min), scraped 218 items (at 27 items/min)
+2014-01-30 10:13:08+0000 [thelitigatrca] INFO: Crawled 391 pages (at 42 pages/min), scraped 236 items (at 18 items/min)
+2014-01-30 10:14:08+0000 [thelitigatrca] INFO: Crawled 433 pages (at 42 pages/min), scraped 247 items (at 11 items/min)
+2014-01-30 10:15:08+0000 [thelitigatrca] INFO: Crawled 473 pages (at 40 pages/min), scraped 255 items (at 8 items/min)
+2014-01-30 10:16:08+0000 [thelitigatrca] INFO: Crawled 511 pages (at 38 pages/min), scraped 267 items (at 12 items/min)
+2014-01-30 10:17:08+0000 [thelitigatrca] INFO: Crawled 553 pages (at 42 pages/min), scraped 293 items (at 26 items/min)
+2014-01-30 10:18:08+0000 [thelitigatrca] INFO: Crawled 586 pages (at 33 pages/min), scraped 306 items (at 13 items/min)
+2014-01-30 10:19:08+0000 [thelitigatrca] INFO: Crawled 619 pages (at 33 pages/min), scraped 314 items (at 8 items/min)
+2014-01-30 10:20:08+0000 [thelitigatrca] INFO: Crawled 651 pages (at 32 pages/min), scraped 320 items (at 6 items/min)
+2014-01-30 10:20:15+0000 [thelitigatrca] INFO: Closing spider (finished)
+2014-01-30 10:20:15+0000 [thelitigatrca] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 269987,
+	 'downloader/request_count': 707,
+	 'downloader/request_method_count/GET': 707,
+	 'downloader/response_bytes': 26778726,
+	 'downloader/response_count': 707,
+	 'downloader/response_status_count/200': 651,
+	 'downloader/response_status_count/301': 46,
+	 'downloader/response_status_count/302': 6,
+	 'downloader/response_status_count/404': 4,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 30, 10, 20, 15, 189329),
+	 'item_scraped_count': 320,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 65183744,
+	 'memusage/startup': 44498944,
+	 'request_depth_max': 35,
+	 'response_received_count': 655,
+	 'scheduler/dequeued': 707,
+	 'scheduler/dequeued/disk': 707,
+	 'scheduler/enqueued': 707,
+	 'scheduler/enqueued/disk': 707,
+	 'start_time': datetime.datetime(2014, 1, 30, 10, 4, 8, 11528)}
+2014-01-30 10:20:15+0000 [thelitigatrca] INFO: Spider closed (finished)

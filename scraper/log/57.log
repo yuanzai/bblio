@@ -1,0 +1,82 @@
+2014-01-28 23:27:47+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-28 23:27:47+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-28 23:27:47+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-28 23:27:47+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-28 23:27:47+0000 [11kbw] INFO: Spider opened
+2014-01-28 23:27:47+0000 [11kbw] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-28 23:28:11+0000 [scrapy] INFO: Scraped 10 items
+2014-01-28 23:28:25+0000 [scrapy] INFO: * Cannot parse: http://www.11kbw.com/app/files/Briefing_PDFs/CommunityCareNewsletterJune2013.pdf
+2014-01-28 23:28:25+0000 [-] ERROR: Log observer <bound method ScrapyFileLogObserver._emit of <scrapy.log.ScrapyFileLogObserver instance at 0x19ee0e0>> failed.
+	Traceback (most recent call last):
+	  File "/usr/lib/python2.7/site-packages/scrapy/contrib/spiders/crawl.py", line 67, in _parse_response
+	    cb_res = callback(response, **cb_kwargs) or ()
+	  File "/home/ec2-user/bblio/scraper/scrapy1/spiders/spiderAll.py", line 57, in parse_start_url
+	    log.msg(sys.exc_info()[0], level=log.INFO)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 130, in msg
+	    log.msg(message, **kw)
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/threadable.py", line 53, in sync
+	    return function(self, *args, **kwargs)
+	--- <exception caught here> ---
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/log.py", line 191, in msg
+	    self.observers[i](actualEventDict)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 46, in _emit
+	    ev = _adapt_eventdict(eventDict, self.level, self.encoding)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 85, in _adapt_eventdict
+	    message = [unicode_to_str(x, encoding) for x in message]
+	  File "/usr/lib/python2.7/site-packages/scrapy/utils/python.py", line 97, in unicode_to_str
+	    raise TypeError('unicode_to_str must receive a unicode or str object, got %s' % type(text).__name__)
+	exceptions.TypeError: unicode_to_str must receive a unicode or str object, got type
+	
+2014-01-28 23:28:47+0000 [11kbw] INFO: Crawled 42 pages (at 42 pages/min), scraped 29 items (at 29 items/min)
+2014-01-28 23:29:47+0000 [11kbw] INFO: Crawled 88 pages (at 46 pages/min), scraped 64 items (at 35 items/min)
+2014-01-28 23:30:47+0000 [11kbw] INFO: Crawled 133 pages (at 45 pages/min), scraped 103 items (at 39 items/min)
+2014-01-28 23:30:53+0000 [scrapy] INFO: * Cannot parse: http://www.11kbw.com/app/files/Briefing_PDFs/11KBWCommCareOctober2013.pdf
+2014-01-28 23:30:53+0000 [-] ERROR: Log observer <bound method ScrapyFileLogObserver._emit of <scrapy.log.ScrapyFileLogObserver instance at 0x19ee0e0>> failed.
+	Traceback (most recent call last):
+	  File "/usr/lib/python2.7/site-packages/scrapy/contrib/spiders/crawl.py", line 67, in _parse_response
+	    cb_res = callback(response, **cb_kwargs) or ()
+	  File "/home/ec2-user/bblio/scraper/scrapy1/spiders/spiderAll.py", line 57, in parse_start_url
+	    log.msg(sys.exc_info()[0], level=log.INFO)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 130, in msg
+	    log.msg(message, **kw)
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/threadable.py", line 53, in sync
+	    return function(self, *args, **kwargs)
+	--- <exception caught here> ---
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/log.py", line 191, in msg
+	    self.observers[i](actualEventDict)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 46, in _emit
+	    ev = _adapt_eventdict(eventDict, self.level, self.encoding)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 85, in _adapt_eventdict
+	    message = [unicode_to_str(x, encoding) for x in message]
+	  File "/usr/lib/python2.7/site-packages/scrapy/utils/python.py", line 97, in unicode_to_str
+	    raise TypeError('unicode_to_str must receive a unicode or str object, got %s' % type(text).__name__)
+	exceptions.TypeError: unicode_to_str must receive a unicode or str object, got type
+	
+2014-01-28 23:31:47+0000 [11kbw] INFO: Crawled 182 pages (at 49 pages/min), scraped 130 items (at 27 items/min)
+2014-01-28 23:32:47+0000 [11kbw] INFO: Crawled 235 pages (at 53 pages/min), scraped 166 items (at 36 items/min)
+2014-01-28 23:33:20+0000 [11kbw] INFO: Closing spider (finished)
+2014-01-28 23:33:20+0000 [11kbw] INFO: Dumping Scrapy stats:
+	{'downloader/exception_count': 9,
+	 'downloader/exception_type_count/twisted.internet.error.ConnectionRefusedError': 9,
+	 'downloader/request_bytes': 111905,
+	 'downloader/request_count': 283,
+	 'downloader/request_method_count/GET': 283,
+	 'downloader/response_bytes': 7306739,
+	 'downloader/response_count': 274,
+	 'downloader/response_status_count/200': 263,
+	 'downloader/response_status_count/302': 11,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 28, 23, 33, 20, 227795),
+	 'item_scraped_count': 187,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 53256192,
+	 'memusage/startup': 44490752,
+	 'request_depth_max': 12,
+	 'response_received_count': 263,
+	 'scheduler/dequeued': 283,
+	 'scheduler/dequeued/disk': 283,
+	 'scheduler/enqueued': 283,
+	 'scheduler/enqueued/disk': 283,
+	 'start_time': datetime.datetime(2014, 1, 28, 23, 27, 47, 202451)}
+2014-01-28 23:33:20+0000 [11kbw] INFO: Spider closed (finished)

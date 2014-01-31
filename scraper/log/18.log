@@ -1,0 +1,42 @@
+2014-01-27 11:26:43+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-27 11:26:43+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-27 11:26:43+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-27 11:26:43+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-27 11:26:43+0000 [maitlandchambers] INFO: Spider opened
+2014-01-27 11:26:43+0000 [maitlandchambers] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-27 11:27:02+0000 [scrapy] INFO: Scraped 10 items
+2014-01-27 11:27:43+0000 [maitlandchambers] INFO: Crawled 66 pages (at 66 pages/min), scraped 55 items (at 55 items/min)
+2014-01-27 11:28:43+0000 [maitlandchambers] INFO: Crawled 131 pages (at 65 pages/min), scraped 107 items (at 52 items/min)
+2014-01-27 11:29:43+0000 [maitlandchambers] INFO: Crawled 197 pages (at 66 pages/min), scraped 160 items (at 53 items/min)
+2014-01-27 11:30:43+0000 [maitlandchambers] INFO: Crawled 261 pages (at 64 pages/min), scraped 224 items (at 64 items/min)
+2014-01-27 11:31:43+0000 [maitlandchambers] INFO: Crawled 327 pages (at 66 pages/min), scraped 278 items (at 54 items/min)
+2014-01-27 11:32:43+0000 [maitlandchambers] INFO: Crawled 390 pages (at 63 pages/min), scraped 341 items (at 63 items/min)
+2014-01-27 11:33:43+0000 [maitlandchambers] INFO: Crawled 455 pages (at 65 pages/min), scraped 406 items (at 65 items/min)
+2014-01-27 11:34:43+0000 [maitlandchambers] INFO: Crawled 521 pages (at 66 pages/min), scraped 458 items (at 52 items/min)
+2014-01-27 11:35:43+0000 [maitlandchambers] INFO: Crawled 586 pages (at 65 pages/min), scraped 523 items (at 65 items/min)
+2014-01-27 11:36:43+0000 [maitlandchambers] INFO: Crawled 650 pages (at 64 pages/min), scraped 575 items (at 52 items/min)
+2014-01-27 11:37:43+0000 [maitlandchambers] INFO: Crawled 716 pages (at 66 pages/min), scraped 641 items (at 66 items/min)
+2014-01-27 11:38:10+0000 [maitlandchambers] INFO: Closing spider (finished)
+2014-01-27 11:38:11+0000 [maitlandchambers] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 737502,
+	 'downloader/request_count': 746,
+	 'downloader/request_method_count/GET': 746,
+	 'downloader/response_bytes': 2279844,
+	 'downloader/response_count': 746,
+	 'downloader/response_status_count/200': 736,
+	 'downloader/response_status_count/404': 10,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 27, 11, 38, 10, 985095),
+	 'item_scraped_count': 669,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 48992256,
+	 'memusage/startup': 44531712,
+	 'request_depth_max': 2,
+	 'response_received_count': 746,
+	 'scheduler/dequeued': 746,
+	 'scheduler/dequeued/disk': 746,
+	 'scheduler/enqueued': 746,
+	 'scheduler/enqueued/disk': 746,
+	 'start_time': datetime.datetime(2014, 1, 27, 11, 26, 43, 737639)}
+2014-01-27 11:38:11+0000 [maitlandchambers] INFO: Spider closed (finished)

@@ -16,9 +16,6 @@ from scrapy.resolver import CachingThreadedResolver
 import importlib
 from Queue import * 
 
-def stop_reactor():
-    reactor.stop()
-
 def start_crawler():
     global q
     r = q.get()
@@ -58,7 +55,7 @@ def run_grouping(grouping):
 	r = model_to_dict(r)
 	q.put(r)
     k = len(result)
-    logfile = open('/home/ec2-user/bblio/scraper/testlog.log', 'w')
+    logfile = open('/home/ec2-user/bblio/scraper/crawl.log', 'w')
     log_observer = ScrapyFileLogObserver(logfile, level=log.INFO)
     log_observer.start()
     log.start(loglevel='INFO')

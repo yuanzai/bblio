@@ -1,0 +1,91 @@
+2014-01-30 11:24:27+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-30 11:24:28+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-30 11:24:28+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-30 11:24:28+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-30 11:24:28+0000 [westernaustralianmedicalnegligence] INFO: Spider opened
+2014-01-30 11:24:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-30 11:25:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 8 pages (at 8 pages/min), scraped 7 items (at 7 items/min)
+2014-01-30 11:25:31+0000 [scrapy] INFO: Scraped 10 items
+2014-01-30 11:26:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 34 pages (at 26 pages/min), scraped 22 items (at 15 items/min)
+2014-01-30 11:27:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 55 pages (at 21 pages/min), scraped 35 items (at 13 items/min)
+2014-01-30 11:28:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 75 pages (at 20 pages/min), scraped 47 items (at 12 items/min)
+2014-01-30 11:29:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 88 pages (at 13 pages/min), scraped 54 items (at 7 items/min)
+2014-01-30 11:30:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 114 pages (at 26 pages/min), scraped 67 items (at 13 items/min)
+2014-01-30 11:31:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 129 pages (at 15 pages/min), scraped 76 items (at 9 items/min)
+2014-01-30 11:32:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 154 pages (at 25 pages/min), scraped 90 items (at 14 items/min)
+2014-01-30 11:33:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 167 pages (at 13 pages/min), scraped 97 items (at 7 items/min)
+2014-01-30 11:34:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 192 pages (at 25 pages/min), scraped 111 items (at 14 items/min)
+2014-01-30 11:35:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 204 pages (at 12 pages/min), scraped 117 items (at 6 items/min)
+2014-01-30 11:36:32+0000 [westernaustralianmedicalnegligence] INFO: Crawled 233 pages (at 29 pages/min), scraped 133 items (at 16 items/min)
+2014-01-30 11:37:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 241 pages (at 8 pages/min), scraped 139 items (at 6 items/min)
+2014-01-30 11:38:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 265 pages (at 24 pages/min), scraped 153 items (at 14 items/min)
+2014-01-30 11:39:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 280 pages (at 15 pages/min), scraped 160 items (at 7 items/min)
+2014-01-30 11:40:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 302 pages (at 22 pages/min), scraped 171 items (at 11 items/min)
+2014-01-30 11:41:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 311 pages (at 9 pages/min), scraped 177 items (at 6 items/min)
+2014-01-30 11:42:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 339 pages (at 28 pages/min), scraped 191 items (at 14 items/min)
+2014-01-30 11:43:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 352 pages (at 13 pages/min), scraped 198 items (at 7 items/min)
+2014-01-30 11:44:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 370 pages (at 18 pages/min), scraped 208 items (at 10 items/min)
+2014-01-30 11:45:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 389 pages (at 19 pages/min), scraped 219 items (at 11 items/min)
+2014-01-30 11:46:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 405 pages (at 16 pages/min), scraped 227 items (at 8 items/min)
+2014-01-30 11:47:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 426 pages (at 21 pages/min), scraped 239 items (at 12 items/min)
+2014-01-30 11:48:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 440 pages (at 14 pages/min), scraped 247 items (at 8 items/min)
+2014-01-30 11:49:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 465 pages (at 25 pages/min), scraped 260 items (at 13 items/min)
+2014-01-30 11:50:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 478 pages (at 13 pages/min), scraped 267 items (at 7 items/min)
+2014-01-30 11:51:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 506 pages (at 28 pages/min), scraped 283 items (at 16 items/min)
+2014-01-30 11:52:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 515 pages (at 9 pages/min), scraped 289 items (at 6 items/min)
+2014-01-30 11:53:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 549 pages (at 34 pages/min), scraped 307 items (at 18 items/min)
+2014-01-30 11:54:32+0000 [westernaustralianmedicalnegligence] INFO: Crawled 559 pages (at 10 pages/min), scraped 313 items (at 6 items/min)
+2014-01-30 11:55:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 573 pages (at 14 pages/min), scraped 319 items (at 6 items/min)
+2014-01-30 11:56:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 599 pages (at 26 pages/min), scraped 333 items (at 14 items/min)
+2014-01-30 11:57:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 607 pages (at 8 pages/min), scraped 339 items (at 6 items/min)
+2014-01-30 11:58:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 628 pages (at 21 pages/min), scraped 351 items (at 12 items/min)
+2014-01-30 11:59:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 643 pages (at 15 pages/min), scraped 358 items (at 7 items/min)
+2014-01-30 12:00:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 658 pages (at 15 pages/min), scraped 366 items (at 8 items/min)
+2014-01-30 12:01:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 671 pages (at 13 pages/min), scraped 372 items (at 6 items/min)
+2014-01-30 12:02:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 679 pages (at 8 pages/min), scraped 377 items (at 5 items/min)
+2014-01-30 12:03:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 711 pages (at 32 pages/min), scraped 394 items (at 17 items/min)
+2014-01-30 12:04:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 719 pages (at 8 pages/min), scraped 401 items (at 7 items/min)
+2014-01-30 12:05:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 742 pages (at 23 pages/min), scraped 413 items (at 12 items/min)
+2014-01-30 12:06:32+0000 [westernaustralianmedicalnegligence] INFO: Crawled 754 pages (at 12 pages/min), scraped 418 items (at 5 items/min)
+2014-01-30 12:07:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 768 pages (at 14 pages/min), scraped 427 items (at 9 items/min)
+2014-01-30 12:08:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 789 pages (at 21 pages/min), scraped 438 items (at 11 items/min)
+2014-01-30 12:09:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 803 pages (at 14 pages/min), scraped 447 items (at 9 items/min)
+2014-01-30 12:10:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 823 pages (at 20 pages/min), scraped 458 items (at 11 items/min)
+2014-01-30 12:11:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 833 pages (at 10 pages/min), scraped 465 items (at 7 items/min)
+2014-01-30 12:12:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 847 pages (at 14 pages/min), scraped 471 items (at 6 items/min)
+2014-01-30 12:13:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 867 pages (at 20 pages/min), scraped 482 items (at 11 items/min)
+2014-01-30 12:14:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 877 pages (at 10 pages/min), scraped 489 items (at 7 items/min)
+2014-01-30 12:15:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 899 pages (at 22 pages/min), scraped 501 items (at 12 items/min)
+2014-01-30 12:16:31+0000 [westernaustralianmedicalnegligence] INFO: Crawled 915 pages (at 16 pages/min), scraped 509 items (at 8 items/min)
+2014-01-30 12:17:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 924 pages (at 9 pages/min), scraped 515 items (at 6 items/min)
+2014-01-30 12:18:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 946 pages (at 22 pages/min), scraped 527 items (at 12 items/min)
+2014-01-30 12:19:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 959 pages (at 13 pages/min), scraped 533 items (at 6 items/min)
+2014-01-30 12:20:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 978 pages (at 19 pages/min), scraped 542 items (at 9 items/min)
+2014-01-30 12:21:28+0000 [westernaustralianmedicalnegligence] INFO: Crawled 988 pages (at 10 pages/min), scraped 547 items (at 5 items/min)
+2014-01-30 12:22:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 997 pages (at 9 pages/min), scraped 554 items (at 7 items/min)
+2014-01-30 12:23:29+0000 [westernaustralianmedicalnegligence] INFO: Crawled 1023 pages (at 26 pages/min), scraped 568 items (at 14 items/min)
+2014-01-30 12:24:30+0000 [westernaustralianmedicalnegligence] INFO: Crawled 1035 pages (at 12 pages/min), scraped 574 items (at 6 items/min)
+2014-01-30 12:25:00+0000 [westernaustralianmedicalnegligence] INFO: Closing spider (finished)
+2014-01-30 12:25:01+0000 [westernaustralianmedicalnegligence] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 388440,
+	 'downloader/request_count': 1045,
+	 'downloader/request_method_count/GET': 1045,
+	 'downloader/response_bytes': 14088251,
+	 'downloader/response_count': 1045,
+	 'downloader/response_status_count/200': 576,
+	 'downloader/response_status_count/404': 469,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 30, 12, 25, 0, 136918),
+	 'item_scraped_count': 576,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 90066944,
+	 'memusage/startup': 44494848,
+	 'request_depth_max': 6,
+	 'response_received_count': 1045,
+	 'scheduler/dequeued': 1045,
+	 'scheduler/dequeued/disk': 1045,
+	 'scheduler/enqueued': 1045,
+	 'scheduler/enqueued/disk': 1045,
+	 'start_time': datetime.datetime(2014, 1, 30, 11, 24, 28, 673118)}
+2014-01-30 12:25:01+0000 [westernaustralianmedicalnegligence] INFO: Spider closed (finished)

@@ -1,0 +1,37 @@
+2014-01-30 10:47:07+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-30 10:47:07+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-30 10:47:07+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-30 10:47:07+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-30 10:47:07+0000 [peteraclarke] INFO: Spider opened
+2014-01-30 10:47:07+0000 [peteraclarke] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-30 10:48:08+0000 [peteraclarke] INFO: Crawled 14 pages (at 14 pages/min), scraped 3 items (at 3 items/min)
+2014-01-30 10:49:06+0000 [scrapy] INFO: Scraped 10 items
+2014-01-30 10:49:07+0000 [peteraclarke] INFO: Crawled 42 pages (at 28 pages/min), scraped 11 items (at 8 items/min)
+2014-01-30 10:50:09+0000 [peteraclarke] INFO: Crawled 77 pages (at 35 pages/min), scraped 23 items (at 12 items/min)
+2014-01-30 10:51:10+0000 [peteraclarke] INFO: Crawled 95 pages (at 18 pages/min), scraped 24 items (at 1 items/min)
+2014-01-30 10:52:09+0000 [peteraclarke] INFO: Crawled 133 pages (at 38 pages/min), scraped 30 items (at 6 items/min)
+2014-01-30 10:53:07+0000 [peteraclarke] INFO: Crawled 147 pages (at 14 pages/min), scraped 35 items (at 5 items/min)
+2014-01-30 10:53:45+0000 [peteraclarke] INFO: Closing spider (finished)
+2014-01-30 10:53:45+0000 [peteraclarke] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 51734,
+	 'downloader/request_count': 157,
+	 'downloader/request_method_count/GET': 157,
+	 'downloader/response_bytes': 8401722,
+	 'downloader/response_count': 157,
+	 'downloader/response_status_count/200': 147,
+	 'downloader/response_status_count/404': 10,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 30, 10, 53, 45, 413758),
+	 'item_scraped_count': 38,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 50122752,
+	 'memusage/startup': 44494848,
+	 'request_depth_max': 53,
+	 'response_received_count': 157,
+	 'scheduler/dequeued': 157,
+	 'scheduler/dequeued/disk': 157,
+	 'scheduler/enqueued': 157,
+	 'scheduler/enqueued/disk': 157,
+	 'start_time': datetime.datetime(2014, 1, 30, 10, 47, 7, 748243)}
+2014-01-30 10:53:45+0000 [peteraclarke] INFO: Spider closed (finished)

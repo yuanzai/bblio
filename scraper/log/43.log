@@ -1,0 +1,34 @@
+2014-01-27 06:40:37+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-27 06:40:37+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-27 06:40:37+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-27 06:40:37+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-27 06:40:37+0000 [townplanningbarrister] INFO: Spider opened
+2014-01-27 06:40:37+0000 [townplanningbarrister] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-27 06:40:48+0000 [scrapy] INFO: Scraped 10 items
+2014-01-27 06:41:37+0000 [townplanningbarrister] INFO: Crawled 44 pages (at 44 pages/min), scraped 40 items (at 40 items/min)
+2014-01-27 06:42:37+0000 [townplanningbarrister] INFO: Crawled 76 pages (at 32 pages/min), scraped 71 items (at 31 items/min)
+2014-01-27 06:43:15+0000 [townplanningbarrister] INFO: Closing spider (finished)
+2014-01-27 06:43:15+0000 [townplanningbarrister] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 84765,
+	 'downloader/request_count': 172,
+	 'downloader/request_method_count/GET': 172,
+	 'downloader/response_bytes': 956039,
+	 'downloader/response_count': 172,
+	 'downloader/response_status_count/200': 102,
+	 'downloader/response_status_count/301': 35,
+	 'downloader/response_status_count/302': 35,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 27, 6, 43, 15, 97806),
+	 'item_scraped_count': 97,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 49815552,
+	 'memusage/startup': 44494848,
+	 'request_depth_max': 5,
+	 'response_received_count': 102,
+	 'scheduler/dequeued': 172,
+	 'scheduler/dequeued/disk': 172,
+	 'scheduler/enqueued': 172,
+	 'scheduler/enqueued/disk': 172,
+	 'start_time': datetime.datetime(2014, 1, 27, 6, 40, 37, 885188)}
+2014-01-27 06:43:15+0000 [townplanningbarrister] INFO: Spider closed (finished)

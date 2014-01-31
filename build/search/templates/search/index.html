@@ -1,4 +1,10 @@
-<form action="{% url 'search:index' %}" method="post">
+
+<head>
+<link href="{{ STATIC_URL }}bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<form action="{% url 'search.views.index' %}" method="post">
 {% csrf_token %}
 
 <font face="Helvetica"><h1>b.blio</h1>

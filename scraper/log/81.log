@@ -1,0 +1,48 @@
+2014-01-30 12:42:04+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-30 12:42:06+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-30 12:42:06+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-30 12:42:06+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-30 12:42:06+0000 [roberthepropertybarrister] INFO: Spider opened
+2014-01-30 12:42:06+0000 [roberthepropertybarrister] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-30 12:42:15+0000 [scrapy] INFO: Scraped 10 items
+2014-01-30 12:43:06+0000 [roberthepropertybarrister] INFO: Crawled 38 pages (at 38 pages/min), scraped 37 items (at 37 items/min)
+2014-01-30 12:44:06+0000 [roberthepropertybarrister] INFO: Crawled 56 pages (at 18 pages/min), scraped 56 items (at 19 items/min)
+2014-01-30 12:45:07+0000 [roberthepropertybarrister] INFO: Crawled 79 pages (at 23 pages/min), scraped 78 items (at 22 items/min)
+2014-01-30 12:46:06+0000 [roberthepropertybarrister] INFO: Crawled 102 pages (at 23 pages/min), scraped 102 items (at 24 items/min)
+2014-01-30 12:47:06+0000 [roberthepropertybarrister] INFO: Crawled 124 pages (at 22 pages/min), scraped 124 items (at 22 items/min)
+2014-01-30 12:48:06+0000 [roberthepropertybarrister] INFO: Crawled 145 pages (at 21 pages/min), scraped 144 items (at 20 items/min)
+2014-01-30 12:49:06+0000 [roberthepropertybarrister] INFO: Crawled 167 pages (at 22 pages/min), scraped 167 items (at 23 items/min)
+2014-01-30 12:50:06+0000 [roberthepropertybarrister] INFO: Crawled 191 pages (at 24 pages/min), scraped 191 items (at 24 items/min)
+2014-01-30 12:51:06+0000 [roberthepropertybarrister] INFO: Crawled 214 pages (at 23 pages/min), scraped 214 items (at 23 items/min)
+2014-01-30 12:52:06+0000 [roberthepropertybarrister] INFO: Crawled 235 pages (at 21 pages/min), scraped 235 items (at 21 items/min)
+2014-01-30 12:53:06+0000 [roberthepropertybarrister] INFO: Crawled 257 pages (at 22 pages/min), scraped 257 items (at 22 items/min)
+2014-01-30 12:54:06+0000 [roberthepropertybarrister] INFO: Crawled 279 pages (at 22 pages/min), scraped 279 items (at 22 items/min)
+2014-01-30 12:55:06+0000 [roberthepropertybarrister] INFO: Crawled 299 pages (at 20 pages/min), scraped 299 items (at 20 items/min)
+2014-01-30 12:56:06+0000 [roberthepropertybarrister] INFO: Crawled 323 pages (at 24 pages/min), scraped 323 items (at 24 items/min)
+2014-01-30 12:57:06+0000 [roberthepropertybarrister] INFO: Crawled 348 pages (at 25 pages/min), scraped 347 items (at 24 items/min)
+2014-01-30 12:58:06+0000 [roberthepropertybarrister] INFO: Crawled 378 pages (at 30 pages/min), scraped 378 items (at 31 items/min)
+2014-01-30 12:58:50+0000 [roberthepropertybarrister] INFO: Closing spider (finished)
+2014-01-30 12:58:50+0000 [roberthepropertybarrister] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 806223,
+	 'downloader/request_count': 961,
+	 'downloader/request_method_count/GET': 961,
+	 'downloader/response_bytes': 3286985,
+	 'downloader/response_count': 961,
+	 'downloader/response_status_count/200': 394,
+	 'downloader/response_status_count/301': 243,
+	 'downloader/response_status_count/302': 324,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 30, 12, 58, 50, 53211),
+	 'item_scraped_count': 394,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 57737216,
+	 'memusage/startup': 44486656,
+	 'request_depth_max': 12,
+	 'response_received_count': 394,
+	 'scheduler/dequeued': 961,
+	 'scheduler/dequeued/disk': 961,
+	 'scheduler/enqueued': 961,
+	 'scheduler/enqueued/disk': 961,
+	 'start_time': datetime.datetime(2014, 1, 30, 12, 42, 6, 405131)}
+2014-01-30 12:58:50+0000 [roberthepropertybarrister] INFO: Spider closed (finished)

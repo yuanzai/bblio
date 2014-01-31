@@ -1,0 +1,52 @@
+2014-01-27 07:13:01+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-27 07:13:01+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-27 07:13:01+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-27 07:13:01+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-27 07:13:01+0000 [carrieromesievers.com] INFO: Spider opened
+2014-01-27 07:13:01+0000 [carrieromesievers.com] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-27 07:13:11+0000 [scrapy] INFO: Scraped 10 items
+2014-01-27 07:14:01+0000 [carrieromesievers.com] INFO: Crawled 35 pages (at 35 pages/min), scraped 29 items (at 29 items/min)
+2014-01-27 07:15:01+0000 [carrieromesievers.com] INFO: Crawled 60 pages (at 25 pages/min), scraped 54 items (at 25 items/min)
+2014-01-27 07:16:01+0000 [carrieromesievers.com] INFO: Crawled 88 pages (at 28 pages/min), scraped 81 items (at 27 items/min)
+2014-01-27 07:17:01+0000 [carrieromesievers.com] INFO: Crawled 114 pages (at 26 pages/min), scraped 107 items (at 26 items/min)
+2014-01-27 07:18:01+0000 [carrieromesievers.com] INFO: Crawled 139 pages (at 25 pages/min), scraped 132 items (at 25 items/min)
+2014-01-27 07:19:01+0000 [carrieromesievers.com] INFO: Crawled 161 pages (at 22 pages/min), scraped 154 items (at 22 items/min)
+2014-01-27 07:20:01+0000 [carrieromesievers.com] INFO: Crawled 183 pages (at 22 pages/min), scraped 176 items (at 22 items/min)
+2014-01-27 07:21:01+0000 [carrieromesievers.com] INFO: Crawled 210 pages (at 27 pages/min), scraped 203 items (at 27 items/min)
+2014-01-27 07:22:01+0000 [carrieromesievers.com] INFO: Crawled 237 pages (at 27 pages/min), scraped 230 items (at 27 items/min)
+2014-01-27 07:23:01+0000 [carrieromesievers.com] INFO: Crawled 259 pages (at 22 pages/min), scraped 252 items (at 22 items/min)
+2014-01-27 07:24:01+0000 [carrieromesievers.com] INFO: Crawled 286 pages (at 27 pages/min), scraped 279 items (at 27 items/min)
+2014-01-27 07:25:01+0000 [carrieromesievers.com] INFO: Crawled 312 pages (at 26 pages/min), scraped 303 items (at 24 items/min)
+2014-01-27 07:26:01+0000 [carrieromesievers.com] INFO: Crawled 336 pages (at 24 pages/min), scraped 327 items (at 24 items/min)
+2014-01-27 07:27:01+0000 [carrieromesievers.com] INFO: Crawled 365 pages (at 29 pages/min), scraped 354 items (at 27 items/min)
+2014-01-27 07:28:01+0000 [carrieromesievers.com] INFO: Crawled 390 pages (at 25 pages/min), scraped 379 items (at 25 items/min)
+2014-01-27 07:29:01+0000 [carrieromesievers.com] INFO: Crawled 411 pages (at 21 pages/min), scraped 399 items (at 20 items/min)
+2014-01-27 07:30:01+0000 [carrieromesievers.com] INFO: Crawled 440 pages (at 29 pages/min), scraped 423 items (at 24 items/min)
+2014-01-27 07:31:01+0000 [carrieromesievers.com] INFO: Crawled 466 pages (at 26 pages/min), scraped 449 items (at 26 items/min)
+2014-01-27 07:32:01+0000 [carrieromesievers.com] INFO: Crawled 493 pages (at 27 pages/min), scraped 470 items (at 21 items/min)
+2014-01-27 07:32:21+0000 [carrieromesievers.com] INFO: Closing spider (finished)
+2014-01-27 07:32:21+0000 [carrieromesievers.com] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 1176644,
+	 'downloader/request_count': 1265,
+	 'downloader/request_method_count/GET': 1265,
+	 'downloader/response_bytes': 6207329,
+	 'downloader/response_count': 1265,
+	 'downloader/response_status_count/200': 498,
+	 'downloader/response_status_count/301': 255,
+	 'downloader/response_status_count/302': 504,
+	 'downloader/response_status_count/404': 8,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 27, 7, 32, 21, 44155),
+	 'item_scraped_count': 479,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 64094208,
+	 'memusage/startup': 44490752,
+	 'request_depth_max': 19,
+	 'response_received_count': 506,
+	 'scheduler/dequeued': 1265,
+	 'scheduler/dequeued/disk': 1265,
+	 'scheduler/enqueued': 1265,
+	 'scheduler/enqueued/disk': 1265,
+	 'start_time': datetime.datetime(2014, 1, 27, 7, 13, 1, 716478)}
+2014-01-27 07:32:21+0000 [carrieromesievers.com] INFO: Spider closed (finished)

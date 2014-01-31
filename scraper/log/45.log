@@ -1,0 +1,42 @@
+2014-01-27 05:02:48+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-27 05:02:49+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-27 05:02:49+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-27 05:02:49+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-27 05:02:49+0000 [mylearnedfriend] INFO: Spider opened
+2014-01-27 05:02:49+0000 [mylearnedfriend] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-27 05:02:49+0000 [mylearnedfriend] ERROR: Obtaining request from start requests
+	Traceback (most recent call last):
+	  File "/usr/lib64/python2.7/site-packages/twisted/internet/base.py", line 1192, in run
+	    self.mainLoop()
+	  File "/usr/lib64/python2.7/site-packages/twisted/internet/base.py", line 1201, in mainLoop
+	    self.runUntilCurrent()
+	  File "/usr/lib64/python2.7/site-packages/twisted/internet/base.py", line 824, in runUntilCurrent
+	    call.func(*call.args, **call.kw)
+	  File "/usr/lib/python2.7/site-packages/scrapy/utils/reactor.py", line 41, in __call__
+	    return self._func(*self._a, **self._kw)
+	--- <exception caught here> ---
+	  File "/usr/lib/python2.7/site-packages/scrapy/core/engine.py", line 111, in _next_request
+	    request = next(slot.start_requests)
+	  File "/usr/lib/python2.7/site-packages/scrapy/spider.py", line 50, in start_requests
+	    yield self.make_requests_from_url(url)
+	  File "/usr/lib/python2.7/site-packages/scrapy/spider.py", line 53, in make_requests_from_url
+	    return Request(url, dont_filter=True)
+	  File "/usr/lib/python2.7/site-packages/scrapy/http/request/__init__.py", line 26, in __init__
+	    self._set_url(url)
+	  File "/usr/lib/python2.7/site-packages/scrapy/http/request/__init__.py", line 57, in _set_url
+	    self._set_url(url.encode(self.encoding))
+	  File "/usr/lib/python2.7/site-packages/scrapy/http/request/__init__.py", line 61, in _set_url
+	    raise ValueError('Missing scheme in request url: %s' % self._url)
+	exceptions.ValueError: Missing scheme in request url: mylearnedfriends.net
+	
+2014-01-27 05:02:49+0000 [mylearnedfriend] INFO: Closing spider (finished)
+2014-01-27 05:02:49+0000 [mylearnedfriend] INFO: Dumping Scrapy stats:
+	{'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 27, 5, 2, 49, 122293),
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/Request': 1,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 44494848,
+	 'memusage/startup': 44494848,
+	 'start_time': datetime.datetime(2014, 1, 27, 5, 2, 49, 49989)}
+2014-01-27 05:02:49+0000 [mylearnedfriend] INFO: Spider closed (finished)

@@ -1,0 +1,37 @@
+2014-01-29 00:36:10+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-29 00:36:10+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-29 00:36:10+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-29 00:36:10+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-29 00:36:10+0000 [11kbw-local-government-law] INFO: Spider opened
+2014-01-29 00:36:10+0000 [11kbw-local-government-law] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-29 00:36:26+0000 [scrapy] INFO: Scraped 10 items
+2014-01-29 00:37:10+0000 [11kbw-local-government-law] INFO: Crawled 61 pages (at 61 pages/min), scraped 24 items (at 24 items/min)
+2014-01-29 00:38:10+0000 [11kbw-local-government-law] INFO: Crawled 123 pages (at 62 pages/min), scraped 46 items (at 22 items/min)
+2014-01-29 00:39:10+0000 [11kbw-local-government-law] INFO: Crawled 185 pages (at 62 pages/min), scraped 67 items (at 21 items/min)
+2014-01-29 00:40:10+0000 [11kbw-local-government-law] INFO: Crawled 249 pages (at 64 pages/min), scraped 89 items (at 22 items/min)
+2014-01-29 00:41:10+0000 [11kbw-local-government-law] INFO: Crawled 309 pages (at 60 pages/min), scraped 104 items (at 15 items/min)
+2014-01-29 00:41:32+0000 [11kbw-local-government-law] INFO: Closing spider (finished)
+2014-01-29 00:41:32+0000 [11kbw-local-government-law] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 116539,
+	 'downloader/request_count': 332,
+	 'downloader/request_method_count/GET': 332,
+	 'downloader/response_bytes': 9168946,
+	 'downloader/response_count': 332,
+	 'downloader/response_status_count/200': 131,
+	 'downloader/response_status_count/301': 5,
+	 'downloader/response_status_count/404': 196,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 29, 0, 41, 32, 98426),
+	 'item_scraped_count': 112,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 49074176,
+	 'memusage/startup': 44494848,
+	 'request_depth_max': 5,
+	 'response_received_count': 327,
+	 'scheduler/dequeued': 332,
+	 'scheduler/dequeued/disk': 332,
+	 'scheduler/enqueued': 332,
+	 'scheduler/enqueued/disk': 332,
+	 'start_time': datetime.datetime(2014, 1, 29, 0, 36, 10, 619480)}
+2014-01-29 00:41:32+0000 [11kbw-local-government-law] INFO: Spider closed (finished)

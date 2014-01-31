@@ -31,7 +31,7 @@ class SpiderAll(CrawlSpider):
             denyParse = kw['source_denyParse'].split(";")
         
         self.rules = (
-	Rule(SgmlLinkExtractor(allow=allowParse,deny=denyParse, unique=True), 
+	Rule(SgmlLinkExtractor(allow=allowParse,deny=denyParse, unique=True,restrict_xpaths=('//*[not(self::meta)]')), 
         callback='parse_start_url', follow='true'),
         
         Rule(SgmlLinkExtractor(allow=allowFollow,deny=denyFollow,unique=True), follow='true'),

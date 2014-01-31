@@ -1,0 +1,40 @@
+2014-01-30 00:32:15+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-30 00:32:15+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-30 00:32:15+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-30 00:32:15+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-30 00:32:15+0000 [unimelb_blog] INFO: Spider opened
+2014-01-30 00:32:15+0000 [unimelb_blog] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-30 00:32:25+0000 [scrapy] INFO: Scraped 10 items
+2014-01-30 00:33:15+0000 [unimelb_blog] INFO: Crawled 61 pages (at 61 pages/min), scraped 49 items (at 49 items/min)
+2014-01-30 00:34:15+0000 [unimelb_blog] INFO: Crawled 122 pages (at 61 pages/min), scraped 100 items (at 51 items/min)
+2014-01-30 00:35:15+0000 [unimelb_blog] INFO: Crawled 185 pages (at 63 pages/min), scraped 162 items (at 62 items/min)
+2014-01-30 00:36:15+0000 [unimelb_blog] INFO: Crawled 251 pages (at 66 pages/min), scraped 228 items (at 66 items/min)
+2014-01-30 00:37:15+0000 [unimelb_blog] INFO: Crawled 315 pages (at 64 pages/min), scraped 288 items (at 60 items/min)
+2014-01-30 00:38:15+0000 [unimelb_blog] INFO: Crawled 378 pages (at 63 pages/min), scraped 345 items (at 57 items/min)
+2014-01-30 00:39:15+0000 [unimelb_blog] INFO: Crawled 443 pages (at 65 pages/min), scraped 410 items (at 65 items/min)
+2014-01-30 00:40:15+0000 [unimelb_blog] INFO: Crawled 510 pages (at 67 pages/min), scraped 472 items (at 62 items/min)
+2014-01-30 00:40:55+0000 [unimelb_blog] INFO: Closing spider (finished)
+2014-01-30 00:40:55+0000 [unimelb_blog] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 184968,
+	 'downloader/request_count': 560,
+	 'downloader/request_method_count/GET': 560,
+	 'downloader/response_bytes': 17994483,
+	 'downloader/response_count': 560,
+	 'downloader/response_status_count/200': 530,
+	 'downloader/response_status_count/301': 4,
+	 'downloader/response_status_count/404': 26,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 30, 0, 40, 55, 603568),
+	 'item_scraped_count': 511,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 62832640,
+	 'memusage/startup': 44478464,
+	 'request_depth_max': 7,
+	 'response_received_count': 556,
+	 'scheduler/dequeued': 560,
+	 'scheduler/dequeued/disk': 560,
+	 'scheduler/enqueued': 560,
+	 'scheduler/enqueued/disk': 560,
+	 'start_time': datetime.datetime(2014, 1, 30, 0, 32, 15, 111689)}
+2014-01-30 00:40:55+0000 [unimelb_blog] INFO: Spider closed (finished)

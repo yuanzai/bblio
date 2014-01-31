@@ -1,0 +1,148 @@
+2014-01-31 15:48:44+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-31 15:48:44+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-31 15:48:44+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-31 15:48:44+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-31 15:48:44+0000 [kensingtonswan] INFO: Spider opened
+2014-01-31 15:48:44+0000 [kensingtonswan] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-31 15:48:57+0000 [scrapy] INFO: Scraped 10 items
+2014-01-31 15:49:44+0000 [kensingtonswan] INFO: Crawled 40 pages (at 40 pages/min), scraped 25 items (at 25 items/min)
+2014-01-31 15:50:44+0000 [kensingtonswan] INFO: Crawled 87 pages (at 47 pages/min), scraped 64 items (at 39 items/min)
+2014-01-31 15:51:44+0000 [kensingtonswan] INFO: Crawled 132 pages (at 45 pages/min), scraped 98 items (at 34 items/min)
+2014-01-31 15:52:44+0000 [kensingtonswan] INFO: Crawled 173 pages (at 41 pages/min), scraped 121 items (at 23 items/min)
+2014-01-31 15:53:45+0000 [kensingtonswan] INFO: Crawled 220 pages (at 47 pages/min), scraped 155 items (at 34 items/min)
+2014-01-31 15:54:44+0000 [kensingtonswan] INFO: Crawled 270 pages (at 50 pages/min), scraped 204 items (at 49 items/min)
+2014-01-31 15:55:44+0000 [kensingtonswan] INFO: Crawled 321 pages (at 51 pages/min), scraped 253 items (at 49 items/min)
+2014-01-31 15:56:44+0000 [kensingtonswan] INFO: Crawled 369 pages (at 48 pages/min), scraped 301 items (at 48 items/min)
+2014-01-31 15:57:44+0000 [kensingtonswan] INFO: Crawled 417 pages (at 48 pages/min), scraped 348 items (at 47 items/min)
+2014-01-31 15:58:00+0000 [scrapy] INFO: * Cannot parse: http://www.kensingtonswan.com/KSPublicWeb/files/e6/e61680ac-471d-45be-80dc-3cdff2a4be47.pdf
+2014-01-31 15:58:00+0000 [-] ERROR: Log observer <bound method ScrapyFileLogObserver._emit of <scrapy.log.ScrapyFileLogObserver instance at 0x346f1b8>> failed.
+	Traceback (most recent call last):
+	  File "/usr/lib/python2.7/site-packages/scrapy/contrib/spiders/crawl.py", line 67, in _parse_response
+	    cb_res = callback(response, **cb_kwargs) or ()
+	  File "/home/ec2-user/bblio/scraper/scrapy1/spiders/spiderAll.py", line 57, in parse_start_url
+	    log.msg(sys.exc_info()[0], level=log.INFO)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 130, in msg
+	    log.msg(message, **kw)
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/threadable.py", line 53, in sync
+	    return function(self, *args, **kwargs)
+	--- <exception caught here> ---
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/log.py", line 191, in msg
+	    self.observers[i](actualEventDict)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 46, in _emit
+	    ev = _adapt_eventdict(eventDict, self.level, self.encoding)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 85, in _adapt_eventdict
+	    message = [unicode_to_str(x, encoding) for x in message]
+	  File "/usr/lib/python2.7/site-packages/scrapy/utils/python.py", line 97, in unicode_to_str
+	    raise TypeError('unicode_to_str must receive a unicode or str object, got %s' % type(text).__name__)
+	exceptions.TypeError: unicode_to_str must receive a unicode or str object, got type
+	
+2014-01-31 15:58:45+0000 [kensingtonswan] INFO: Crawled 461 pages (at 44 pages/min), scraped 386 items (at 38 items/min)
+2014-01-31 15:58:46+0000 [scrapy] INFO: * Cannot parse: http://www.kensingtonswan.com/KSPublicWeb/files/8a/8ae8ed9a-857e-4383-a524-11a78153ac02.pdf
+2014-01-31 15:58:46+0000 [-] ERROR: Log observer <bound method ScrapyFileLogObserver._emit of <scrapy.log.ScrapyFileLogObserver instance at 0x346f1b8>> failed.
+	Traceback (most recent call last):
+	  File "/usr/lib/python2.7/site-packages/scrapy/contrib/spiders/crawl.py", line 67, in _parse_response
+	    cb_res = callback(response, **cb_kwargs) or ()
+	  File "/home/ec2-user/bblio/scraper/scrapy1/spiders/spiderAll.py", line 57, in parse_start_url
+	    log.msg(sys.exc_info()[0], level=log.INFO)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 130, in msg
+	    log.msg(message, **kw)
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/threadable.py", line 53, in sync
+	    return function(self, *args, **kwargs)
+	--- <exception caught here> ---
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/log.py", line 191, in msg
+	    self.observers[i](actualEventDict)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 46, in _emit
+	    ev = _adapt_eventdict(eventDict, self.level, self.encoding)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 85, in _adapt_eventdict
+	    message = [unicode_to_str(x, encoding) for x in message]
+	  File "/usr/lib/python2.7/site-packages/scrapy/utils/python.py", line 97, in unicode_to_str
+	    raise TypeError('unicode_to_str must receive a unicode or str object, got %s' % type(text).__name__)
+	exceptions.TypeError: unicode_to_str must receive a unicode or str object, got type
+	
+2014-01-31 15:59:44+0000 [kensingtonswan] INFO: Crawled 510 pages (at 49 pages/min), scraped 431 items (at 45 items/min)
+2014-01-31 16:00:01+0000 [scrapy] INFO: * Cannot parse: http://www.kensingtonswan.com/KSPublicWeb/files/5a/5aade5dc-b319-4550-9542-77283cd4ada6.jpg
+2014-01-31 16:00:01+0000 [-] ERROR: Log observer <bound method ScrapyFileLogObserver._emit of <scrapy.log.ScrapyFileLogObserver instance at 0x346f1b8>> failed.
+	Traceback (most recent call last):
+	  File "/usr/lib/python2.7/site-packages/scrapy/contrib/spiders/crawl.py", line 67, in _parse_response
+	    cb_res = callback(response, **cb_kwargs) or ()
+	  File "/home/ec2-user/bblio/scraper/scrapy1/spiders/spiderAll.py", line 57, in parse_start_url
+	    log.msg(sys.exc_info()[0], level=log.INFO)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 130, in msg
+	    log.msg(message, **kw)
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/threadable.py", line 53, in sync
+	    return function(self, *args, **kwargs)
+	--- <exception caught here> ---
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/log.py", line 191, in msg
+	    self.observers[i](actualEventDict)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 46, in _emit
+	    ev = _adapt_eventdict(eventDict, self.level, self.encoding)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 85, in _adapt_eventdict
+	    message = [unicode_to_str(x, encoding) for x in message]
+	  File "/usr/lib/python2.7/site-packages/scrapy/utils/python.py", line 97, in unicode_to_str
+	    raise TypeError('unicode_to_str must receive a unicode or str object, got %s' % type(text).__name__)
+	exceptions.TypeError: unicode_to_str must receive a unicode or str object, got type
+	
+2014-01-31 16:00:44+0000 [kensingtonswan] INFO: Crawled 554 pages (at 44 pages/min), scraped 466 items (at 35 items/min)
+2014-01-31 16:01:05+0000 [scrapy] INFO: * Cannot parse: http://www.kensingtonswan.com/KSPublicWeb/files/76/761a8163-5592-4313-ae92-ac3c76ceef8d.pdf
+2014-01-31 16:01:05+0000 [-] ERROR: Log observer <bound method ScrapyFileLogObserver._emit of <scrapy.log.ScrapyFileLogObserver instance at 0x346f1b8>> failed.
+	Traceback (most recent call last):
+	  File "/usr/lib/python2.7/site-packages/scrapy/contrib/spiders/crawl.py", line 67, in _parse_response
+	    cb_res = callback(response, **cb_kwargs) or ()
+	  File "/home/ec2-user/bblio/scraper/scrapy1/spiders/spiderAll.py", line 57, in parse_start_url
+	    log.msg(sys.exc_info()[0], level=log.INFO)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 130, in msg
+	    log.msg(message, **kw)
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/threadable.py", line 53, in sync
+	    return function(self, *args, **kwargs)
+	--- <exception caught here> ---
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/log.py", line 191, in msg
+	    self.observers[i](actualEventDict)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 46, in _emit
+	    ev = _adapt_eventdict(eventDict, self.level, self.encoding)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 85, in _adapt_eventdict
+	    message = [unicode_to_str(x, encoding) for x in message]
+	  File "/usr/lib/python2.7/site-packages/scrapy/utils/python.py", line 97, in unicode_to_str
+	    raise TypeError('unicode_to_str must receive a unicode or str object, got %s' % type(text).__name__)
+	exceptions.TypeError: unicode_to_str must receive a unicode or str object, got type
+	
+2014-01-31 16:01:06+0000 [scrapy] INFO: * Cannot parse: http://www.kensingtonswan.com/KSPublicWeb/files/d2/d2061bdd-1164-41d8-b7ed-5798066359fa.pdf
+2014-01-31 16:01:06+0000 [-] ERROR: Log observer <bound method ScrapyFileLogObserver._emit of <scrapy.log.ScrapyFileLogObserver instance at 0x346f1b8>> failed.
+	Traceback (most recent call last):
+	  File "/usr/lib/python2.7/site-packages/scrapy/contrib/spiders/crawl.py", line 67, in _parse_response
+	    cb_res = callback(response, **cb_kwargs) or ()
+	  File "/home/ec2-user/bblio/scraper/scrapy1/spiders/spiderAll.py", line 57, in parse_start_url
+	    log.msg(sys.exc_info()[0], level=log.INFO)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 130, in msg
+	    log.msg(message, **kw)
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/threadable.py", line 53, in sync
+	    return function(self, *args, **kwargs)
+	--- <exception caught here> ---
+	  File "/usr/lib64/python2.7/site-packages/twisted/python/log.py", line 191, in msg
+	    self.observers[i](actualEventDict)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 46, in _emit
+	    ev = _adapt_eventdict(eventDict, self.level, self.encoding)
+	  File "/usr/lib/python2.7/site-packages/scrapy/log.py", line 85, in _adapt_eventdict
+	    message = [unicode_to_str(x, encoding) for x in message]
+	  File "/usr/lib/python2.7/site-packages/scrapy/utils/python.py", line 97, in unicode_to_str
+	    raise TypeError('unicode_to_str must receive a unicode or str object, got %s' % type(text).__name__)
+	exceptions.TypeError: unicode_to_str must receive a unicode or str object, got type
+	
+2014-01-31 16:01:44+0000 [kensingtonswan] INFO: Crawled 601 pages (at 47 pages/min), scraped 506 items (at 40 items/min)
+2014-01-31 16:02:44+0000 [kensingtonswan] INFO: Crawled 649 pages (at 48 pages/min), scraped 547 items (at 41 items/min)
+2014-01-31 16:03:44+0000 [kensingtonswan] INFO: Crawled 662 pages (at 13 pages/min), scraped 555 items (at 8 items/min)
+2014-01-31 16:04:44+0000 [kensingtonswan] INFO: Crawled 662 pages (at 0 pages/min), scraped 555 items (at 0 items/min)
+2014-01-31 16:05:44+0000 [kensingtonswan] INFO: Crawled 664 pages (at 2 pages/min), scraped 556 items (at 1 items/min)
+2014-01-31 16:06:44+0000 [kensingtonswan] INFO: Crawled 715 pages (at 51 pages/min), scraped 559 items (at 3 items/min)
+2014-01-31 16:07:44+0000 [kensingtonswan] INFO: Crawled 763 pages (at 48 pages/min), scraped 559 items (at 0 items/min)
+2014-01-31 16:08:45+0000 [kensingtonswan] INFO: Crawled 818 pages (at 55 pages/min), scraped 559 items (at 0 items/min)
+2014-01-31 16:09:44+0000 [kensingtonswan] INFO: Crawled 875 pages (at 57 pages/min), scraped 559 items (at 0 items/min)
+2014-01-31 16:10:44+0000 [kensingtonswan] INFO: Crawled 942 pages (at 67 pages/min), scraped 559 items (at 0 items/min)
+2014-01-31 16:11:44+0000 [kensingtonswan] INFO: Crawled 1006 pages (at 64 pages/min), scraped 559 items (at 0 items/min)
+2014-01-31 16:12:44+0000 [kensingtonswan] INFO: Crawled 1071 pages (at 65 pages/min), scraped 559 items (at 0 items/min)
+2014-01-31 16:13:44+0000 [kensingtonswan] INFO: Crawled 1138 pages (at 67 pages/min), scraped 559 items (at 0 items/min)
+2014-01-31 16:14:44+0000 [kensingtonswan] INFO: Crawled 1204 pages (at 66 pages/min), scraped 559 items (at 0 items/min)
+2014-01-31 16:15:44+0000 [kensingtonswan] INFO: Crawled 1269 pages (at 65 pages/min), scraped 559 items (at 0 items/min)
+2014-01-31 16:16:44+0000 [kensingtonswan] INFO: Crawled 1334 pages (at 65 pages/min), scraped 562 items (at 3 items/min)
+2014-01-31 16:17:44+0000 [kensingtonswan] INFO: Crawled 1399 pages (at 65 pages/min), scraped 567 items (at 5 items/min)
+2014-01-31 16:18:44+0000 [kensingtonswan] INFO: Crawled 1417 pages (at 18 pages/min), scraped 571 items (at 4 items/min)
+2014-01-31 16:19:44+0000 [kensingtonswan] INFO: Crawled 1417 pages (at 0 pages/min), scraped 571 items (at 0 items/min)

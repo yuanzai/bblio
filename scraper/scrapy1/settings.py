@@ -16,15 +16,21 @@ DEPTH_LIMIT = 0
 MEMUSAGE_ENABLED = True
 MEMUSAGE_REPORT = True
 MEMDEBUG_ENABLED = True
+MEMUSUAGE_LIMIT_MB = 150
+MEMUSAGE_NOTIFY_MAIL = ['junyuan.lau@gmail.com']
 CONCURRENT_ITEMS = 40
 CONCURRENT_REQUESTS = 10
 CONCURRENT_REQUESTS_PER_DOMAIN = 1
+"""
 SPIDER_MIDDLEWARES = {
     'scrapy1.limit.LimitRequestMiddleware': 543,
 }
 REQUESTS_QUEUE_SIZE = 20
-JOBDIR = '/home/ec2-user/bblio/scraper/crawls/'
+"""
 
+JOBDIR = '/home/ec2-user/bblio/scraper/crawls/'
+LOG_LEVEL = 'INFO'
+LOG_ENABLED = False
 
 import sys
 sys.path.append('/home/ec2-user/bblio/build/')

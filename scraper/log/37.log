@@ -1,0 +1,32 @@
+2014-01-27 06:46:20+0000 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, MemoryUsage, MemoryDebugger, SpiderState
+2014-01-27 06:46:20+0000 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-27 06:46:20+0000 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-27 06:46:20+0000 [scrapy] INFO: Enabled item pipelines: AllPipeline
+2014-01-27 06:46:20+0000 [lawyerassist1] INFO: Spider opened
+2014-01-27 06:46:20+0000 [lawyerassist1] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-27 06:46:34+0000 [scrapy] INFO: Scraped 10 items
+2014-01-27 06:47:20+0000 [lawyerassist1] INFO: Crawled 41 pages (at 41 pages/min), scraped 41 items (at 41 items/min)
+2014-01-27 06:48:07+0000 [lawyerassist1] INFO: Closing spider (finished)
+2014-01-27 06:48:07+0000 [lawyerassist1] INFO: Dumping Scrapy stats:
+	{'downloader/request_bytes': 27312,
+	 'downloader/request_count': 77,
+	 'downloader/request_method_count/GET': 77,
+	 'downloader/response_bytes': 2887180,
+	 'downloader/response_count': 77,
+	 'downloader/response_status_count/200': 75,
+	 'downloader/response_status_count/404': 2,
+	 'finish_reason': 'finished',
+	 'finish_time': datetime.datetime(2014, 1, 27, 6, 48, 7, 526775),
+	 'item_scraped_count': 75,
+	 'memdebug/gc_garbage_count': 0,
+	 'memdebug/live_refs/SpiderAll': 1,
+	 'memusage/max': 50298880,
+	 'memusage/startup': 44498944,
+	 'request_depth_max': 8,
+	 'response_received_count': 77,
+	 'scheduler/dequeued': 77,
+	 'scheduler/dequeued/disk': 77,
+	 'scheduler/enqueued': 77,
+	 'scheduler/enqueued/disk': 77,
+	 'start_time': datetime.datetime(2014, 1, 27, 6, 46, 20, 206538)}
+2014-01-27 06:48:07+0000 [lawyerassist1] INFO: Spider closed (finished)
