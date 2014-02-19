@@ -25,4 +25,13 @@ class Site(models.Model):
     responseCount = models.IntegerField(blank=True, null=True)
     grouping = models.CharField(max_length=255, blank=True, null=True)
     running = models.BooleanField(default=False)
-    depthlimit = models.IntegerField(default=0) 
+    depthlimit = models.IntegerField(default=0)
+
+class TestingResult(models.Model):
+    document = models.ForeignKey('Document')
+    score = models.IntegerField()
+    testinggroup = models.ForeignKey('TestingGroup')
+    searchterm = models.TextField()
+
+class TestingGroup(models.Model):
+    name = models.CharField(max_length=255)

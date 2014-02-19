@@ -2,4 +2,11 @@
 *.swp
 *.swo
 *.pyc
-*.out
+*nohup.out
+*.log
+*.seen
+*.state
+/scraper/crawls/**
+/crawls/**
+/bblio/scraper/crawls/**
+**/crawls/**

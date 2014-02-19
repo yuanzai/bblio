@@ -4,11 +4,13 @@ import search.views
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'Build0001.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
     url(r'^$',search.views.index),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^scraped/', include('search.urls', namespace="search")),
-    url(r'^testscrape/$',search.views.testscrape),    
+    url(r'^testscrape/$',search.views.testscrape),
+    url(r'^testing_input/$',search.views.testing_input,name='testing_input'),
+    url(r'^testing/$',search.views.testing,name='testing'),
+    url(r'^scraped/(?P<site_id>\d+)/scraped/$',search.views.scraped,name='scraped'),
+    url(r'^scraped/(?P<site_id>\d+)/delete/$',search.views.delete,name='delete'),
+    url(r'^testsearch/(?P<query>\S+)/(?P<page>\d+)/$',search.views.testsearch,name='testsearch'),
+    
 )

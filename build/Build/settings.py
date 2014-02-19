@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'haystack',
     'search',
     'south',
 )
@@ -53,7 +54,17 @@ ROOT_URLCONF = 'Build.urls'
 
 WSGI_APPLICATION = 'Build.wsgi.application'
 
+import sys
+sys.path.append('/home/ec2-user/bblio/aws/')
+import ec2
 
+HAYSTACK_CONNECTIONS = {
+        'default': {
+            'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+            'URL':str(ec2.getESip()) + ':9200',
+            'INDEX_NAME': 'legal-index',
+            }
+        }
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
