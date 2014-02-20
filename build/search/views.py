@@ -5,10 +5,9 @@ sys.path.append('/home/ec2-user/bblio/es/')
 
 import es
 import re
-import sqlite
 from lib2to3.fixer_util import Newline
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from forms import TestingFormPage, TestingFormResult, AdminURLListForm
+from operations.forms import TestingFormPage, TestingFormResult, AdminURLListForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 import urllib
@@ -23,6 +22,27 @@ def index(request):
     context.update({'count' : es.show()['count']})
     return render(request, 'search/index.html',context)
 
+def index2(request):
+    k=50
+    if 'q' in request.GET:
+        q = request.GET['q']
+        print(q)
+        if 'p' in request.GET:
+            if int(request.GET['p']) == 0:
+                p = 1
+            p = int(request.GET['p']) - 1
+        else:
+            p = 0
+        context = es.search(q,k,p*k)
+    else:
+        return HttpResponseRedirect(reverse('search.views.index'))
+    print(context['result_count']) 
+    context.update({'linklist':pager(k,int(context['result_count']),p,10)})
+    context.update({'last_search':q})
+    context.update({'last_search_url':str(reverse('search.views.index')) 
+        + 'search/?q=' + str(urllib.quote(q))})
+    return render(request, 'search/index.html',context)
+
 def delete(request, site_id):
     if not request.user.is_staff:
         raise Http404
@@ -34,9 +54,6 @@ def testsearch(request,query,page=1):
     esquery = urllib.unquote_plus(query)
     context = es.search(esquery,100,100*(int(page)-1))
     TestingFormSet = formset_factory(TestingFormResult,extra=0)
-    pageset = TestingFormPage(initial={
-             'searchterm': esquery,
-             'testinggroup': 1,},prefix='page')
     form_list= []
 
     for r in context['result_list']:
@@ -46,11 +63,8 @@ def testsearch(request,query,page=1):
         #f.update('score': 0)
         form_list.append(f)
 
-    formset = TestingFormSet(initial=form_list,prefix='doc')
     list = zip(formset, context['result_list'])
-    context.update({'formset':formset})
     context.update({'list':list})
-    context.update({'page':pageset})
     context.update({'last_search':esquery})
     context.update({'linklist':pager(100,int(context['result_count']),page,10)})
     return render(request, 'search/testing.html',context)

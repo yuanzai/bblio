@@ -1,0 +1,76 @@
+<head>
+<link href="{{ STATIC_URL }}bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript">
+function SubmitFrm(){
+    var Searchtxt = document.getElementById("txtSearch").value;
+    var testinggroup = document.getElementById("testinggroup").value;
+    window.location = "{% url 'operations.views.tester' %}" + encodeURIComponent(Searchtxt) + "/" + testinggroup + "/1/";
+}
+</script>
+
+</head>
+<body>
+<div class="container">
+<h1>BBLIO Tester Admin</h1>
+
+<form>
+    <input name="txtSearch" type="text" id="txtSearch" size="80" value="{{ last_search }}"  onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()" >
+    <input name="testinggroup" type="text" id="testinggroup" size="5" value="{% if testinggroup %}{{ testinggroup }}{% else %}1{% endif %}">
+    <input type="submit" name="btnSearch" value="Search" id="btnSearch" onclick="SubmitFrm(); return false;"/>
+</form>
+
+{% if list %}
+
+<hr>
+
+<form action="{% url 'operations.views.tester' query=last_search page=page testinggroup=testinggroup %}" method="post" >
+{% csrf_token %}
+    <input type="hidden" name="testinggroup" value="{{ testinggroup }}"/>
+    Testing Group: {{ testinggroup }} | 
+    <input type="hidden" name="search_term" value="{{ last_search }}"/>
+    Search Term: {{ last_search }}
+
+<input type="submit" value="Update" />
+
+<table class="table">
+<tr>
+<td>
+<b>Score</b>
+</td>
+<td>
+<b>Result</b>
+</td>
+</tr>
+{{ formset.management_form }}
+{% for form,r in list %}
+<tr>
+<td>
+{% for f in form %}
+{{ f }}
+{% endfor %}
+</td>
+<td>
+<a href="{{r.urlAddress}}">{{ r.title }}</a><font size ="1px"> - score {{r.score}} - id: {{ r.id }}</font><br>
+
+<font size="2px">
+{% autoescape off %}
+{% for h in r.highlight %}
+{{ h }}<br>
+{% endfor %}
+{% endautoescape %}
+</font>
+</td>
+</tr>
+{% endfor %}
+</table>
+</form>
+{% endif %}
+
+{% if last_search %}
+{% for l in linklist %}
+<a href="{% url 'operations.views.tester' query=last_search page=l testinggroup=testinggroup %}">{{ l }}</a> |
+{% endfor %}
+{% endif %}
+</div>
+</body>

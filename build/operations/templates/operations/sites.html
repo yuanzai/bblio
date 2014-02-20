@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link href="{{ STATIC_URL }}bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css">
+
+
+</head>
+<div class="container">
+    <h1>Sites</h1>
+<form action="{% url 'operations.views.sites'%}0" method="post" role="form">
+{% csrf_token %}
+<div class="row">
+    <div class="col-xs-2">
+        <input type="submit" value="Create Site" class="form-control"> 
+    </div>
+</div>
+</form>
+<br>
+
+<table class="table">
+    <tr>
+<td>
+    <b>ID</b>
+</td>
+<td>
+    <b>Name</b>
+</td>
+<td>
+    <b>Grouping</b>
+</td>
+</tr>
+{% for site in sites %}
+<tr>
+<td>
+{{ site.id }}
+</td>
+<td>
+<a href="{% url 'operations.views.site' site.id %}">{{ site.name }} </a>
+</td>
+<td>
+{{ site.grouping }}
+</td>
+</tr>
+{% endfor %}
+</div>
+</html>

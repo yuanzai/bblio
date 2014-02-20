@@ -1,10 +1,20 @@
 from django.conf.urls import patterns, url
-import views
+import operations.views
 
 urlpatterns = patterns('',
-    #url(r'^$', views.scrape, name='scrape'),
-    url(r'^(?P<site_id>\d+)/scraped/$',views.scraped,name='scraped'),
-    url(r'^(?P<site_id>\d+)/delete/$',views.delete,name='delete'),
+    url(r'^$', operations.views.index),
+    url(r'^/site/$',operations.views.sites),
+    url(r'^/site/(?P<site_id>\d+)/$',operations.views.site),
+    url(r'^/site/(?P<site_id>\d+)/es_delete/$',operations.views.es_delete),
+    url(r'^/site/(?P<site_id>\d+)/duplicate_filter/$',operations.views.duplicate_filter),
+    url(r'^/site/(?P<site_id>\d+)/reset_to_zero/$',operations.views.reset_to_zero),
+    url(r'^/tester/$',operations.views.tester),
+    url(r'^/tester/(?P<query>[\w\ ]+)/(?P<testinggroup>\d+)/(?P<page>\d+)/$',operations.views.tester),
+    url(r'^/tester/(?P<query>\[\w ]+)/(?P<testinggroup>\d+)/$',operations.views.tester),
+    url(r'^/tester/(?P<query>\[\w\ ]+)/$',operations.views.tester),
+    #url(r'^(?P<site_id>\d+)/delete/$',views.delete,name='delete'),
+    #url(r'^(?P<site_id>\d+)/delete/$',views.delete,name='delete'),
+    #url(r'^(?P<site_id>\d+)/delete/$',views.delete,name='delete'),
     #url(r'^testing_input$',views.testing_input,name='testing_input'),
     #url(r'^testing$',views.testing,name='testing'),
 )

@@ -1,22 +1,37 @@
 
 <head>
-<link href="{{ STATIC_URL }}bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css">
 
+<style>
+body { padding-top: 40px; }
+</style>
+<script type="text/javascript">
+function SubmitFrm(){
+var Searchtxt = document.getElementById("txtSearch").value;
+window.location = "{% url 'search.views.index' %}search/?q=" + encodeURIComponent(Searchtxt);
+}
+</script>
 </head>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="container">
+<p class="navbar-text navbar-right"><a href="#" class="navbar-link">Sign in</a></p>
+<p class="navbar-text navbar-right"><a href="#" class="navbar-link">Settings</a></p>
+<p class="navbar-text navbar-right"><a href="#" class="navbar-link">Help</a></p>
+<p class="navbar-text navbar-right"><a href="#" class="navbar-link">About</a></p>
+</div>
+</nav>
+<div class="container">
+<body>
 
-<form action="{% url 'search.views.index' %}" method="post">
-{% csrf_token %}
-
-<h1>b.blio</h1>
-
-<p><input type="text" name="search_term" size="50"/><input type="submit" value="Search" /></p>
-<br>
+<h1>bblio</h1>
+<form>
+<input name="txtSearch" type="text" id="txtSearch" size="80" value="{{ last_search }}"  onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()" >
+<input type="submit" name="btnSearch" value="Search" id="btnSearch" onclick="SubmitFrm(); return false;"/>
 </form>
-Document Count : {{ count }}
-
+{% if result_count %}
+<font size ="1px"> {{ result_count }} search results found</font>
 <hr>
 <ul>
-
 {% for r in result_list %}
 
 <p>
@@ -35,3 +50,14 @@ Document Count : {{ count }}
 {% endfor %}
 
 </font>
+</body>
+
+{% if last_search %}
+{% for l in linklist %}
+<a href="{{ last_search_url }}&p={{ l }}">{{ l }}</a> |
+{% endfor %}
+{% endif %}
+{% endif %}
+
+
+</div>

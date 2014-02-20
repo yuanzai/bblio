@@ -114,10 +114,6 @@ def search(search_term,result,start_result=0):
              }
     res = es.search(index="legal-index", body=q)    
     r =  res['hits']['hits']
-    pp = pprint.PrettyPrinter(indent=4)
-    #print res['hits']['total']
-    #pp.pprint(r)
-    #print len(r)
     l = []
     for re in r:
         d = {"urlAddress" : re['fields']['urlAddress'],
@@ -132,8 +128,6 @@ def search(search_term,result,start_result=0):
             pass
 
         l.append(d)
-        pp.pprint(d)
-
     return {'result_list': l,
             'result_count': res['hits']['total']}
 

@@ -1,8 +1,10 @@
 import boto.ec2
+import keys
+
 es_instance = 'i-cacff0c3'
 conn = boto.ec2.connect_to_region("us-west-2",
-        aws_access_key_id='AKIAJ5DPLEBKY24S23KA',
-        aws_secret_access_key='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')
+        aws_access_key_id=keys.aws_access_key_id,
+        aws_secret_access_key=keys.aws_secret_access_key)
 
 def startES():
     conn.start_instances(instance_ids=es_instance)
