@@ -10,7 +10,9 @@ import urllib
 from django.core.urlresolvers import reverse
 
 def index(request):
-    return render(request,'operations/index.html')
+    context = { 'es_count' : es.show('legal-index')['count']}
+
+    return render(request,'operations/index.html',context)
 
 def site(request, site_id):
     if site_id !='0':
@@ -74,13 +76,15 @@ def duplicate_filter(request,site_id):
         if len(docs.filter(urlAddress=url)) > 1:
             first_id = docs.filter(urlAddress=url)[0].id
             docs.filter(urlAddress=url).exclude(pk=first_id).update(isUsed=2)
-        
+            continue
+
         #https filter
         if url[:5] == 'https':
             url_http = url[:4] + url[5:]
             if len(docs.filter(urlAddress=url_http)) > 0:
                 docs.filter(urlAddress=url).update(isUsed=3)
-        
+                continue
+
         #www filter
         if url[:11] == 'https://www':
             url_www = 'https://' + url[12:]
@@ -92,11 +96,14 @@ def duplicate_filter(request,site_id):
         if url_www:
             if len(docs.filter(urlAddress=url_www)) > 0:
                 docs.filter(urlAddress=url_www).update(isUsed=4)
+                continue
+
         #slash filter
         if url[-1:] == '/':
             url_slash = url[:-1]
             if len(docs.filter(urlAddress=url_slash)) > 0:
                 docs.filter(urlAddress=url).update(isUsed=5)
+                
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
@@ -126,14 +133,18 @@ def tester(request,query='',testinggroup=1,page=1):
                 docs = TestingResult.objects.filter(testinggroup=testinggroup).filter(searchterm=esquery)
                 for form in formset:
                     document = int(form.cleaned_data['document'])
-                    score = int(form.cleaned_data['score'])
+                    score = None
+
+                    if form.cleaned_data['score'] == 0 or form.cleaned_data['score']:
+                        score = int(form.cleaned_data['score'])
+                    
                     doc = docs.filter(document_id=document)
-                    if doc.count() > 0:
-                        if score == 0:
-                            doc.delete()
-                        else:
+                    if len(doc) > 0:
+                        if score or score ==0:
                             doc.update(score=score)
-                    elif score > 0:
+                        else:
+                            doc.delete()
+                    elif score or score ==0:
                         TestingResult(searchterm=esquery,
                                 testinggroup_id=testinggroup,
                                 document_id=document,
@@ -151,7 +162,7 @@ def tester(request,query='',testinggroup=1,page=1):
             if len(s) >0:
                 score = s[0].score
             else:
-                score = 0 
+                score = None
             f.update({'score': score})
             form_list.append(f)
     
@@ -159,7 +170,6 @@ def tester(request,query='',testinggroup=1,page=1):
         list = zip(formset, context['result_list'])
         context.update({'formset':formset})
         context.update({'list':list})
-    
         context.update({'last_search':esquery})
         context.update({'testinggroup':testinggroup})
         context.update({'page':page})

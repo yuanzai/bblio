@@ -17,5 +17,5 @@ urlpatterns = patterns('',
     url(r'^testsearch/(?P<query>\S+)/(?P<page>\d+)/$',search.views.testsearch,name='testsearch'),
 
     url(r'^search/',search.views.index2,name='index'),
-    url(r'^operations',include(operations.urls),name='operations'),
+    url(r'^operations/',include(operations.urls),name='operations'),
 )

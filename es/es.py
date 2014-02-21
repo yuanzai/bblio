@@ -36,10 +36,10 @@ def delete():
     es = Elasticsearch(host)
     es.indices.delete(index='_all')    
 
-def show():
+def show(index='legal-index'):
     es = Elasticsearch(host)
     pp = pprint.PrettyPrinter(indent=4)
-    data = es.indices.stats(index='legal-index')['_all']['primaries']['docs']
+    data = es.indices.stats(index=index)['_all']['primaries']['docs']
 
     pp.pprint(data)
     return data
