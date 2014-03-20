@@ -15,9 +15,12 @@ import subprocess
 from django.db import connection
 from search.models import Document
 
-#host = 'http://ec2-54-201-141-21.us-west-2.compute.amazonaws.com:9200'
 host = str(ec2.getESip()) + ':9200'
 print(host)
+
+def get_es():
+    return Elasticsearch(host)
+
 def restart():
     p = subprocess.Popen(["sudo", "service", "mysqld","restart"], stdout=subprocess.PIPE)
     output, err = p.communicate()
