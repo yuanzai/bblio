@@ -12,20 +12,14 @@ from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 import urllib
 from django.core.urlresolvers import reverse
+import searchbar
 
 
 def index(request):
-    try:
-        context = es.search(str(request.POST['search_term']),100)
-    except:
-        context = {}
-    context.update({'count' : es.show()['count']})
-    return render(request, 'search/index.html',context)
-
-def index2(request):
     k=50
+    context = {}
     if 'q' in request.GET:
-        q = request.GET['q']
+        q = request.GET['q'].encode('utf-8')
         print(q)
         if 'p' in request.GET:
             if int(request.GET['p']) == 0:
@@ -33,7 +27,34 @@ def index2(request):
             p = int(request.GET['p']) - 1
         else:
             p = 0
-        context = es.search(q,k,p*k)
+        import search1 #current es search module
+        context.update(search1.search(q,k,p*k))
+        context.update({'linklist':pager(k,int(context['result_count']),p,10)})
+        context.update({'last_search':q})
+        context.update({'last_search_url':str(reverse('search.views.index')) 
+            + '?q=' + str(urllib.quote(q))})
+        context.update({'page':p+1})
+    else:
+        q = ''
+    form = searchbar.SearchBarForm(initial=q)
+    context.update({'form':form})
+ 
+    return render(request, 'search/index.html',context)
+
+
+def index2(request):
+    k=50
+    if 'q' in request.GET:
+        q = request.GET['q'].encode('utf-8')
+        print(q)
+        if 'p' in request.GET:
+            if int(request.GET['p']) == 0:
+                p = 1
+            p = int(request.GET['p']) - 1
+        else:
+            p = 0
+        import search1 #current es search module
+        context = search1.search(q,k,p*k)
     else:
         return HttpResponseRedirect(reverse('search.views.index'))
     print(context['result_count']) 
@@ -42,6 +63,13 @@ def index2(request):
     context.update({'last_search_url':str(reverse('search.views.index')) 
         + 'search/?q=' + str(urllib.quote(q))})
     return render(request, 'search/index.html',context)
+
+def autocomplete(request):
+    if 'term' in request.GET:
+        term = request.GET['term'].encode('utf-8')
+        import autocomplete1
+        return HttpResponse(str(autocomplete1.get_autocomplete(term)))
+    return HttpResponse("NO!!!")
 
 def delete(request, site_id):
     if not request.user.is_staff:
@@ -67,6 +95,7 @@ def testsearch(request,query,page=1):
     context.update({'list':list})
     context.update({'last_search':esquery})
     context.update({'linklist':pager(100,int(context['result_count']),page,10)})
+    context.update({'page':page})
     return render(request, 'search/testing.html',context)
 
 def testing(request):
@@ -141,9 +170,7 @@ def scraped(request, site_id):
     form = AdminURLListForm({'source_denyParse': Site.objects.get(pk=site_id).source_denyParse})
     context = {'site_id':site_id,'docs':d,'form':form}
 
-    return render(request, 'search/scraped.html',context)    
-
-
+    return render(request, 'search/scraped.html',context)
 
 def result(request, key_id):
     d = get_object_or_404(Document, pk=key_id)

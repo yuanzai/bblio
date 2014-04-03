@@ -6,8 +6,12 @@ class Document(models.Model):
     domain = models.TextField()
     title = models.TextField()
     lastupdate = models.DateTimeField(auto_now=True)
-    isUsed = models.SmallIntegerField(default=1)
+    isUsed = models.SmallIntegerField(default=1,db_index=True)
     site = models.ForeignKey('Site')
+    response_code = models.SmallIntegerField(blank=True, null = True)
+    document_html = models.TextField(blank=True, null = True)
+    update_group = models.SmallIntegerField(blank=True, null = True,db_index=True) 
+    publish_date = models.DateTimeField(blank=True, null=True)
     def __unicode__(self):
         return self.document_text
 
@@ -26,6 +30,7 @@ class Site(models.Model):
     grouping = models.CharField(max_length=255, blank=True, null=True)
     running = models.BooleanField(default=False)
     depthlimit = models.IntegerField(default=0)
+    jurisdiction = models.CharField(max_length=10,blank=True,null=True)
 
 class TestingResult(models.Model):
     document = models.ForeignKey('Document')
@@ -35,3 +40,6 @@ class TestingResult(models.Model):
 
 class TestingGroup(models.Model):
     name = models.CharField(max_length=255)
+
+class Phrase(models.Model):
+    phrase = models.TextField()

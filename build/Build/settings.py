@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'search',
     'operations',
-    'autocomplete-light',
+    'testscrape',
     'south',
 )
 

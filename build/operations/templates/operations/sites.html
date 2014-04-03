@@ -7,8 +7,7 @@
 </head>
 <div class="container">
     <h1>Sites</h1>
-<form action="{% url 'operations.views.sites'%}0" method="post" role="form">
-{% csrf_token %}
+<form action="{% url 'operations.views.sites'%}0/" method="GET" role="form">
 <div class="row">
     <div class="col-xs-2">
         <input type="submit" value="Create Site" class="form-control"> 
@@ -17,6 +16,7 @@
 </form>
 <br>
 
+{% csrf_token %}
 <table class="table">
     <tr>
 <td>

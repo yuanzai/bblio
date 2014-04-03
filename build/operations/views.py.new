@@ -1,92 +1,18 @@
-
-#django app imports
-from search.models import Document, Site, TestingResult, TestingGroup, Phrase
-from forms import TestingFormPage, TestingFormResult, AdminURLListForm, SiteForm
-
-#django imports
-from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
-from django.forms.formsets import formset_factory
-from django.forms.models import modelformset_factory, modelform_factory
-from django.core.urlresolvers import reverse
-from django import forms
-
-#es import
+from search.models import Document, Site, TestingResult, TestingGroup
 import es
-import index1 as indexer
-
-#python imports
 import re
+from django.http import HttpResponseRedirect, HttpResponse, Http404
+from forms import TestingFormPage, TestingFormResult, AdminURLListForm, SiteForm
+from django.forms.formsets import formset_factory
+from django.forms.models import modelformset_factory
 import urllib
-import cgi
-import sys
-sys.path.append('/home/ec2-user/bblio/scraper/')
-import linkextract
+from django.core.urlresolvers import reverse
 
 def index(request):
     context = { 'es_count' : es.show('legal-index')['count']}
+
     return render(request,'operations/index.html',context)
-
-def tree(request):
-    context = {}
-    if request.method == 'POST':
-        url = request.POST['url']
-        print url
-        level = int(request.POST['level'])
-        linkno = request.POST['linkno']
-        allowF = None
-        allowP = None
-        denyF = None
-        denyP = None
-        
-        if request.POST['allowF'] != '':
-            allowF = request.POST['allowF'].split(";")
-        if request.POST['allowP'] != '':
-            allowP = request.POST['allowP'].split(";")
-        if request.POST['denyF'] != '':
-            denyF = request.POST['denyF'].split(";")
-        if request.POST['denyP'] != '':
-            denyP = request.POST['denyP'].split(";")
-        context = {'level' : level + 1} 
-        linklist = []
-        if level == 0:
-            urllist = url.split(";")
-            for i,eachurl in enumerate(urllist):
-                linklist.append({'url':eachurl,'allow':'followed','linkno':i})
-        else:
-            linklist  = linkextract.link_extractor(url,allowP,denyP,allowF,denyF)
-        context.update({'list':linklist})
-    return render(request, 'operations/tree.html',context)
-
-def phrases(request):
-    PhraseForm = modelform_factory(Phrase)
-    
-    if request.method == 'POST':
-        """
-        form = PhraseForm(request.POST)
-        form.save()
-        """
-        phrases = request.POST['phrase'].encode('ascii','ignore').split('\r\n')
-        for p in phrases:
-            if p:
-                p = p.decode('utf-8')
-                p = p.strip()
-                p = p.replace('-',' ')
-                p = p.lower()
-                if ' ' in p:
-                    if Phrase.objects.filter(phrase=p).count() == 0:
-                        print('save: ' + p)
-                        newphrase = Phrase()
-                        newphrase.phrase = p
-                        newphrase.save()
-
-    form = modelform_factory(Phrase,
-            widgets={ 'phrase' : forms.Textarea(attrs={'class': 'form-control'})})
-    
-    phrases = Phrase.objects.all()
-
-    context = { 'phrases' : phrases, 'form' : form }
-    return render(request, 'operations/phrases.html',context)
 
 def site(request, site_id):
     if site_id !='0':
@@ -113,8 +39,8 @@ def site(request, site_id):
         d = (Document.objects.filter(site_id=site_id)
                 .values('id','urlAddress','isUsed')
                 .order_by('isUsed','urlAddress'))
-        context.update({'doc_count':d.count()})
-        context.update({'zero_count':Document.objects.filter(site_id=site_id).filter(isUsed=0).count()})
+        context.update({'doc_count':len(d)})
+        context.update({'zero_count':len(Document.objects.filter(site_id=site_id).filter(isUsed=0))})
                 
         context.update({'docs':d})
 
@@ -148,20 +74,20 @@ def reset_to_zero(request,site_id):
 
 
 def duplicate_filter(request,site_id):
-    docs = Document.objects.filter(site_id=site_id).filter(isUsed=0)
-    urlList = docs.values_list('urlAddress',flat=True).distinct()
-    for url in urlList:
+    #docs = Document.objects.filter(site_id=site_id).filter(isUsed=0)
+    urlList = Document.objects.filter(site_id=site_id).filter(isUsed=0).values_list('urlAddress',flat=True).distinct()
+    for url in urlList[100:200]:
         print(url)
         #pure duplicate
-        if docs.filter(urlAddress=url).count() > 1:
-            first_id = docs.filter(urlAddress=url)[0].id
-            docs.filter(urlAddress=url).exclude(pk=first_id).update(isUsed=2)
+        if Document.objects.filter(site_id=site_id).filter(isUsed=0).filter(urlAddress=url).count() > 1:
+            first_id = Document.objects.filter(site_id=site_id).filter(isUsed=0).filter(urlAddress=url)[0].id
+            Document.objects.filter(site_id=site_id).filter(isUsed=0).filter(urlAddress=url).exclude(pk=first_id).update(isUsed=2)
             continue
-        
+        continue
         #https filter
         if url[:5] == 'https':
             url_http = url[:4] + url[5:]
-            if docs.filter(urlAddress=url_http).count() > 0:
+            if len(docs.filter(urlAddress=url_http)) > 0:
                 docs.filter(urlAddress=url).update(isUsed=3)
                 continue
 
@@ -174,14 +100,14 @@ def duplicate_filter(request,site_id):
             url_www = None
 
         if url_www:
-            if docs.filter(urlAddress=url_www).count() > 0:
+            if len(docs.filter(urlAddress=url_www)) > 0:
                 docs.filter(urlAddress=url_www).update(isUsed=4)
                 continue
 
         #slash filter
         if url[-1:] == '/':
             url_slash = url[:-1]
-            if docs.filter(urlAddress=url_slash).count() > 0:
+            if len(docs.filter(urlAddress=url_slash)) > 0:
                 docs.filter(urlAddress=url).update(isUsed=5)
                 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -258,18 +184,6 @@ def tester(request,query='',testinggroup=1,page=1):
         context.update({'page':page})
         context.update({'linklist':pager(100,int(context['result_count']),page,10)})
     return render(request, 'operations/tester.html',context)
-
-def document(request,doc_id):
-    import HTMLParser
-    doc = Document.objects.get(pk=doc_id)
-    context = {            
-            #'html': re.sub('\n','<br>',doc.document_html),
-            'html': '<code>' + re.sub('\n','</code>\n<code>',cgi.escape(indexer.get_body_html(doc.document_html))) + '</code>',
-            'parsed_text' : '<br>'.join(indexer.text_parse(doc.document_html))
-            }
-
-    return render(request, 'operations/document.html',context)
-
 
 def pager(size,result_count,page,linkcount):
     lastpage = int(result_count/size) + 1

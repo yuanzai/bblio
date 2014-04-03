@@ -15,7 +15,7 @@ class SiteForm(forms.ModelForm):
     class Meta:
         model = Site
         fields = [
-                'name','grouping','depthlimit',
+                'name','grouping','depthlimit','jurisdiction',
                 'source_allowed_domains',
                 'source_start_urls',
                 'source_allowParse',
@@ -27,6 +27,7 @@ class SiteForm(forms.ModelForm):
                 'grouping': TextInput(attrs={'class': 'form-control'}),
                 'depthlimit': TextInput(attrs={'class': 'form-control'}),
 
+                'jurisdiction': TextInput(attrs={'class': 'form-control'}),
 
                 'source_allowed_domains': Textarea(
                     attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
