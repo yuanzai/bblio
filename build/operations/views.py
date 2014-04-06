@@ -1,3 +1,8 @@
+#python imports
+import re
+import urllib
+import cgi
+import sys
 
 #django app imports
 from search.models import Document, Site, TestingResult, TestingGroup, Phrase
@@ -9,18 +14,16 @@ from django.shortcuts import render, get_object_or_404
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory, modelform_factory
 from django.core.urlresolvers import reverse
+from django.core.management import call_command
 from django import forms
 
 #es import
 import es
 import index1 as indexer
 
-#python imports
-import re
-import urllib
-import cgi
-import sys
+#crawler import
 sys.path.append('/home/ec2-user/bblio/scraper/')
+import scrapeController
 import linkextract
 
 def index(request):
@@ -57,6 +60,13 @@ def tree(request):
             linklist  = linkextract.link_extractor(url,allowP,denyP,allowF,denyF)
         context.update({'list':linklist})
     return render(request, 'operations/tree.html',context)
+
+def crawl(request, site_id):
+    
+    call_command('crawl',site_id)
+    
+    return HttpResponse('Running %s' % str(site_id))
+
 
 def phrases(request):
     PhraseForm = modelform_factory(Phrase)

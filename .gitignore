@@ -11,3 +11,4 @@
 /bblio/scraper/crawls/**
 **/crawls/**
 keys.py
+*.pem

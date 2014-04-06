@@ -10,6 +10,7 @@ class Document(models.Model):
     site = models.ForeignKey('Site')
     response_code = models.SmallIntegerField(blank=True, null = True)
     document_html = models.TextField(blank=True, null = True)
+    encoding = models.CharField(max_length=255, blank=True, null=True)
     update_group = models.SmallIntegerField(blank=True, null = True,db_index=True) 
     publish_date = models.DateTimeField(blank=True, null=True)
     def __unicode__(self):
