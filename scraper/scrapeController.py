@@ -20,7 +20,7 @@ from scrapy2.spiders.spiderAll import SpiderAll
 settings_module = importlib.import_module('scrapy2.settings')
 settings = CrawlerSettings(settings_module)
 
-def clearSchedule(id):
+def clear_schedule(id):
     if not id:
         raise BlankIDError('Please enter a site id')
     shutil.rmtree(settings['JOBDIR'] + str(id))
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     arg = sys.argv
     if len(sys.argv) > 1:
         if arg[1] == 'clear':
-            clearSchedule(arg[2])
+            clear_schedule(arg[2])
         else:
             run_site_id(arg[1])
     else:

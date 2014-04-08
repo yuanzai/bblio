@@ -26,6 +26,10 @@ sys.path.append('/home/ec2-user/bblio/scraper/')
 import scrapeController
 import linkextract
 
+#distributed import
+sys.path.append('/home/ec2-user/bblio/aws/')
+import scrapeMaster
+
 def index(request):
     context = { 'es_count' : es.show('legal-index')['count']}
     return render(request,'operations/index.html',context)
@@ -62,11 +66,12 @@ def tree(request):
     return render(request, 'operations/tree.html',context)
 
 def crawl(request, site_id):
-    
-    call_command('crawl',site_id)
-    
-    return HttpResponse('Running %s' % str(site_id))
+    scrapeMaster.crawl_site_id(site_id)    
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+def clear_crawl_schedule(request, site_id):
+    scrapeMaster.clear_schedule(site_id)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def phrases(request):
     PhraseForm = modelform_factory(Phrase)
