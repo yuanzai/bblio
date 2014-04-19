@@ -1,199 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-{% include "operations/operations_css.html" %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
-<script>
+    {% include "operations/operations_css.html" %} <!-- CSS FILE -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
+    <script>
 
-function posted (event) {
-    event.preventDefault();
-    
-    $.ajaxSetup ({cache: false});
+        function posted (event) {
+            event.preventDefault();
 
-    var mySpan = $(this);
-    var url = mySpan.attr("url");
-    if (!url) {
-        url = document.getElementById("id_source_start_urls").value;
-    }
-    if (!url) { 
-        url = "http://www.google.com"
-    }
-    
-    var allowP = document.getElementById("id_source_allowParse").value;
-    var allowF = document.getElementById("id_source_allowFollow").value;
-    var denyP = document.getElementById("id_source_denyParse").value;
-    var denyF = document.getElementById("id_source_denyFollow").value;
+            $.ajaxSetup ({cache: false});
 
-    var level = mySpan.attr("level");
-    var linkno = mySpan.attr("linkno");
-    var div = "#linklevel" + String(level) + "_" + String(linkno);
-    if (level == "0"){
-        urllink = url.split(";")
-        for (var i = 0; i < urllink.length; i++) {
-            if (urllink[i].substring(0,4).toLowerCase() != "http") {
-                alert("Please check your URLs. URLs should start with 'http'.");
-                return;
+            var mySpan = $(this);
+            var url = mySpan.attr("url");
+            if (!url) {
+                url = document.getElementById("id_source_start_urls").value;
             }
-        }
-    }
-    
-    $.post("{% url 'operations.views.tree' %}",
-            {csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-            level: level,
-            linkno: linkno,
-            url : url,
-            allowF : allowF,
-            allowP : allowP,
-            denyF : denyF,
-            denyP: denyP
+            if (!url) {
+                url = "http://www.google.com"
+            }
+
+            var allowP = document.getElementById("id_source_allowParse").value;
+            var allowF = document.getElementById("id_source_allowFollow").value;
+            var denyP = document.getElementById("id_source_denyParse").value;
+            var denyF = document.getElementById("id_source_denyFollow").value;
+
+            var level = mySpan.attr("level");
+            var linkno = mySpan.attr("linkno");
+            var div = "#linklevel" + String(level) + "_" + String(linkno);
+
+            if(!$(div).is(':empty') )
+                $( div ).empty();
+
+            if (level == "0"){
+                urllink = url.split(";")
+                for (var i = 0; i < urllink.length; i++) {
+                    if (urllink[i].substring(0,4).toLowerCase() != "http") {
+                        alert("Please check your URLs. URLs should start with 'http'.");
+                        return;
+                    }
+                }
+            }
+
+            $.post("{% url 'operations.views.tree' %}",
+                {csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                level: level,
+                linkno: linkno,
+                url : url,
+                allowF : allowF,
+                allowP : allowP,
+                denyF : denyF,
+                denyP: denyP
             },
             function(data) {
-                console.log('data');
                 $( div ).empty().append( data );
                 $( div ).delegate("a","click", posted);
 
             });
 
-}
+        }
 
-$(document).ready(function() { $("#tree").on("click",posted);});
- 
-</script>
+        $(document).ready(function() { $("#tree").on("click",posted);});
+    </script>
 </head>
-{% include "operations/operations_navbar.html" %}
-<div class="container">
-    {% if site_id == '0' %}
-    <h1>New Site</h1>
-    {% else %}
-    <h1>Site {{ site_id }}</h1>
-    {% endif %}
-<form action="{% url 'operations.views.site' site_id %}" method="post" role="form">
-{% csrf_token %}
+{% include "operations/operations_navbar.html" %} <!-- NAV BAR -->
 
-<div class="row">
-    <div class="col-xs-3">
-        {{ site_form.name.label_tag }}
-        {{ site_form.name }}
-    </div>
-    <div class="col-xs-3">
-        {{ site_form.grouping.label_tag }}
-        {{ site_form.grouping }}
-    </div>
-    <div class="col-xs-3">
-        {{ site_form.depthlimit.label_tag }}
-        {{ site_form.depthlimit }}
-    </div>
-    <div class="col-xs-3">
-        {{ site_form.jurisdiction.label_tag }}
-        {{ site_form.jurisdiction }}
-    </div>
-</div>
-<br>
-<div class="row">
-    <div class="col-xs-4">
-        {{ site_form.source_allowed_domains.label_tag }}
-        {{ site_form.source_allowed_domains }}
-    </div>
+<!-- for Left Sidebar -->
+<style>
+/*    .sidebar {
+      display: none;
+  }*/
+  @media (min-width: 768px) {
+      .sidebar {
+        position: fixed;
+        top: 51px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        padding: 20px;
+        overflow-x: hidden;
+        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        background-color: #f5f5f5;
+        border-right: 1px solid #eee;
+    }
+}
+/*
+ * Main content
+ */
+ @media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+}
+}
+</style>
 
-    <div class="col-xs-4">
-        {{ site_form.source_start_urls.label_tag }}
-        {{ site_form.source_start_urls }}
-    </div>
-</div>
 
-<br>
-<div class="row">
-    <div class="col-xs-4">
-        {{ site_form.source_allowParse.label_tag }}
-        {{ site_form.source_allowParse }}
-    </div>
+<!-- Main Content below Top Nav Bar -->
+<div class="container-fluid">
+    <div class="row">
 
-    <div class="col-xs-4">
-        {{ site_form.source_denyParse.label_tag }}
-        {{ site_form.source_denyParse }}
-    </div>
-</div>
+        <!-- Left Sidebar -->
+        <div class="col-sm-3 col-md-2 sidebar">
+            <form action="{% url 'operations.views.site' site_id %}" method="post" role="form">
+                {% csrf_token %} <!-- HTTP: post method's authentication -->
+                <ul class="nav nav-sidebar">
+                    <li class="active">
+                        {{ site_form.name.label_tag }}
+                        {{ site_form.name }}
+                    </li>
+                    <li class="active">
+                        {{ site_form.grouping.label_tag }}
+                        {{ site_form.grouping }}
+                    </li>
+                    <li class="active">
+                        {{ site_form.depthlimit.label_tag }}
+                        {{ site_form.depthlimit }}
+                        {{ site_form.jurisdiction.label_tag }}
+                        {{ site_form.jurisdiction }}
+                    </li>
+                    <li class="active">
+                        {{ site_form.jurisdiction.label_tag }}
+                        {{ site_form.jurisdiction }}
+                    </li>
+                    <li class="active">
+                        {{ site_form.source_allowed_domains.label_tag }}
+                        {{ site_form.source_allowed_domains }}
+                    </li>
+                    <li class="active">
+                        {{ site_form.source_start_urls.label_tag }}
+                        {{ site_form.source_start_urls }}
+                    </li>
+                    <li class="active">
+                        {{ site_form.source_allowParse.label_tag }}
+                        {{ site_form.source_allowParse }}
+                    </li>
+                    <li class="active">
+                        {{ site_form.source_denyParse.label_tag }}
+                        {{ site_form.source_denyParse }}
+                    </li>
+                    <li class="active">
+                        {{ site_form.source_allowFollow.label_tag }}
+                        {{ site_form.source_allowFollow }}
+                    </li>
+                    <li class="active">
+                        {{ site_form.source_denyFollow.label_tag }}
+                        {{ site_form.source_denyFollow }}
+                    </li>
+                </ul>
+            </div>
 
-<br>
-<div class="row">
-    <div class="col-xs-4">
-        {{ site_form.source_allowFollow.label_tag }}
-        {{ site_form.source_allowFollow }}
-    </div>
+            <!-- Right Side -->
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                {% if site_id == '0' %} <!-- 0 is for CREATE NEW SITE -->
+                <h3 style="margin-bottom: 20px">New Site</h3>
+                {% else %}
+                <h2>Site {{ site_id }}</h2>
+                {% endif %}
 
-    <div class="col-xs-4">
-        {{ site_form.source_denyFollow.label_tag }}
-        {{ site_form.source_denyFollow }}
-    </div>
-</div>
-<br>
-<div class="row">
-    <center>
-    <div class="col-xs-2">
-        <h4>Parse Tree</h4>
-        <a class="btn btn-primary btn-block" href="#" id="tree" level=0 linkno=0>Start URL Tree</a>
-    </div>
+                <!-- Buttons -->
+                <div class="row">
+                    {% if docs %}
+                    <div class="col-xs-2">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="badge">{{ doc_count }}</span>
+                                Document count
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge">{{ zero_count }}</span>
+                                Zero count
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge">{{ index_count }}</span>
+                                Index count
+                            </li>
+                        </ul>
+                    </div>
+                    {% endif %}
 
-    <div class="col-xs-2">
-        <h4>Save Site</h4>
-        <input type="submit" value="Submit" class="btn btn-primary btn-block"> 
-    </div>
-    <div class="col-xs-2">
-        <h4>Crawler</h4>
-        <a class="btn btn-primary btn-block" href="{% url 'operations.views.crawl' site_id %}">Crawl site</a>
-        <a class="btn btn-default btn-block" href="{% url 'operations.views.clear_crawl_schedule' site_id %}">Clear crawl schedule</a>
+                    <div class="col-xs-2">
+                        <!-- <h5>Tree</h5> -->
+                        <a class="btn btn-primary btn-block" href="#" id="tree" level=0 linkno=0>Show Tree</a>
+                        <!-- FOR ABOVE: btn = button; but-primary = blue; btn-block = size2 -->
+                    </div>
+                    <div class="col-xs-2">
+                        <!-- <h5>Save Site</h5> -->
+                        <input type="submit" value="Save Site" class="btn btn-primary btn-block">
+                    </div>
+                    <div class="col-xs-2">
+                        <!-- <h5>Crawler</h5> -->
+                        {% if site_id != 0 %}
+                        <a class="btn btn-primary btn-block" href="{% url 'operations.views.crawl' site_id %}">Crawl</a>
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.clear_crawl_schedule' site_id %}">Clear Schedule</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-2">
+                        <!-- <h5>Document</h5> -->
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.document_duplicate_filter' site_id %}">Dup Filter</a>
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.document_reset_to_zero' site_id %}">Reset IsUsed to 0</a>
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.document_delete' site_id %}">Delete all in DB</a>
+                    </div>
+                    <div class="col-xs-2">
+                        <!-- <h4>ES Indexing</h4> -->
+                        <a class="btn btn-primary btn-block" href="{% url 'operations.views.es_index_site' site_id %}"> Index site</a>
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.es_remove_site_from_index' site_id %}">Remove from index</a>
+                    </div>
+                </div>
+            </form>
+            <br>
 
-    </div>
+            <!-- Tree Display -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <style>
+                        div.tree { padding-left: 20px; }
+                        a.parsed { color:green;}
+                        a.denied { color:red;}
+                    </style>
+                    <div id="linklevel0_0" class="tree">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <br>
 
-    <div class="col-xs-2">
-        <h4>Document Database</h4>
-        <a class="btn btn-default btn-block" href="{% url 'operations.views.reset_to_zero' site_id %}">Reset To Zero</a>
-        <a class="btn btn-default btn-block" href="{% url 'operations.views.duplicate_filter' site_id %}">Duplicate Filter</a>
-    </div>
-    <div class="col-xs-2">
-        <h4>ES Indexing</h4> 
-        <a class="btn btn-default btn-block" href="{% url 'operations.views.es_delete' site_id %}">ES Index Delete only</a>
-    </div>
-    </center>
-</div>
-</form>
+            <!-- Table Display -->
+            {% if docs %} <!-- if there are docs that are being Crawled -->
+            <table class="table">
+                <tr>
+                    <td>
+                        <b>Is Used</b>
+                    </td>
+                    <td>
+                        <b>URL</b>
+                    </td>
+                </tr>
+                {% for doc in docs %} <!-- LOOP: for list of docs w/ unknown/variable count -->
+                <tr>
+                    <td>
+                        {{ doc.isUsed }}
+                    </td>
+                    <td>
+                        <a href="{{ doc.urlAddress }}">{{ doc.urlAddress }} </a>
+                    </td>
+                </tr>
+                {% endfor %} <!-- LOOP CLOSURE -->
+                {% endif %}
+            </table>
 
-<br>
-<div class="row">
-    <div class="col-xs-12">
-
-        <style>
-            div.tree { padding-left: 20px; }
-            a.parsed { color:green;}
-            a.denied { color:red;}
-        </style>
-    <div id="linklevel0_0" class="tree">
+        </div>
     </div>
-</div>
-</div>
-<br>
-{% if docs %}
-<hr>
-Document Count : {{ doc_count }} || Zero Count : {{ zero_count }}
-<table class="table">
-<tr>
-<td>
-    <b>Is Used</b>
-</td>
-<td>
-    <b>URL</b>
-</td>
-</tr>
-{% for doc in docs %}
-<tr>
-<td>
-{{ doc.isUsed }}
-</td>
-<td>
-<a href="{{ doc.urlAddress }}">{{ doc.urlAddress }} </a>
-</td>
-</tr>
-{% endfor %}
-{% endif %}
 </div>
 </html>

@@ -1,43 +1,69 @@
+#django imports
 from django.shortcuts import render, get_object_or_404
-from models import Document, Site, TestingResult, TestingGroup
+from models import Document, Site
+
+from lib2to3.fixer_util import Newline
+from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.forms.formsets import formset_factory
+from django.forms.models import modelformset_factory
+from django.core.urlresolvers import reverse
+from django import forms
+
+
+#python imports
+import urllib
+import re
 import sys
 sys.path.append('/home/ec2-user/bblio/es/')
 
-import es
-import re
-from lib2to3.fixer_util import Newline
-from django.http import HttpResponseRedirect, HttpResponse, Http404
-from operations.forms import TestingFormPage, TestingFormResult, AdminURLListForm
-from django.forms.formsets import formset_factory
-from django.forms.models import modelformset_factory
-import urllib
-from django.core.urlresolvers import reverse
-import searchbar
+#es controller imports
+from YTHESController import YTHESController as ESController
 
+def get_country_list():
+    return (('UK','UK'),('SG','Singapore'))
+
+class CountryCheckboxes(forms.Form):
+    country = forms.MultipleChoiceField(
+            required=False,
+            widget=forms.CheckboxSelectMultiple, 
+            choices=get_country_list())
+
+def get_selected_country_list(request):
+    if not request.GET:
+        return None
+    selected_list = []
+    for c in get_country_list():
+        if c[0] in request.GET:
+            selected_list.append(c[0])
+    if len(get_country_list()) == len(selected_list):
+        return None
+    return selected_list
 
 def index(request):
     k=50
     context = {}
+
+    boxes = CountryCheckboxes(initial={'country' : [cty[0] for cty in get_country_list()]})
     if 'q' in request.GET:
         q = request.GET['q'].encode('utf-8')
-        print(q)
+        p = 1
         if 'p' in request.GET:
-            if int(request.GET['p']) == 0:
-                p = 1
-            p = int(request.GET['p']) - 1
-        else:
-            p = 0
-        import search1 #current es search module
-        context.update(search1.search(q,k,p*k))
-        context.update({'linklist':pager(k,int(context['result_count']),p,10)})
-        context.update({'last_search':q})
-        context.update({'last_search_url':str(reverse('search.views.index')) 
-            + '?q=' + str(urllib.quote(q))})
-        context.update({'page':p+1})
+            p = min(1, int(request.GET['p']))
+        es = ESController()
+        c = get_selected_country_list(request)
+        context.update(es.search(q,c,k,p))
+        context.update({
+            'linklist' : pager(k,int(context['result_count']),p,10),
+            'last_search' : q,
+            'last_search_url' : str(reverse('search.views.index')) 
+            + '?q=' + str(urllib.quote(q)),
+            'page' : p+1 })
+        if c:
+            context.update({'custom' : True})
+            boxes = CountryCheckboxes(initial={'country':c})
     else:
         q = ''
-    form = searchbar.SearchBarForm(initial=q)
-    context.update({'form':form})
+    context.update({'form':boxes})
  
     return render(request, 'search/index.html',context)
 

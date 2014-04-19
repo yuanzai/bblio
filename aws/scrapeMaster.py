@@ -7,14 +7,15 @@ import fnmatch
 
 home_dir = '/home/ec2-user/bblio/'
 
-ssh_client = sshclient_from_instance(getCrawlerInstance(), ssh_key_file=keys.aws_pem,user_name='ec2-user')
+def get_ssh_client():
+    return sshclient_from_instance(getCrawlerInstance(), host_key_file = '/home/ec2-user/.ssh/known_hossts', ssh_key_file=keys.aws_pem,user_name='ec2-user')
 
 
 def crawl_site_id(site_id):
-    status, stdin, stderr = ssh_client.run('python2.7 ' + home_dir + 'scraper/scrapeController.py ' + str(site_id))
+    status, stdin, stderr = get_ssh_client().run('python2.7 ' + home_dir + 'scraper/scrapeController.py ' + str(site_id))
 
 def clear_schedule(site_id):
-    status, stdin, stderr = ssh_client.run('python2.7 ' + home_dir + 'scraper/scrapeController.py clear ' + str(site_id))
+    status, stdin, stderr = get_ssh_client().run('python2.7 ' + home_dir + 'scraper/scrapeController.py clear ' + str(site_id))
 
 def copy_files():
     copyList = []   
@@ -23,7 +24,7 @@ def copy_files():
     for root, dirnames, filenames in os.walk(home_dir + 'scraper'):
         for filename in fnmatch.filter(filenames, '*.py'):
             copyList.append(os.path.join(root, filename))
-
+    ssh_client = get_ssh_client()
     dirList = []
 
     for c in copyList:

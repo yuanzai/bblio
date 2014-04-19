@@ -25,6 +25,11 @@ class Site(models.Model):
     source_denyFollow = models.TextField(blank=True, null=True, help_text='Please separate search strings(terms) with ";". Do not end with ";". The code searches for an exact match. Please do not use any wild cards. Where possible, use slashes when the term is surrounded by it. ie "/post/" or "/case/". This prevents the code from picking up URLs which include the title in the URL, "this case is example".')
     source_allowParse= models.TextField(blank=True, null=True, help_text='Please separate search strings(terms) with ";". Do not end with ";". The code searches for an exact match. Please do not use any wild cards. Where possible, use slashes when the term is surrounded by it. ie "/post/" or "/case/". This prevents the code from picking up URLs which include the title in the URL, "this case is example".')
     source_denyParse = models.TextField(blank=True, null=True, help_text='Please separate search strings(terms) with ";". Do not end with ";". The code searches for an exact match. Please do not use any wild cards. Where possible, use slashes when the term is surrounded by it. ie "/post/" or "/case/". This prevents the code from picking up URLs which include the title in the URL, "this case is example".')
+
+
+    parse_parameters = models.TextField(blank=True, null=True)
+    follow_parameters = models.TextField(blank=True, null=True)
+    deny_parameters = models.TextField(blank=True, null=True)
     lastupdate = models.DateTimeField(blank=True, null=True)
     parseCount = models.IntegerField(blank=True, null=True)
     responseCount = models.IntegerField(blank=True, null=True)

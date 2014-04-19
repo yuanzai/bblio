@@ -1,0 +1,50 @@
+d17cd80 HEAD@{0}: revert: Revert "cleaned up old scraper files"
+52d9b4a HEAD@{1}: commit: cleaned scraper
+167fd10 HEAD@{2}: reset: moving to HEAD~1
+ba1a5f1 HEAD@{3}: commit: cleaned up old scraper files
+167fd10 HEAD@{4}: commit: new spider
+1136b0e HEAD@{5}: commit: jurisdiction implementation
+c18b8df HEAD@{6}: commit: test units, base controller ES
+7d0746f HEAD@{7}: commit: removed management
+f0182bd HEAD@{8}: pull bblio master: Merge made by the 'recursive' strategy.
+e7c1aeb HEAD@{9}: commit: removed logs
+bc39e4f HEAD@{10}: commit: pre bitbucket
+b44a94c HEAD@{11}: commit: stuff
+77cbbf8 HEAD@{12}: commit: tree
+c4de496 HEAD@{13}: commit: updates
+b7ad23d HEAD@{14}: commit: update
+d1a122f HEAD@{15}: commit: update
+2e15591 HEAD@{16}: commit: updates
+defc09e HEAD@{17}: commit: clean updates
+97c4c8b HEAD@{18}: reset: moving to HEAD^
+e3a90cc HEAD@{19}: reset: moving to HEAD^
+bf0e88b HEAD@{20}: reset: moving to HEAD^
+566beea HEAD@{21}: reset: moving to HEAD^
+383c40b HEAD@{22}: reset: moving to HEAD^
+0f636ef HEAD@{23}: reset: moving to HEAD^
+f1b6663 HEAD@{24}: reset: moving to HEAD^
+5c4fa98 HEAD@{25}: commit: now
+f1b6663 HEAD@{26}: commit (merge): hi
+0f636ef HEAD@{27}: commit: ignored
+383c40b HEAD@{28}: commit: this
+566beea HEAD@{29}: commit: new
+bf0e88b HEAD@{30}: commit: commit with major changes
+e3a90cc HEAD@{31}: commit: hello
+97c4c8b HEAD@{32}: commit: no out
+2ee2de3 HEAD@{33}: commit: commit ss.sql
+bceb353 HEAD@{34}: commit: please work
+1e6f6a8 HEAD@{35}: commit: new stuff man
+cc622cb HEAD@{36}: commit: major changes
+f4189b2 HEAD@{37}: commit: exception handling scrape.py
+7529017 HEAD@{38}: pull bblio master: Fast-forward
+7e2619e HEAD@{39}: commit: lol
+37a2953 HEAD@{40}: commit: httpd.conf added
+ebf6b81 HEAD@{41}: commit: latest
+aa9e4f3 HEAD@{42}: pull bblio master: Fast-forward
+fc69ff6 HEAD@{43}: commit: logged
+0ca5db5 HEAD@{44}: pull bblio master: Fast-forward
+394aa3e HEAD@{45}: pull bblio master: Fast-forward
+20a8c07 HEAD@{46}: commit: back
+e00d02a HEAD@{47}: commit: running
+5f02fd2 HEAD@{48}: pull bblio master: Fast-forward
+8dfb416 HEAD@{49}: clone: from git@github.com:yuanzai/bblio.git

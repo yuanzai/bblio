@@ -10,16 +10,28 @@ urlpatterns = patterns('',
         operations.views.sites),
     url(r'^site/(?P<site_id>\d+)/$',
         operations.views.site),
-    url(r'^site/(?P<site_id>\d+)/es_delete/$',
-        operations.views.es_delete),
-    url(r'^site/(?P<site_id>\d+)/duplicate_filter/$',
-        operations.views.duplicate_filter),
-    url(r'^site/(?P<site_id>\d+)/reset_to_zero/$',
-        operations.views.reset_to_zero),
-    url(r'^site/(?P<site_id>\d+)/crawl/$',
+
+    # 3 - crawling
+     url(r'^site/(?P<site_id>\d+)/crawl/$',
         operations.views.crawl),
+    
     url(r'^site/(?P<site_id>\d+)/clear_crawl_schedule/$',    
         operations.views.clear_crawl_schedule),
+    
+    # 4 - document
+    url(r'^site/(?P<site_id>\d+)/idocument_duplicate_filter/$',
+        operations.views.document_duplicate_filter),
+    url(r'^site/(?P<site_id>\d+)/document_reset_to_zero/$',
+        operations.views.document_reset_to_zero), 
+    url(r'^site/(?P<site_id>\d+)/document_delete/$',
+        operations.views.document_delete),
+   
+    # 5 - indexing
+    url(r'^site/(?P<site_id>\d+)/es_index_site/$',
+        operations.views.es_index_site),
+
+    url(r'^site/(?P<site_id>\d+)/es_remove_site_from_index/$',
+        operations.views.es_remove_site_from_index),
 
     url(r'^tester/$',operations.views.tester),
     url(r'^tester/(?P<query>[\w\ ]+)/(?P<testinggroup>\d+)/(?P<page>\d+)/$',operations.views.tester),

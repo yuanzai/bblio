@@ -9,49 +9,73 @@
 <script type="text/javascript">
 function SubmitFrm(){
 var Searchtxt = document.getElementById("txtSearch").value;
-window.location = "{% url 'search.views.index' %}?q=" + encodeURIComponent(Searchtxt);
+var jurisdiction = '';
+
+if (!document.getElementById("all").checked) {
+    var boxes = document.getElementsByName("country");
+    for (var i = 0; i<boxes.length; i++) {
+        if (boxes[i].checked) {
+            jurisdiction = jurisdiction + '&' + boxes[i].value + '=true';
+         }
+    }
+}
+window.location = "{% url 'search.views.index' %}?q=" + encodeURIComponent(Searchtxt) + jurisdiction;
 }
 </script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-<!--
-<link rel="stylesheet" href="/resources/demos/style.css">
-<style>
-//  .ui-autocomplete-loading {
-//    background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
-//  }
-//  #city { width: 25em; }
-</style>
---!>
   <script>
     $(function() {
-        //function log( message ) {
-        //    $( "<div>" ).text( message ).prependTo( "#log" );
-        //    $( "#log" ).scrollTop( 0 );
-        //}
         var txt = encodeURIComponent($("#txtSearch").val())
         $( "#txtSearch" ).autocomplete({
             source: "{% url 'search.views.autocomplete' %}"  + txt,
-            //source: ['first','fur'],
             minLength: 3,
         });
     });
+
+    
+    $(function() {
+        function checkAll() {
+            $('[name="country"]').each(function() {
+                    $(this).prop('checked',true);
+                });
+        };
+    
+
+        $('#all').change(function() {
+            checkAll();
+            $(this).prop('disabled',true);
+        });
+            
+        $('[name="country"]').change(function() {
+            var allChecked = true;
+            var allBlank = true;
+        $('[name="country"]').each(function() {
+                if (this.checked) {
+                    allBlank = false;
+                } else {
+                    allChecked = false;
+                }
+            });
+            
+            if (allChecked || allBlank) {
+                checkAll();
+                $('#all').prop('checked',true);
+                $('#all').prop('disabled',true);
+            } else {
+                $('#all').prop('checked',false);
+                $('#all').prop('disabled',false);
+            }
+        });
+    });
+
   </script>
 
 
 </head>
-<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-<div class="container">
-            <a class="navbar-brand" href="{% url 'search.views.index' %}">LitigoSearch</a>
-
-<p class="navbar-text navbar-right"><a href="#" class="navbar-link">Sign in</a></p>
-<p class="navbar-text navbar-right"><a href="#" class="navbar-link">Settings</a></p>
-<p class="navbar-text navbar-right"><a href="#" class="navbar-link">Help</a></p>
-<p class="navbar-text navbar-right"><a href="#" class="navbar-link">About</a></p>
-</div>
-</nav>
+{% include 'search/navbar.html' %}
 <div class="container">
 <body>
 <h3>LitigoSearch</h3>
@@ -59,6 +83,14 @@ window.location = "{% url 'search.views.index' %}?q=" + encodeURIComponent(Searc
 <form>
 <input name="txtSearch" type="text" id="txtSearch" size="80" value="{{ last_search }}"  onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()" >
 <input type="submit" name="btnSearch" value="Search" id="btnSearch" onclick="SubmitFrm(); return false;"/>
+<br>
+<input type="checkbox" id="all" name="all" value="all" {% if not custom %} checked disabled {% endif %}><label>All</label>
+{% for boxes in form %}
+{% for box in boxes %}
+{{ box }}
+{% endfor %}
+{% endfor %}
+
 </form>
 {% if suggestion %}
 <b>Did you mean <a href="{% url 'search.views.index' %}?q={{ suggestion_urlencode }}">{{ suggestion }}</a></b><p><br>

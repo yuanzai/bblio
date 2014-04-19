@@ -18,6 +18,8 @@ from django.core.management import call_command
 from django import forms
 
 #es import
+sys.path.append('/home/ec2-user/bblio/es/')
+from YTHESController import YTHESController as ESController
 import es
 import index1 as indexer
 
@@ -128,10 +130,13 @@ def site(request, site_id):
         d = (Document.objects.filter(site_id=site_id)
                 .values('id','urlAddress','isUsed')
                 .order_by('isUsed','urlAddress'))
-        context.update({'doc_count':d.count()})
-        context.update({'zero_count':Document.objects.filter(site_id=site_id).filter(isUsed=0).count()})
-                
-        context.update({'docs':d})
+        es = ESController()
+
+        context.update({
+            'doc_count' : d.count(),
+            'zero_count' : Document.objects.filter(site_id=site_id).filter(isUsed=0).count(),
+            'index_count' : es.get_document_count_for_site_id(site_id),
+            'docs':d})
 
     site_form = SiteForm(instance=site)
     context.update({
@@ -146,23 +151,22 @@ def sites(request):
     context = {'sites':sites}
     return render(request, 'operations/sites.html',context)
 
-def es_delete(request,site_id):
-    docs = (Document.objects.filter(site_id=site_id).filter(isUsed__gt=0)
-                    .values_list('id',flat=True))
-    for d in docs:
-        try:
-            es.delete(d)
-            print('es delete ' + str(d))
-        except:
-            pass
+def es_index_site(request, site_id):
+    es = ESController()
+    es.index_site_id(site_id)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def reset_to_zero(request,site_id):
+def es_remove_site_from_index(request, site_id):
+    es = ESController()
+    es.delete_site_id_from_es(site_id)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def document_reset_to_zero(request,site_id):
     Document.objects.filter(site_id=site_id).update(isUsed=0)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def duplicate_filter(request,site_id):
+def document_duplicate_filter(request,site_id):
     docs = Document.objects.filter(site_id=site_id).filter(isUsed=0)
     urlList = docs.values_list('urlAddress',flat=True).distinct()
     for url in urlList:
@@ -201,13 +205,8 @@ def duplicate_filter(request,site_id):
                 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-
-def delete(request,site_id):
-    if not request.user.is_staff:
-        raise Http404
-    else:
-        Document.objects.filter(site_id=int(site_id)).delete()
-
+def document_delete(request, site_id):
+    Document.objects.filter(site_id=site_id).delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def tester(request,query='',testinggroup=1,page=1):
