@@ -24,6 +24,10 @@
             var denyP = document.getElementById("id_source_denyParse").value;
             var denyF = document.getElementById("id_source_denyFollow").value;
 
+            var parse_parameters = document.getElementById("id_parse_parameters").value;
+            var follow_parameters = document.getElementById("id_follow_parameters").value;
+            var deny_parameters = document.getElementById("id_deny_parameters").value;
+            
             var level = mySpan.attr("level");
             var linkno = mySpan.attr("linkno");
             var div = "#linklevel" + String(level) + "_" + String(linkno);
@@ -46,10 +50,9 @@
                 level: level,
                 linkno: linkno,
                 url : url,
-                allowF : allowF,
-                allowP : allowP,
-                denyF : denyF,
-                denyP: denyP
+                parse_parameters : parse_parameters,
+                follow_parameters : follow_parameters,
+                deny_parameters : deny_parameters
             },
             function(data) {
                 $( div ).empty().append( data );
@@ -130,20 +133,16 @@
                         {{ site_form.source_start_urls }}
                     </li>
                     <li class="active">
-                        {{ site_form.source_allowParse.label_tag }}
-                        {{ site_form.source_allowParse }}
+                        {{ site_form.parse_parameters.label_tag }}
+                        {{ site_form.parse_parameters }}
                     </li>
                     <li class="active">
-                        {{ site_form.source_denyParse.label_tag }}
-                        {{ site_form.source_denyParse }}
+                        {{ site_form.follow_parameters.label_tag }}
+                        {{ site_form.follow_parameters }}
                     </li>
                     <li class="active">
-                        {{ site_form.source_allowFollow.label_tag }}
-                        {{ site_form.source_allowFollow }}
-                    </li>
-                    <li class="active">
-                        {{ site_form.source_denyFollow.label_tag }}
-                        {{ site_form.source_denyFollow }}
+                        {{ site_form.deny_parameters.label_tag }}
+                        {{ site_form.deny_parameters }}
                     </li>
                 </ul>
             </div>

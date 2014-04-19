@@ -40,22 +40,18 @@ def tree(request):
     context = {}
     if request.method == 'POST':
         url = request.POST['url']
-        print url
         level = int(request.POST['level'])
         linkno = request.POST['linkno']
-        allowF = None
-        allowP = None
-        denyF = None
-        denyP = None
-        
-        if request.POST['allowF'] != '':
-            allowF = request.POST['allowF'].split(";")
-        if request.POST['allowP'] != '':
-            allowP = request.POST['allowP'].split(";")
-        if request.POST['denyF'] != '':
-            denyF = request.POST['denyF'].split(";")
-        if request.POST['denyP'] != '':
-            denyP = request.POST['denyP'].split(";")
+        parse_parameters = None
+        follow_parameters = None
+        deny_parameters = None
+         
+        if request.POST['parse_parameters'] != '':
+            parse_parameters = request.POST['parse_parameters'].split(";")
+        if request.POST['follow_parameters'] != '':
+            follow_parameters = request.POST['follow_parameters'].split(";")
+        if request.POST['deny_parameters'] != '':
+            deny_parameters = request.POST['deny_parameters'].split(";")
         context = {'level' : level + 1} 
         linklist = []
         if level == 0:
@@ -63,7 +59,7 @@ def tree(request):
             for i,eachurl in enumerate(urllist):
                 linklist.append({'url':eachurl,'allow':'followed','linkno':i})
         else:
-            linklist  = linkextract.link_extractor(url,allowP,denyP,allowF,denyF)
+            linklist  = linkextract.link_extractor(url,parse_parameters,follow_parameters,deny_parameters)
         context.update({'list':linklist})
     return render(request, 'operations/tree.html',context)
 
@@ -115,7 +111,7 @@ def site(request, site_id):
         site_form  = SiteForm(request.POST,instance=site)
         if site_form.is_valid():
             site_form.save()
-        form_deny = request.POST['source_denyParse']
+        form_deny = request.POST['deny_parameters']
         docs = Document.objects.filter(site=site)
         site.source_denyParse=form_deny
         if form_deny[-1:] == ';':

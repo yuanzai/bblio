@@ -51,7 +51,6 @@ class SiteForm(forms.ModelForm):
                     attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
                 'deny_parameters': Textarea(
                     attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
-                '
                 }
 
 
