@@ -1,10 +1,8 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
 import search.views
 import operations.urls
 import testscrape.urls
 
-admin.autodiscover()
 
 urlpatterns = patterns('',
 

@@ -4,7 +4,6 @@ import operations.views
 urlpatterns = patterns('',
     url(r'^$', operations.views.index),
     url(r'^phrases/$', operations.views.phrases),
-
     
     url(r'^site/$',
         operations.views.sites),

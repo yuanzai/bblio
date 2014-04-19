@@ -21,7 +21,11 @@ class SiteForm(forms.ModelForm):
                 'source_allowParse',
                 'source_denyParse',
                 'source_allowFollow',
-                'source_denyFollow']
+                'source_denyFollow',
+                'parse_parameters',
+                'follow_parameters',
+                'deny_parameters',
+                ]
         widgets = {
                 'name': TextInput(attrs={'class': 'form-control'}),
                 'grouping': TextInput(attrs={'class': 'form-control'}),
@@ -41,7 +45,15 @@ class SiteForm(forms.ModelForm):
                     attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
                 'source_denyFollow': Textarea(
                     attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
+                'parse_parameters': Textarea(
+                    attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
+                'follow_parameters': Textarea(
+                    attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
+                'deny_parameters': Textarea(
+                    attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
+                '
                 }
+
 
 class AdminURLListForm(forms.Form):
     source_denyParse = forms.CharField(required=False,widget=forms.TextInput(attrs={'size': '120'}))
