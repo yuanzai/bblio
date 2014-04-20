@@ -7,7 +7,7 @@ class response:
         self.url = url
         self.encoding = encoding
 
-def link_extractor(url, allowP=[], denyP=[], allowF=[], denyF=[]):
+def link_extractor(url, parse_parameters=[], follow_parameters=[], deny_parameters=[]):
     res = urllib2.urlopen(url)
     html = res.read()
     encoding=res.headers['content-type'].split('charset=')[-1]    
@@ -16,27 +16,19 @@ def link_extractor(url, allowP=[], denyP=[], allowF=[], denyF=[]):
     links = SgmlLinkExtractor(unique=True).extract_links(r)
     tree_list = []
     for i,link in enumerate(links):
-        status = 'denied'
-        if allowP:
-            for a in allowP:
-                if a in link.url:
+        status = 'parsed'
+        if parse_parameters:
+            status = 'followed'
+            for p in parse_parameters:
+                if p in link.url:
                     status = 'parsed'
-        else:
-            status = 'parsed'
-        if denyP:
-            for a in denyP:
-                if a in link.url:
+        if follow_parameters:
+            for f in follow_parameters:
+                if f in link.url:
+                    status = 'followed'
+        if deny_parameters:
+            for d in deny_parameters:
+                if d in link.url:
                     status = 'denied'
-        if status == 'denied':
-            if allowF:
-                for a in allowF:
-                    if a in link.url:
-                        status = 'followed'
-            else:
-                status = 'followed'
-            if denyF:
-                for a in denyF:
-                    if a in link.url:
-                        status = 'denied'
         tree_list.append({'url':link.url,'allow':status,'linkno':i})
     return tree_list

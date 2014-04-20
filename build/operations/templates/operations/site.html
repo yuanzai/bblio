@@ -19,11 +19,6 @@
                 url = "http://www.google.com"
             }
 
-            var allowP = document.getElementById("id_source_allowParse").value;
-            var allowF = document.getElementById("id_source_allowFollow").value;
-            var denyP = document.getElementById("id_source_denyParse").value;
-            var denyF = document.getElementById("id_source_denyFollow").value;
-
             var parse_parameters = document.getElementById("id_parse_parameters").value;
             var follow_parameters = document.getElementById("id_follow_parameters").value;
             var deny_parameters = document.getElementById("id_deny_parameters").value;
@@ -32,8 +27,10 @@
             var linkno = mySpan.attr("linkno");
             var div = "#linklevel" + String(level) + "_" + String(linkno);
 
-            if(!$(div).is(':empty') )
+            if(!$(div).is(':empty') ){
                 $( div ).empty();
+                return;
+            }
 
             if (level == "0"){
                 urllink = url.split(";")

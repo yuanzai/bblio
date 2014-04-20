@@ -65,7 +65,7 @@ class SpiderAll(CrawlSpider):
             items.append(item)
             return items
         except AttributeError:
-        log.msg('* Cannot parse: ' + response.url,level=log.INFO)
+            log.msg('* Cannot parse: ' + response.url,level=log.INFO)
             log.msg(sys.exc_info()[0], level=log.INFO)
             return
 
