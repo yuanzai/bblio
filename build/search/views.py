@@ -15,6 +15,7 @@ import urllib
 import re
 import sys
 sys.path.append('/home/ec2-user/bblio/es/')
+sys.path.append('~/bblio/es/')
 
 #es controller imports
 from YTHESController import YTHESController as ESController

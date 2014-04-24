@@ -7,9 +7,9 @@
 
 BOT_NAME = 'scrapeAll'
 
-SPIDER_MODULES = ['bblioCrawler.spiders']
-NEWSPIDER_MODULE = 'bblioCrawler.spiders'
-ITEM_PIPELINES = {'bblioCrawler.pipelines.AllPipeline':1000}
+SPIDER_MODULES = ['spiders']
+NEWSPIDER_MODULE = 'spiders'
+ITEM_PIPELINES = {'pipelines.AllPipeline':1000}
 DOWNLOAD_DELAY = .75
 DEPTH_LIMIT = 0
 MEMUSAGE_ENABLED = True

@@ -1,7 +1,7 @@
 #scrapy imports
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.selector import Selector
-from bblioCrawler.items import URLItem
+from items import URLItem
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy import log, signals
 from scrapy.xlib.pydispatch import dispatcher
@@ -12,44 +12,47 @@ from datetime import datetime
 import sys
 
 #django imports
-sys.path.append('/home/ec2-user/bblio/build/')
-from search.models import Site
+sys.path.append('/home/ec2-user/bblio/')
+from build.search.models import Site
 
 
 class SpiderAll(CrawlSpider):
     name = None
-    allowed_domains = None
     rules = None
     groupName = None
     count = 0
+    _restrict_xpath= ('//*[not(self::meta)]')
     id = None
     def __init__(self, *a, **kw):
         self.allowed_domains = kw['source_allowed_domains'].split(';')
         self.start_urls = kw['source_start_urls'].split(';')
         
-        follow = kw['follow_parameters'].split(";")   
-        deny = None
-        if kw['deny_parameters']: 
-            denyFollow = kw['deny_parameters'].split(";")    
+        self.follow = kw['follow_parameters'].split(";")   
         
-        parse = kw['parse_parameter'].split(";")
+        if kw['deny_parameters']: self.deny = kw['deny_parameters'].split(";")    
+        
+        self.parse = kw['parse_parameter'].split(";")
         
         self.rules = (
-                Rule(SgmlLinkExtractor(
-                    allow=parse,
-                    deny=deny, 
-                    unique=True,
-                    restrict_xpaths=('//*[not(self::meta)]')), 
-                    callback='parse_item', follow='true'),
-
-                Rule(SgmlLinkExtractor(
-                    allow=follow,
-                    deny=deny,
-                    unique=True), follow='true'),
- 
+                Rule(self.parse_link_extractor, callback='parse_item', follow='true'),
+                Rule(self.follow_link_extractor, follow='true'),
         )    
         super(SpiderAll, self).__init__(*a, **kw) 
-        
+    
+    def parse_link_extractor(self):
+        return SgmlLinkExtractor(
+                allow=self.parse,
+                deny=self.deny,
+                unique=True,
+                restrict_xpaths=self._restrict_xpath)
+
+    def follow_link_extractor(self):
+        return SgmlLinkExtractor(
+                allow=self.follow,
+                deny=self.deny,
+                unique=True,
+                restrict_xpaths=self._restrict_xpath)
+
     def parse_item(self, response):
         try:            
             sel = Selector(response)
