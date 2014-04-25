@@ -27,6 +27,15 @@
 <td>
     <b>Grouping</b>
 </td>
+<td>
+    <b>Document Count</b>
+</td>
+<td>
+    <b>Last crawled</b>
+</td>
+<td>
+    <b>Status</b>
+</td>
 </tr>
 {% for site in sites %}
 <tr>
@@ -38,6 +47,17 @@
 </td>
 <td>
 {{ site.grouping }}
+</td>
+<td>
+    {{ site.doc_count }}
+</td>
+<td>
+    {{ site.lastupdate|date:"d M Y"  }}
+</td>
+<td>
+    {% if site.running == 1 %}
+    Running
+    {% endif %}
 </td>
 </tr>
 {% endfor %}

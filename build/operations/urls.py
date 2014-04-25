@@ -3,8 +3,16 @@ import operations.views
 
 urlpatterns = patterns('',
     url(r'^$', operations.views.index),
+    
+    # admin
+
+    url(r'^admin/$', operations.views.admin),
+
+    # phrases
     url(r'^phrases/$', operations.views.phrases),
     
+
+    # site
     url(r'^site/$',
         operations.views.sites),
     url(r'^site/(?P<site_id>\d+)/$',
@@ -31,7 +39,8 @@ urlpatterns = patterns('',
 
     url(r'^site/(?P<site_id>\d+)/es_remove_site_from_index/$',
         operations.views.es_remove_site_from_index),
-
+    
+    # tester
     url(r'^tester/$',operations.views.tester),
     url(r'^tester/(?P<query>[\w\ ]+)/(?P<testinggroup>\d+)/(?P<page>\d+)/$',operations.views.tester),
     url(r'^tester/(?P<query>\[\w ]+)/(?P<testinggroup>\d+)/$',operations.views.tester),

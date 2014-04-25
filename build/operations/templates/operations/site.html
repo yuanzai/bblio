@@ -5,6 +5,21 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
     <script>
 
+       $( function () {
+            $('#submit').click(function(){
+                validateForm();   
+            });
+        });
+
+        function validateForm() {
+            if ($('#id_source_allowed_domains').val().length == 0 || 
+                    $('#id_source_start_urls').val().length ==0 ||
+                    $('#name').val().length == 0) {
+                alert('Please fill in name / allowed domains/ start urls');
+                return;
+            }
+        }
+
         function posted (event) {
             event.preventDefault();
 
@@ -27,7 +42,7 @@
             var linkno = mySpan.attr("linkno");
             var div = "#linklevel" + String(level) + "_" + String(linkno);
 
-            if(!$(div).is(':empty') ){
+            if(!$(div).is(':empty') && level > 0){
                 $( div ).empty();
                 return;
             }
@@ -149,7 +164,7 @@
                 {% if site_id == '0' %} <!-- 0 is for CREATE NEW SITE -->
                 <h3 style="margin-bottom: 20px">New Site</h3>
                 {% else %}
-                <h2>Site {{ site_id }}</h2>
+                <h2>Site {{ site_id }}{% if running == 1 %} [crawling] {% endif %}</h2>
                 {% endif %}
 
                 <!-- Buttons -->
@@ -180,7 +195,7 @@
                     </div>
                     <div class="col-xs-2">
                         <!-- <h5>Save Site</h5> -->
-                        <input type="submit" value="Save Site" class="btn btn-primary btn-block">
+                        <input id="submit" type="submit" value="Save Site" class="btn btn-primary btn-block">
                     </div>
                     <div class="col-xs-2">
                         <!-- <h5>Crawler</h5> -->

@@ -1,48 +1,49 @@
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+#python imports
+import sys
+import os
+sys.path.append('/home/ec2-user/bblio/')
+os.environ['DJANGO_SETTINGS_MODULE'] = 'build.Build.settings'
 import urllib2
+
+from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+from scrapy.http.response.html import HtmlResponse
 from spiders.spiderAll import SpiderAll
 
 
-class response:
-    def __init__(self, body, url, encoding):
-        self.body = body
-        self.url = url
-        self.encoding = encoding
-
-def linker(url, parse_parameters=[], follow_parameters=[], deny_parameters=[]):
-
+def link_extractor(url, parse_parameters='', follow_parameters='', deny_parameters='', source_allowed_domains = ''):
+    print 'tree ' + url
     res = urllib2.urlopen(url)
+    print(res)
     html = res.read()
+    print html
     encoding=res.headers['content-type'].split('charset=')[-1]    
-    spider = SpiderAll(parse_parameters=parse_parameters, follow_parameters=follow_parameters,deny_parameters=deny_parameters)
+    r = HtmlResponse(url=url,body=html,encoding=encoding)
+    print r.body 
+    spider = SpiderAll(
+            parse_parameters=parse_parameters, 
+            follow_parameters=follow_parameters,
+            deny_parameters=deny_parameters,
+            source_allowed_domains=source_allowed_domains,
+            source_start_urls='',
+            name='tree')
+    a_links = SgmlLinkExtractor(unique=True).extract_links(r)
+    a_list = [link.url for link in a_links]
+
+    print a_list
     f_links = spider.follow_link_extractor().extract_links(r)
+    f_list = [link.url for link in f_links]
     p_links = spider.parse_link_extractor().extract_links(r)
-    
-
-def link_extractor(url, parse_parameters=[], follow_parameters=[], deny_parameters=[]):
-    
-    res = urllib2.urlopen(url)
-    html = res.read()
-    encoding=res.headers['content-type'].split('charset=')[-1]    
-    
-    r = response(html,url, encoding)
-    links = SgmlLinkExtractor(unique=True).extract_links(r)
-    print links
+    p_list = [link.url for link in p_links]
     tree_list = []
-    for i,link in enumerate(links):
-        status = 'parsed'
-        if parse_parameters:
-            status = 'followed'
-            for p in parse_parameters:
-                if p in link.url:
-                    status = 'parsed'
-        if follow_parameters:
-            for f in follow_parameters:
-                if f in link.url:
-                    status = 'followed'
-        if deny_parameters:
-            for d in deny_parameters:
-                if d in link.url:
-                    status = 'denied'
-        tree_list.append({'url':link.url,'allow':status,'linkno':i})
-    return tree_list
+    for i,link in enumerate(a_list):
+        if link in p_list:
+            status='parsed'
+        elif link in f_list:
+            status='followed'
+        else:
+            status='denied'
+
+        tree_list.append({'url':link,'allow':status,'linkno':i})
+    print tree_list
+    return tree_list    
+

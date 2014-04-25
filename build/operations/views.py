@@ -16,6 +16,8 @@ from django.forms.models import modelformset_factory, modelform_factory
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
 from django import forms
+from django.forms.models import model_to_dict
+
 
 #es import
 sys.path.append('/home/ec2-user/bblio/es/')
@@ -47,11 +49,11 @@ def tree(request):
         deny_parameters = None
          
         if request.POST['parse_parameters'] != '':
-            parse_parameters = request.POST['parse_parameters'].split(";")
+            parse_parameters = request.POST['parse_parameters']
         if request.POST['follow_parameters'] != '':
-            follow_parameters = request.POST['follow_parameters'].split(";")
+            follow_parameters = request.POST['follow_parameters']
         if request.POST['deny_parameters'] != '':
-            deny_parameters = request.POST['deny_parameters'].split(";")
+            deny_parameters = request.POST['deny_parameters']
         context = {'level' : level + 1} 
         linklist = []
         if level == 0:
@@ -64,7 +66,11 @@ def tree(request):
     return render(request, 'operations/tree.html',context)
 
 def crawl(request, site_id):
+    if Site.objects.get(pk=site_id).running == 1:
+        return HttpResponse("Site is already being crawled")
     scrapeMaster.crawl_site_id(site_id)    
+    import time
+    time.sleep(2)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def clear_crawl_schedule(request, site_id):
@@ -110,16 +116,23 @@ def site(request, site_id):
     if request.method == 'POST':
         site_form  = SiteForm(request.POST,instance=site)
         if site_form.is_valid():
-            site_form.save()
-        form_deny = request.POST['deny_parameters']
-        docs = Document.objects.filter(site=site)
-        site.source_denyParse=form_deny
-        if form_deny[-1:] == ';':
-            form_deny = form_deny[:-1]
-        denys = form_deny.split(';')
-        for deny in denys:
-            d = docs.filter(urlAddress__contains=deny)
-            d.update(isUsed=1)
+            new_site = site_form.save()
+            print('new site ' + str(new_site.id))
+            if site_id == '0':
+                return HttpResponseRedirect(reverse('operations.views.site', 
+                    kwargs={ 'site_id' : new_site.id}))
+            elif 'deny_parameters' in request.POST: 
+                form_deny = request.POST['deny_parameters']
+                docs = Document.objects.filter(site=site)
+                site.deny_parameters=form_deny
+                if form_deny[-1:] == ';':
+                    form_deny = form_deny[:-1]
+                denys = form_deny.split(';')
+                for deny in denys:
+                    d = docs.filter(urlAddress__contains=deny)
+                    d.update(isUsed=1)
+        else:
+            return HttpResponse('Error fields: ' + site_form.errors)
     context = {}
     if site_id !='0':
         site = Site.objects.get(pk=site_id)
@@ -132,19 +145,26 @@ def site(request, site_id):
             'doc_count' : d.count(),
             'zero_count' : Document.objects.filter(site_id=site_id).filter(isUsed=0).count(),
             'index_count' : es.get_document_count_for_site_id(site_id),
-            'docs':d})
+            'docs':d,
+            'running' : site.running})
 
     site_form = SiteForm(instance=site)
     context.update({
             'site_id':site_id,
             'site_form':site_form,})
     
-
     return render(request, 'operations/site.html',context)    
 
 def sites(request):
     sites = Site.objects.all()
-    context = {'sites':sites}
+    site_list = []
+    for site in sites:
+        s = model_to_dict(site)
+        s.update({'doc_count':Document.objects.filter(site=site).count()})
+        site_list.append(s)
+
+    context = {'sites':site_list}
+    
     return render(request, 'operations/sites.html',context)
 
 def es_index_site(request, site_id):

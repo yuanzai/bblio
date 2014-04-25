@@ -15,9 +15,9 @@ from scrapy.resolver import CachingThreadedResolver
 import importlib
 import shutil
 from Queue import * 
-from bblioCrawler.spiders.spiderAll import SpiderAll
+from spiders.spiderAll import SpiderAll
 
-settings_module = importlib.import_module('bblioCrawler.settings')
+settings_module = importlib.import_module('scrapy_settings')
 settings = CrawlerSettings(settings_module)
 
 def clear_schedule(id):

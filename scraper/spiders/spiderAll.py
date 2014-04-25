@@ -26,22 +26,34 @@ class SpiderAll(CrawlSpider):
     def __init__(self, *a, **kw):
         self.allowed_domains = kw['source_allowed_domains'].split(';')
         self.start_urls = kw['source_start_urls'].split(';')
+        self.follow = None
+        self.parsing = None
+        if kw['parse_parameters']:  self.parsing = kw['parse_parameters'].split(";")
+        if kw['follow_parameters']:  self.follow = kw['follow_parameters'].split(";")   
         
-        self.follow = kw['follow_parameters'].split(";")   
-        
+        self.deny = None 
         if kw['deny_parameters']: self.deny = kw['deny_parameters'].split(";")    
         
-        self.parse = kw['parse_parameter'].split(";")
-        
         self.rules = (
-                Rule(self.parse_link_extractor, callback='parse_item', follow='true'),
-                Rule(self.follow_link_extractor, follow='true'),
-        )    
+                Rule(SgmlLinkExtractor(
+                    allow=self.parsing,
+                    deny=self.deny,
+                    unique=True,
+                    restrict_xpaths=self._restrict_xpath), 
+                    callback='parse_item', follow='true'),
+                Rule(SgmlLinkExtractor(
+                    allow=self.follow,
+                    deny=self.deny,
+                    unique=True,
+                    restrict_xpaths=self._restrict_xpath) , 
+                    follow='true'),
+                )    
         super(SpiderAll, self).__init__(*a, **kw) 
-    
+ 
+
     def parse_link_extractor(self):
         return SgmlLinkExtractor(
-                allow=self.parse,
+                allow=self.parsing,
                 deny=self.deny,
                 unique=True,
                 restrict_xpaths=self._restrict_xpath)
