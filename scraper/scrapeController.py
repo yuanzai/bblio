@@ -1,10 +1,16 @@
 #!/usr/bin/env python
-import sys
-sys.path.append('/home/ec2-user/bblio/build/')
+
+#python imports
 import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Build.settings'
+import importlib
+import shutil
+
+#django imports
 from django.forms.models import model_to_dict
 from search.models import Site
+
+#scrapy imports
 from twisted.internet import reactor
 from scrapy.crawler import Crawler, CrawlerProcess
 from scrapy.log import ScrapyFileLogObserver
@@ -12,12 +18,9 @@ from scrapy import log, signals
 from scrapy.settings import CrawlerSettings
 from scrapy.xlib.pydispatch import dispatcher
 from scrapy.resolver import CachingThreadedResolver
-import importlib
-import shutil
-from Queue import * 
 from spiders.spiderAll import SpiderAll
 
-settings_module = importlib.import_module('scrapy_settings')
+settings_module = importlib.import_module('scraper.scrapy_settings')
 settings = CrawlerSettings(settings_module)
 
 def clear_schedule(id):

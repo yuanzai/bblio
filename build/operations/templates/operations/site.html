@@ -57,7 +57,7 @@
                 }
             }
 
-            $.post("{% url 'operations.views.tree' %}",
+            $.post("{% url 'tree' %}",
                 {csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
                 level: level,
                 linkno: linkno,
@@ -117,7 +117,7 @@
 
         <!-- Left Sidebar -->
         <div class="col-sm-3 col-md-2 sidebar">
-            <form action="{% url 'operations.views.site' site_id %}" method="post" role="form">
+            <form action="{% url 'site' site_id %}" method="post" role="form">
                 {% csrf_token %} <!-- HTTP: post method's authentication -->
                 <ul class="nav nav-sidebar">
                     <li class="active">
@@ -200,20 +200,20 @@
                     <div class="col-xs-2">
                         <!-- <h5>Crawler</h5> -->
                         {% if site_id != 0 %}
-                        <a class="btn btn-primary btn-block" href="{% url 'operations.views.crawl' site_id %}">Crawl</a>
-                        <a class="btn btn-default btn-block" href="{% url 'operations.views.clear_crawl_schedule' site_id %}">Clear Schedule</a>
+                        <a class="btn btn-primary btn-block" href="{% url 'operations.views.site.crawl' site_id %}">Crawl</a>
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.site.clear_crawl_schedule' site_id %}">Clear Schedule</a>
                         {% endif %}
                     </div>
                     <div class="col-xs-2">
                         <!-- <h5>Document</h5> -->
-                        <a class="btn btn-default btn-block" href="{% url 'operations.views.document_duplicate_filter' site_id %}">Dup Filter</a>
-                        <a class="btn btn-default btn-block" href="{% url 'operations.views.document_reset_to_zero' site_id %}">Reset IsUsed to 0</a>
-                        <a class="btn btn-default btn-block" href="{% url 'operations.views.document_delete' site_id %}">Delete all in DB</a>
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.site.document_duplicate_filter' site_id %}">Dup Filter</a>
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.site.document_reset_to_zero' site_id %}">Reset IsUsed to 0</a>
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.site.document_delete' site_id %}">Delete all in DB</a>
                     </div>
                     <div class="col-xs-2">
                         <!-- <h4>ES Indexing</h4> -->
-                        <a class="btn btn-primary btn-block" href="{% url 'operations.views.es_index_site' site_id %}"> Index site</a>
-                        <a class="btn btn-default btn-block" href="{% url 'operations.views.es_remove_site_from_index' site_id %}">Remove from index</a>
+                        <a class="btn btn-primary btn-block" href="{% url 'operations.views.site.es_index_site' site_id %}"> Index site</a>
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.site.es_remove_site_from_index' site_id %}">Remove from index</a>
                     </div>
                 </div>
             </form>

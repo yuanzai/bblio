@@ -6,7 +6,7 @@
 {% include "operations/operations_navbar.html" %}
 <div class="container">
     <h1>Sites</h1>
-<form action="{% url 'operations.views.sites'%}0/" method="GET" role="form">
+<form action="{% url 'sites'%}0/" method="GET" role="form">
 <div class="row">
     <div class="col-xs-2">
         <input type="submit" value="Create Site" class="form-control"> 
@@ -43,7 +43,7 @@
 {{ site.id }}
 </td>
 <td>
-<a href="{% url 'operations.views.site' site.id %}">{{ site.name }} </a>
+<a href="{% url 'site' site.id %}">{{ site.name }} </a>
 </td>
 <td>
 {{ site.grouping }}

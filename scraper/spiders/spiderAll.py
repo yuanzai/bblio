@@ -1,19 +1,20 @@
-#scrapy imports
-from scrapy.contrib.spiders import CrawlSpider, Rule
-from scrapy.selector import Selector
-from items import URLItem
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy import log, signals
-from scrapy.xlib.pydispatch import dispatcher
-
 #python imports
 import string
 from datetime import datetime
 import sys
+sys.path.append('/home/ec2-user/bblio/')
 
 #django imports
-sys.path.append('/home/ec2-user/bblio/')
 from build.search.models import Site
+
+#scrapy imports
+from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.selector import Selector
+from scraper.items import URLItem
+from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+from scrapy import log, signals
+from scrapy.xlib.pydispatch import dispatcher
+
 
 
 class SpiderAll(CrawlSpider):
