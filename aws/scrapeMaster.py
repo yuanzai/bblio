@@ -29,6 +29,12 @@ def copy_files():
     copyList = []   
     copyList.append(home_dir + 'build/search/models.py')
     copyList.append(home_dir + 'build/manage.py')
+    copyList.append(home_dir + 'aws/ec2.py')
+    copyList.append(home_dir + 'aws/keys.py')
+    copyList.append(home_dir + 'aws/key.pem')
+    copyList.append(home_dir + 'bblio.cfg')
+    copyList.append(home_dir + 'config_file.py')
+
     for root, dirnames, filenames in os.walk(home_dir + 'scraper'):
         for filename in fnmatch.filter(filenames, '*.py'):
             copyList.append(os.path.join(root, filename))

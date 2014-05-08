@@ -3,32 +3,49 @@ import re
 import urllib
 import cgi
 import sys
-
-#django app imports
-from build.search.models import Document, Site, TestingResult, TestingGroup, Phrase
-from build.operations.forms import TestingFormPage, TestingFormResult, AdminURLListForm, SiteForm
+import config_file
 
 #django imports
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
-from django.forms.formsets import formset_factory
-from django.forms.models import modelformset_factory, modelform_factory
-from django.core.urlresolvers import reverse
+#from django.core.urlresolvers import reverse
 from django import forms
-from django.forms.models import model_to_dict
 
-#es import
-from es.YTHESController import YTHESController as ESController
-
-#crawler import
-import scraper.scrapeController
-import scraper.linkextract
-
-#distributed import
-import aws.scrapeMaster
-
+class ConfigForm(forms.Form):
+    universal_deny = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':3,'class': 'form-control'}))
+    es_controller = forms.CharField(max_length = 100,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    crawler_instance_site_limit = forms.IntegerField(widget = forms.NumberInput(attrs={'class':'form-control'}))
+    country_list = forms.CharField(widget=forms.Textarea(attrs={'rows':2, 'class':'form-control'}))
 
 def index(request):
-    return HttpResponse('Place Holder Page')
+    config = config_file.get_config()
+    
+    if request.POST:
+        if len(request.POST) > 0:
+            for r in request.POST:
+                config.set('bblio',r,str(request.POST[r]))
+            config_file.set_config(config) 
+    
+    try:
+        config.items('bblio')
+    except:
+        config.add_section('bblio')
+    
+    form = ConfigForm()
+    for f in form.fields:
+        try:
+            form.fields[f].initial = config.get('bblio',str(f))
+        except:
+            config.set('bblio',f,'')
+    config_file.set_config(config)    
 
-      
+    context = {'form' : form }
+    
+    return render(request, 'operations/admin.html', context)
+
+def push_scrape(request):
+    from aws.scrapeMaster import copy_files
+    copy_files()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    

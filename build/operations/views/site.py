@@ -38,9 +38,8 @@ def site(request, site_id):
         site_form  = SiteForm(request.POST,instance=site)
         if site_form.is_valid():
             new_site = site_form.save()
-            print('new site ' + str(new_site.id))
             if site_id == '0':
-                return HttpResponseRedirect(reverse('operations.views.site', 
+                return HttpResponseRedirect(reverse('site', 
                     kwargs={ 'site_id' : new_site.id}))
             elif 'deny_parameters' in request.POST: 
                 form_deny = request.POST['deny_parameters']
@@ -53,7 +52,7 @@ def site(request, site_id):
                     d = docs.filter(urlAddress__contains=deny)
                     d.update(isUsed=1)
         else:
-            return HttpResponse('Error fields: ' + site_form.errors)
+            return HttpResponse('Error fields: ' + str(site_form.errors))
     context = {}
     if site_id !='0':
         site = Site.objects.get(pk=site_id)
@@ -87,18 +86,22 @@ def sites(request):
     context = {'sites':site_list}
     
     return render(request, 'operations/sites.html',context)
+# input code
+def delete(request, site_id):
+    Site.objects.get(pk=site_id).delete()
+    return HttpResponseRedirect(reverse('sites'))
 
 # crawler code
 def crawl(request, site_id):
     if Site.objects.get(pk=site_id).running == 1:
         return HttpResponse("Site is already being crawled")
-    scrapeMaster.crawl_site_id(site_id)    
+    aws.scrapeMaster.crawl_site_id(site_id)    
     import time
     time.sleep(2)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def clear_crawl_schedule(request, site_id):
-    scrapeMaster.clear_schedule(site_id)
+    aws.scrapeMaster.clear_schedule(site_id)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 #database document code
@@ -107,7 +110,7 @@ def document(request,doc_id):
     es = ESController()
     doc = Document.objects.get(pk=doc_id)
     context = {
-            'html': '<code>' + re.sub('\n','</code>\n<code>',cgi.escape(indexer.get_body_html(doc.document_html))) + '</code>',
+            'html': '<code>' + re.sub('\n','</code>\n<code>',cgi.escape(es.get_body_html(doc.document_html))) + '</code>',
             'parsed_text' : '<br>'.join(es.text_parse(doc.document_html))
             }
 
@@ -196,7 +199,7 @@ def tree(request):
             for i,eachurl in enumerate(urllist):
                 linklist.append({'url':eachurl,'allow':'followed','linkno':i})
         else:
-            linklist  = linkextract.link_extractor(url,parse_parameters,follow_parameters,deny_parameters)
+            linklist  = scraper.linkextract.link_extractor(url,parse_parameters,follow_parameters,deny_parameters)
         context.update({'list':linklist})
     return render(request, 'operations/tree.html',context)
 

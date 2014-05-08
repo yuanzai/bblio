@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link href="{{ STATIC_URL }}bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css">
-
-
+	<link href="{{ STATIC_URL }}bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css">
 </head>
-<div class="container">
-<div class="row">
-    <div class="col-xs-6">
-        <h3>Parsed</h3>
-       {{ parsed_text|safe }}
-    </div>
-
-    <div class="col-xs-6">
-        <h3>HTML</h3>
-        {{ html|safe }}
-    </div>
 
 
-</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-4">
+			<h3>Parsed</h3>
+			{{ parsed_text|safe }}
+		</div>
+
+		<style>
+		    div {
+		    	white-space: normal;
+		    	word-wrap: break-word;
+		    	}
+		</style>
+
+		<div class="col-xs-8">
+			<h3>HTML</h3>
+			{{ html|safe }}
+		</div>
+
+
+	</div>
 </div>
 </html>
 

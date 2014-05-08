@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
 #python imports
+
+import sys
+sys.path.append('/home/ec2-user/bblio/build/')
+
 import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Build.settings'
 import importlib
@@ -20,12 +24,15 @@ from scrapy.xlib.pydispatch import dispatcher
 from scrapy.resolver import CachingThreadedResolver
 from spiders.spiderAll import SpiderAll
 
-settings_module = importlib.import_module('scraper.scrapy_settings')
-settings = CrawlerSettings(settings_module)
+def get_settings():
+    settings_module = importlib.import_module('scrapy_settings')
+    return CrawlerSettings(settings_module)
+
 
 def clear_schedule(id):
     if not id:
         raise BlankIDError('Please enter a site id')
+    settings = get_settings()
     shutil.rmtree(settings['JOBDIR'] + str(id))
  
 
@@ -33,6 +40,7 @@ def run_site_id(id):
     if not id:
         raise BlankIDError('Please enter a site id')
  
+    settings = get_settings()
     dispatcher.connect(reactor.stop, signal=signals.spider_closed)
     #logfile = open('/home/ec2-user/bblio/scraper/log/' + id + '.log', 'w')
     #log_observer = ScrapyFileLogObserver(logfile, level=log.INFO)

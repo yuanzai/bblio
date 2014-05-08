@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
+import sys
+sys.path.append('/home/ec2-user/bblio')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -58,13 +59,22 @@ WSGI_APPLICATION = 'Build.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'mysql': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'scrapedata',
 	'USER': 'root',
 	'PASSWORD': '',
 	'HOST': '127.0.0.1',
 	'PORT': '3306',
+    },
+    
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'scrapedata',
+        'USER': 'yuanzai',
+        'PASSWORD': 'wakaff01',
+        'HOST': 'bblio.cxo6rxxzg0qa.us-west-2.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 

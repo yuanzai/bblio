@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # admin
 
     url(r'^admin/$', operations.views.admin.index),
+    url(r'^admin/push_scrape/$', operations.views.admin.push_scrape),
 
     # phrases
     url(r'^phrases/$', operations.views.phrases),
@@ -21,10 +22,14 @@ urlpatterns = patterns('',
         operations.views.site.site,name='site'),
     
     # 1 - tree
-    url(r'^tree/$', operations.views.site.tree,name='tree'),   
+    url(r'^tree/$', operations.views.site.tree,name='tree'),
+
+    # 2 - input
+    url(r'^site/(?P<site_id>\d+)/delete/$',
+        operations.views.site.delete),
     
     # 3 - crawling
-     url(r'^site/(?P<site_id>\d+)/crawl/$',
+    url(r'^site/(?P<site_id>\d+)/crawl/$',
         operations.views.site.crawl),
     
     url(r'^site/(?P<site_id>\d+)/clear_crawl_schedule/$',    
@@ -32,7 +37,7 @@ urlpatterns = patterns('',
     
     # 4 - document
     url(r'^document/(?P<doc_id>\d+)/$',
-        operations.views.site.document),
+        operations.views.site.document, name='get_document'),
 
     url(r'^site/(?P<site_id>\d+)/idocument_duplicate_filter/$',
         operations.views.site.document_duplicate_filter),
@@ -57,9 +62,6 @@ urlpatterns = patterns('',
     
     
     
-    #url(r'^(?P<site_id>\d+)/delete/$',views.delete,name='delete'),
-    #url(r'^(?P<site_id>\d+)/delete/$',views.delete,name='delete'),
-    #url(r'^(?P<site_id>\d+)/delete/$',views.delete,name='delete'),
     #url(r'^testing_input$',views.testing_input,name='testing_input'),
     #url(r'^testing$',views.testing,name='testing'),
 )

@@ -1,10 +1,10 @@
 from django.db import models
 
 class Document(models.Model):
-    document_text = models.TextField()
+    document_text = models.TextField(blank=True, null=True, default=None)
     urlAddress = models.URLField(max_length=1000)
     domain = models.TextField()
-    title = models.TextField()
+    title = models.TextField(blank=True, null=True, default=None)
     lastupdate = models.DateTimeField(auto_now=True)
     isUsed = models.SmallIntegerField(default=1,db_index=True)
     site = models.ForeignKey('Site')

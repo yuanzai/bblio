@@ -38,10 +38,20 @@ class BaseESController(object):
             pass
 
     def delete_site_id_from_es(self, site_id):
-        docs = Document.objects.filter(site_id=site_id).values_list('id',flat=True)
-        for doc in docs:
-            self.delete_one_doc(doc)
-    
+        res = self._es.search(
+                index=self._es_index, 
+                body = {
+                    "query" : {
+                        "match_all" : {}
+                        },
+                    "size": self.get_document_count_for_site_id(site_id),
+                    "filter" : {
+                        "term": {"site_id" : site_id}
+                        }
+                    })
+        for r in res['hits']['hits']:
+            self.delete_one_doc(int(r['_id']))
+
     def get_document_count_for_site_id(self, site_id):
         res = self._es.search(
                 index=self._es_index, 

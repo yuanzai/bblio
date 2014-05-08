@@ -9,19 +9,20 @@ from django.forms.models import modelformset_factory
 from django.core.urlresolvers import reverse
 from django import forms
 
-
 #python imports
 import urllib
 import re
 import sys
-sys.path.append('/home/ec2-user/bblio/es/')
-sys.path.append('~/bblio/es/')
 
 #es controller imports
-from YTHESController import YTHESController as ESController
+from es.YTHESController import YTHESController as ESController
+
+import config_file
 
 def get_country_list():
-    return (('UK','UK'),('SG','Singapore'))
+    config = config_file.get_config()
+    cl = config.get('bblio','country_list')
+    return ((x.split("|")[0], x.split("|")[1]) for x in cl.split(";"))
 
 class CountryCheckboxes(forms.Form):
     country = forms.MultipleChoiceField(
@@ -33,10 +34,13 @@ def get_selected_country_list(request):
     if not request.GET:
         return None
     selected_list = []
+    all_selected = True
     for c in get_country_list():
         if c[0] in request.GET:
             selected_list.append(c[0])
-    if len(get_country_list()) == len(selected_list):
+        else:
+            all_selected = False
+    if not all_selected:
         return None
     return selected_list
 

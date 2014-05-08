@@ -22,7 +22,7 @@ class AllPipeline(object):
         thisSite = Site.objects.get(pk=spider.id)
         thisSite.running = 1
         thisSite.save()
-        log.msg("Pipeline.spider_opened called %s " % str(thisSite.running), level=log.INFO)
+        log.msg("Pipeline.spider_opened called", level=log.INFO)
 
     def spider_closed(self, spider):
         stats = spider.crawler.stats
