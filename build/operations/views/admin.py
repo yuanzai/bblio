@@ -16,6 +16,9 @@ class ConfigForm(forms.Form):
     es_controller = forms.CharField(max_length = 100,widget=forms.TextInput(attrs={'class': 'form-control'}))
     crawler_instance_site_limit = forms.IntegerField(widget = forms.NumberInput(attrs={'class':'form-control'}))
     country_list = forms.CharField(widget=forms.Textarea(attrs={'rows':2, 'class':'form-control'}))
+    es_instance = forms.CharField(max_length = 20,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    web_server_instance = forms.CharField(max_length = 20,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    crawler_instance = forms.CharField(max_length = 20,widget=forms.TextInput(attrs={'class': 'form-control'}))
 
 def index(request):
     config = config_file.get_config()

@@ -95,13 +95,7 @@ class SpiderAll(CrawlSpider):
                 with open(path + pdf_name, "wb") as f: 
                     f.write(response.body)
                 f.close()
-                import threading
-                
-                t = threading.Thread(target=aws.ec2.copy_file_to_web_server,
-                        args=(path + pdf_name, path + pdf_name))
-                t.setDaemon(True)
-                t.start()
-
+                aws.ec2.copy_file_to_web_server(path+pdf_name ,path + pdf_name)
             else:
                 item['encoding'] = response.headers['content-type'].split('charset=')[-1]
                 item['document_html'] = (response.body).decode('utf-8','ignore').encode('utf-8')
