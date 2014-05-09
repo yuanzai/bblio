@@ -1,4 +1,6 @@
 import boto.ec2
+import sys
+sys.path.append('/home/ec2-user/bblio/')
 from boto.manage.cmdshell import sshclient_from_instance
 import keys
 from config_file import get_config
@@ -35,6 +37,5 @@ def getCrawlerInstance():
     return conn().get_all_instances(instance_ids=get_config().get('bblio','crawler_instance'))[0].instances[0]
 
 def copy_file_to_web_server(local_filepath,web_server_filepath):
-    ssh_client = sshclient_from_instance(getWebServerInstance(),host_key_file = '/home/ec2-user/.ssh/known_hosts', ssh_key_file=keys.aws_aws_pem,user_name='ec2-user')
-    ssh_client.put(local_filepath, web_server_filepath)
-
+    ssh_client = sshclient_from_instance(getWebServerInstance(),host_key_file = '/home/ec2-user/.ssh/known_hosts', ssh_key_file=keys.aws_pem,user_name='ec2-user')
+    ssh_client.put_file(local_filepath, web_server_filepath)

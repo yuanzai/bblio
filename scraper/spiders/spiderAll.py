@@ -62,6 +62,7 @@ class SpiderAll(CrawlSpider):
                     deny=self.deny,
                     unique=True,
                     restrict_xpaths=self._restrict_xpath,
+                    deny_extensions=[],
                     ), 
                     callback='parse_item', follow='true'),
                 Rule(SgmlLinkExtractor(
@@ -70,12 +71,16 @@ class SpiderAll(CrawlSpider):
                     unique=True,
                     restrict_xpaths=self._restrict_xpath,
                     ), 
-                    follow='true'),
+                    callback='follow_item', follow='true'),
                 )    
         super(SpiderAll, self).__init__(*a, **kw) 
     
+    def follow_item(self, response):
+        log.msg('Following: ' + response.url,level=log.INFO)
+        return None
+
     def parse_item(self, response):
-        log.msg('Currently parsing: ' + response.url,level=log.INFO)
+        log.msg('Parsing: ' + response.url,level=log.INFO)
          
         try:
             items = []
@@ -88,9 +93,10 @@ class SpiderAll(CrawlSpider):
             
             if '.pdf' in str(response.url[-4:]):
                 pdf_name = str(self.id) + '_' + str(datetime.now().isoformat()) + '.pdf'
-                item['encoding'] = 'PDF'
                 path = '/home/ec2-user/bblio/scraper/pdf/'
-                log.msg('PDF Check: ' + path + pdf_name,level=log.INFO)        
+                item['document_html'] = path + pdf_name
+                item['encoding'] = 'PDF'
+                log.msg('PDF path: ' + path + pdf_name,level=log.INFO)        
                 
                 with open(path + pdf_name, "wb") as f: 
                     f.write(response.body)
