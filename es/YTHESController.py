@@ -1,6 +1,9 @@
 #base class import
 from BaseESController import BaseESController
 
+#pdf import
+from PDFController import PDFController
+
 #python imports
 import re
 from lxml import etree
@@ -24,7 +27,7 @@ class YTHESController(BaseESController):
         
         q = {
                 #fields to return in the ES request
-                "fields" : ["title","urlAddress"], 
+                "fields" : ["title","text","urlAddress"], 
 
                 #start result - from 0
                 "from" : (int(current_page) - 1) * results_per_page,
@@ -41,26 +44,24 @@ class YTHESController(BaseESController):
 
         #highlights - ie the summarised data in the search result
         h = {
-                "highlight" : {
-                    "pre_tags" : ["<b>"],
-                    "post_tags" : ["</b>"],
-                    "fields": {
-                        "text": {
-                            "fragment_size" : 150,
-                            "number_of_fragments": 4,
-                            "no_match_size": 150,
-                            "highlight_query": {
-                                "query_string":{
-                                    "default_field" : "text",
-                                    "query":search_term.replace('"','')
-                                }
+                "pre_tags" : ["<b>"],
+                "post_tags" : ["</b>"],
+                "fields": {
+                    "text": {
+                        "fragment_size" : 150,
+                        "number_of_fragments": 4,
+                        "no_match_size": 150,
+                        "highlight_query": {
+                            "query_string":{
+                                "default_field" : "text",
+                                "query":search_term.replace('"','')
                             }
                         }
                     }
                 }
             }
-
-        query.update(h)
+        query.update({"highlight" : h})
+        
         #suggestion - ie did you mean
         s = {
                 "text" : search_term,
@@ -121,11 +122,10 @@ class YTHESController(BaseESController):
         l = []
         for re in res['hits']['hits']:
             d = {"urlAddress" : re['fields']['urlAddress'],
+                 "title": re['fields']['title'],
                  "id" : re['_id'],
                  "score" : re['_score'],}
-            try:
-                d.update({"title": re['fields']['title'] })
-            except:
+            if len(d['title']) == 0:
                 d.update({"title": d['urlAddress']})
 
             try:
@@ -135,7 +135,6 @@ class YTHESController(BaseESController):
 
                 d.update({"highlight" : h_list})
             except:
-                print str(d['id']) + 'No highlights'
                 pass
             l.append(d)
 
@@ -152,7 +151,6 @@ class YTHESController(BaseESController):
 
         return result
 
-
     def index_one_doc(self, Document):
         if not self._es.indices.exists(index=self._es_index):
             self._es.indices.create(index=self._es_index,body=self.get_mapping())
@@ -167,12 +165,22 @@ class YTHESController(BaseESController):
     def get_doc(self, Document):
         site = Site.objects.get(pk=Document.site_id)
         doc = {
-                "title" : self.title_parse(Document.document_html),
                 "urlAddress" : Document.urlAddress,
-                "text" : ' '.join(self.text_parse(Document.document_html)),
                 "jurisdiction" : site.jurisdiction,
                 "site_id" : site.id
         }
+ 
+        if Document.encoding == 'PDF':
+            pdf = PDFController()
+            doc.update({
+                "title" : Document.urlAddress,
+                "text" : pdf.get_string(Document.document_html),
+                })
+        else:
+            doc.update({
+                "title" : self.title_parse(Document.document_html),
+                "text" : ' '.join(self.text_parse(Document.document_html)),
+                })
         return doc
     
     def get_tree(self, text):
@@ -195,10 +203,7 @@ class YTHESController(BaseESController):
 
     def title_parse(self, text):
         tree = self.get_tree(text)
-        try:
-            return tree.xpath("//title/text()")[0]
-        except:
-            return None
+        return tree.xpath("title/text()")[0]
 
     def text_parse(self, text):
         tree = self.get_tree(text)
@@ -211,10 +216,8 @@ class YTHESController(BaseESController):
                     self._doc_type:{
                         "properties":{
                             "text":{
-                                "type" : "string",
-                                "analyzer" : "my_analyzer",
-                                "term_vector" : "with_positions_offsets",
-                                "store" : True
+                                "type":"string",
+                                "analyzer":"my_analyzer"
                                 },
                             "jurisdiction":{
                                 "type" : "string",

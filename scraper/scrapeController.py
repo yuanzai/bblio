@@ -16,6 +16,8 @@ from search.models import Site
 
 #scrapy imports
 from twisted.internet import reactor
+from twisted.internet.base import ReactorBase
+from twisted.internet.interfaces import IReactorCore
 from scrapy.crawler import Crawler, CrawlerProcess
 from scrapy.log import ScrapyFileLogObserver
 from scrapy import log, signals
@@ -28,12 +30,18 @@ def get_settings():
     settings_module = importlib.import_module('scrapy_settings')
     return CrawlerSettings(settings_module)
 
+def check_reactor():
+
+    print reactor.running
 
 def clear_schedule(id):
     if not id:
         raise BlankIDError('Please enter a site id')
     settings = get_settings()
-    shutil.rmtree(settings['JOBDIR'] + str(id))
+    try:
+        shutil.rmtree(settings['JOBDIR'] + str(id))
+    except:
+        print('No directory found')
  
 
 def run_site_id(id):
@@ -64,6 +72,8 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         if arg[1] == 'clear':
             clear_schedule(arg[2])
+        elif arg[1] == 'check':
+            check_reactor()
         else:
             run_site_id(arg[1])
     else:

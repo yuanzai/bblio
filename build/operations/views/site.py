@@ -185,13 +185,16 @@ def tree(request):
         parse_parameters = None
         follow_parameters = None
         deny_parameters = None
-         
+        source_allowed_domains = None
         if request.POST['parse_parameters'] != '':
             parse_parameters = request.POST['parse_parameters']
         if request.POST['follow_parameters'] != '':
             follow_parameters = request.POST['follow_parameters']
         if request.POST['deny_parameters'] != '':
             deny_parameters = request.POST['deny_parameters']
+        if request.POST['source_allowed_domains'] != '':
+            source_allowed_domains = request.POST['source_allowed_domains']
+        
         context = {'level' : level + 1} 
         linklist = []
         if level == 0:
@@ -199,7 +202,7 @@ def tree(request):
             for i,eachurl in enumerate(urllist):
                 linklist.append({'url':eachurl,'allow':'followed','linkno':i})
         else:
-            linklist  = scraper.linkextract.link_extractor(url,parse_parameters,follow_parameters,deny_parameters)
+            linklist  = scraper.linkextract.link_extractor(url,parse_parameters,follow_parameters,deny_parameters,source_allowed_domains)
         context.update({'list':linklist})
     return render(request, 'operations/tree.html',context)
 

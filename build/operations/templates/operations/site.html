@@ -7,19 +7,14 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
     <script>
-
-       $( function () {
-            $('#submit').click(function(){
-                validateForm();
-            });
-
-            $('a[name="confirm"]').click(function() {
-                return window.confirm(this.title || 'Proceed?');
-            });
-
-
-            $("#tree").on("click",posted);
-        });
+        function validateSAD() {
+            var source_allowed_domains = document.getElementById("id_source_allowed_domains").value;
+            var domain_last_char =  source_allowed_domains.substr(-1);
+            if (domain_last_char == ";" || domain_last_char == "/"){
+                alert('Source allowed domain should not end with ; or /');
+                return;
+            }
+        }
 
         function validateForm() {
             if ($('#id_source_allowed_domains').val().length == 0 ||
@@ -29,11 +24,27 @@
                 return;
             }
         }
+        
+        function validating() {
+            validateForm();
+            validateSAD();
+        }
+
+       $( function () {
+            $('#submit').on("click",validating);
+
+            $('a[name="confirm"]').click(function() {
+                return window.confirm(this.title || 'Proceed?');
+            });
+
+            $("#tree").on("click",posted);
+        });
 
         function posted (event) {
             event.preventDefault();
 
             $.ajaxSetup ({cache: false});
+            validateSAD();
 
             var mySpan = $(this);
             var url = mySpan.attr("url");
@@ -47,6 +58,8 @@
             var parse_parameters = document.getElementById("id_parse_parameters").value;
             var follow_parameters = document.getElementById("id_follow_parameters").value;
             var deny_parameters = document.getElementById("id_deny_parameters").value;
+            var source_allowed_domains = document.getElementById("id_source_allowed_domains").value;
+            
 
             var level = mySpan.attr("level");
             var linkno = mySpan.attr("linkno");
@@ -74,7 +87,8 @@
                 url : url,
                 parse_parameters : parse_parameters,
                 follow_parameters : follow_parameters,
-                deny_parameters : deny_parameters
+                deny_parameters : deny_parameters,
+                source_allowed_domains : source_allowed_domains
             },
             function(data) {
                 $( div ).empty().append( data );

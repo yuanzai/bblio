@@ -29,12 +29,34 @@ class SpiderAll(CrawlSpider):
     count = 0
     _restrict_xpath= ('//*[not(self::meta)]')
     id = None
+
+    ignored_extensions = [
+    # images
+    'mng', 'pct', 'bmp', 'gif', 'jpg', 'jpeg', 'png', 'pst', 'psp', 'tif',
+    'tiff', 'ai', 'drw', 'dxf', 'eps', 'ps', 'svg',
+
+    # audio
+    'mp3', 'wma', 'ogg', 'wav', 'ra', 'aac', 'mid', 'au', 'aiff',
+
+    # video
+    '3gp', 'asf', 'asx', 'avi', 'mov', 'mp4', 'mpg', 'qt', 'rm', 'swf', 'wmv',
+    'm4a',
+
+    # office suites
+    'xls', 'xlsx', 'ppt', 'pptx', 'doc', 'docx', 'odt', 'ods', 'odg', 'odp',
+
+    # other
+    'css', 'exe', 'bin', 'rss', 'zip', 'rar',
+    ]
+
+
     def __init__(self, *a, **kw):
         self.allowed_domains = kw['source_allowed_domains'].split(';')
         self.start_urls = kw['source_start_urls'].split(';')
         self.follow = []
         self.parsing = []
         self.deny = []
+        print self.allowed_domains
         if kw['parse_parameters']:  self.parsing = kw['parse_parameters'].strip().encode('utf-8').split(";")
         if kw['follow_parameters']:  self.follow = kw['follow_parameters'].strip().encode('utf-8').split(";")   
         if kw['deny_parameters']: self.deny = kw['deny_parameters'].strip().encode('utf-8').split(";")    
@@ -62,7 +84,7 @@ class SpiderAll(CrawlSpider):
                     deny=self.deny,
                     unique=True,
                     restrict_xpaths=self._restrict_xpath,
-                    deny_extensions=[],
+                    deny_extensions=self.ignored_extensions,
                     ), 
                     callback='parse_item', follow='true'),
                 Rule(SgmlLinkExtractor(
@@ -72,7 +94,7 @@ class SpiderAll(CrawlSpider):
                     restrict_xpaths=self._restrict_xpath,
                     ), 
                     callback='follow_item', follow='true'),
-                )    
+                )
         super(SpiderAll, self).__init__(*a, **kw) 
     
     def follow_item(self, response):

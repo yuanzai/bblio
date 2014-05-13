@@ -9,6 +9,7 @@
 /scraper/crawls/**
 /crawls/**
 /bblio/scraper/crawls/**
+/bblio/scraper/pdf/**
 **/crawls/**
 keys.py
 *.pem

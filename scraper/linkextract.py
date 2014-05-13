@@ -9,8 +9,12 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.http.response.html import HtmlResponse
 from spiders.spiderAll import SpiderAll
 
+import re     
+from urlparse import urlparse
+
 
 def link_extractor(url, parse_parameters='', follow_parameters='', deny_parameters='', source_allowed_domains = ''):
+    print source_allowed_domains
     res = urllib2.urlopen(url)
     html = res.read()
     encoding=res.headers['content-type'].split('charset=')[-1]    
@@ -31,7 +35,18 @@ def link_extractor(url, parse_parameters='', follow_parameters='', deny_paramete
     #p_links = spider.parse_link_extractor().extract_links(r)
     p_links = spider.rules[0].link_extractor.extract_links(r)
     p_list = [link.url for link in p_links]
+
+    
+
     tree_list = []
+
+    if not source_allowed_domains:
+        host_regex = re.compile('')
+    else:
+        regex = r'^(.*\.)?(%s)$' % '|'.join(re.escape(d) for d in source_allowed_domains.split(";"))
+        host_regex = re.compile(regex)
+
+
     for i,link in enumerate(a_list):
         if link in p_list:
             status='parsed'
@@ -40,6 +55,8 @@ def link_extractor(url, parse_parameters='', follow_parameters='', deny_paramete
         else:
             status='denied'
 
+        if not bool(host_regex.search(urlparse(link).hostname)):
+            status='denied'
+
         tree_list.append({'url':link,'allow':status,'linkno':i})
     return tree_list    
-
