@@ -34,7 +34,11 @@ def getCrawlerIP():
     return conn().get_all_instances(instance_ids=get_config().get('bblio','crawler_instance'))[0].instances[0].dns_name
 
 def getCrawlerInstance():
-    return conn().get_all_instances(instance_ids=get_config().get('bblio','crawler_instance'))[0].instances[0]
+    return conn().get_all_instances(instance_ids=get_config().get('bblio','crawler_instance').split(';')[0])[0].instances[0]
+
+def getCrawlerInstances():
+    return [conn().get_all_instances(instance_ids=i)[0].instances[0] for i in get_config().get('bblio','crawler_instance').split(';')]
+
 
 def copy_file_to_web_server(local_filepath,web_server_filepath):
     ssh_client = sshclient_from_instance(getWebServerInstance(),host_key_file = '/home/ec2-user/.ssh/known_hosts', ssh_key_file=keys.aws_pem,user_name='ec2-user')

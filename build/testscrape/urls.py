@@ -12,6 +12,7 @@ def index(request):
             <a href="parse">parse</a><br>
             <a href="deny">deny</a><br>
             <a href="slow">slow</a><br>
+            <a href="forever">forever ie 10 min</a><br>
             <a href="date/2000/10/10/">date</a><br>
             <a href="date/2000/01/28/">date2</a><br>
             <a href="date/2000/10/this_is_LitigoSearch">year/month/article-title</a><br>
@@ -179,6 +180,11 @@ def slow(request):
     time.sleep(30)
     return HttpResponse('Slow link')
 
+def forever(request):
+    import time
+    time.sleep(600)
+    return HttpResponse('Forever link')
+
 def date(request):
     return HttpResponse('Date link')
 
@@ -189,6 +195,7 @@ urlpatterns = patterns('',
     url(r'^parse/$', parse),
     url(r'^deny/$', deny),
     url(r'^slow/$', slow),
+    url(r'^forever/$',forever),
     url(r'^uk/$',uk),
     url(r'^uk/2/$',uk2),
     url(r'^date/\d{4}/\d{2}/\d{2}/$', date),

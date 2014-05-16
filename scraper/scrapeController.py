@@ -9,6 +9,8 @@ import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Build.settings'
 import importlib
 import shutil
+import telnetlib
+import getpass
 
 #django imports
 from django.forms.models import model_to_dict
@@ -25,14 +27,25 @@ from scrapy.settings import CrawlerSettings
 from scrapy.xlib.pydispatch import dispatcher
 from scrapy.resolver import CachingThreadedResolver
 from spiders.spiderAll import SpiderAll
+from scrapy import telnet
 
 def get_settings():
-    settings_module = importlib.import_module('scrapy_settings')
+    settings_module = importlib.import_module('settings')
     return CrawlerSettings(settings_module)
 
 def check_reactor():
-
-    print reactor.running
+    try:
+        tn = telnetlib.Telnet('0.0.0.0', '6023')
+        ret = tn.read_until('>>>')
+        tn.write("spider.id\n")
+        ret = tn.read_until('>>>').splitlines()
+ 
+        tn.close()
+        print ret
+        return ret
+    except:
+        print 'no crawler active'
+        return
 
 def clear_schedule(id):
     if not id:

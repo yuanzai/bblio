@@ -1,7 +1,7 @@
 import boto.ec2
 import keys
 import sys
-from ec2 import getCrawlerInstance
+from ec2 import getCrawlerInstances
 from boto.manage.cmdshell import sshclient_from_instance
 import os
 import fnmatch
@@ -10,6 +10,9 @@ home_dir = '/home/ec2-user/bblio/'
 
 def get_ssh_client():
     return sshclient_from_instance(getCrawlerInstance(), host_key_file = '/home/ec2-user/.ssh/known_hosts', ssh_key_file=keys.aws_pem,user_name='ec2-user')
+
+def get_ssh_client_list():
+    return [sshclient_from_instance(i, host_key_file = '/home/ec2-user/.ssh/known_hosts', ssh_key_file=keys.aws_pem,user_name='ec2-user') for i in getCrawlerInstances()]
 
 def process_crawl(site_id):
     get_ssh_client().run('python2.7 ' + home_dir + 'scraper/scrapeController.py ' + str(site_id))
@@ -28,17 +31,24 @@ def clear_schedule(site_id):
 def copy_files():
     copyList = []   
     copyList.append(home_dir + 'build/search/models.py')
+    copyList.append(home_dir + 'build/search/__init__.py')
+    copyList.append(home_dir + 'build/Build/__init__.py')
+    copyList.append(home_dir + 'build/Build/settings.py.crawler')
+    copyList.append(home_dir + 'build/Build/myScript.py.crawler')
     copyList.append(home_dir + 'build/manage.py')
+    copyList.append(home_dir + 'build/__init__.py')
     copyList.append(home_dir + 'aws/ec2.py')
     copyList.append(home_dir + 'aws/keys.py')
     copyList.append(home_dir + 'aws/key.pem')
+    copyList.append(home_dir + 'aws/__init__.py')
     copyList.append(home_dir + 'bblio.cfg')
     copyList.append(home_dir + 'config_file.py')
+    copyList.append(home_dir + '__init__.py')
 
     for root, dirnames, filenames in os.walk(home_dir + 'scraper'):
         for filename in fnmatch.filter(filenames, '*.py'):
             copyList.append(os.path.join(root, filename))
-    ssh_client = get_ssh_client()
+    ssh_clients = get_ssh_client_list()
     dirList = []
 
     for c in copyList:
@@ -49,14 +59,18 @@ def copy_files():
                 dirList.append(c_dir)
             prev_dir = c_dir
             c_dir = os.path.dirname(c_dir)
-    
+    dirList.append(home_dir) 
     dirList.sort(lambda x,y: cmp(len(x), len(y)))
 
     for d in dirList:
-        ssh_client.run('mkdir %s' % d)
+        for s in ssh_clients:
+            print('[dir][%s] %s' % (s.server.hostname, d))
+            s.run('mkdir %s' % d)
 
     for c in copyList:
-        ssh_client.put_file(c,c)
+        for s in ssh_clients:
+            print('[file][%s] %s' % (s.server.hostname, c))
+            s.put_file(c,c.replace('.crawler',''))
 
 
 if __name__ == '__main__':

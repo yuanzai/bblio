@@ -26,10 +26,10 @@ LOG_LEVEL = 'INFO'
 LOG_ENABLED = False
 
 import sys
-sys.path.append('/home/ec2-user/bblio/build/')
+sys.path.append('/home/ec2-user/bblio/')
 
 import os
-os.environ['DJANGO_SETTINGS_MODULE'] = 'Build.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'build.Build.settings'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'tutorial (+http://www.yourdomain.com)'

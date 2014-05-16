@@ -18,7 +18,7 @@ class ConfigForm(forms.Form):
     country_list = forms.CharField(widget=forms.Textarea(attrs={'rows':2, 'class':'form-control'}))
     es_instance = forms.CharField(max_length = 20,widget=forms.TextInput(attrs={'class': 'form-control'}))
     web_server_instance = forms.CharField(max_length = 20,widget=forms.TextInput(attrs={'class': 'form-control'}))
-    crawler_instance = forms.CharField(max_length = 20,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    crawler_instance = forms.CharField(max_length = 255,widget=forms.TextInput(attrs={'class': 'form-control'}))
 
 def index(request):
     config = config_file.get_config()

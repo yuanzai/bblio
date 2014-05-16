@@ -4,6 +4,7 @@ import os
 #sys.path.append('/home/ec2-user/bblio/')
 #os.environ['DJANGO_SETTINGS_MODULE'] = 'build.Build.settings'
 import urllib2
+import chardet
 
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.http.response.html import HtmlResponse
@@ -17,7 +18,13 @@ def link_extractor(url, parse_parameters='', follow_parameters='', deny_paramete
     print source_allowed_domains
     res = urllib2.urlopen(url)
     html = res.read()
-    encoding=res.headers['content-type'].split('charset=')[-1]    
+
+    if 'charset' in res.headers['content-type']:
+        encoding = res.headers['content-type'].split('charset=')[-1]
+    else:
+        encoding = 'utf-8'
+
+    print encoding
     r = HtmlResponse(url=url,body=html,encoding=encoding)
     spider = SpiderAll(
             parse_parameters=parse_parameters, 
