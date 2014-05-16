@@ -23,7 +23,7 @@ import config_file
 import aws.ec2
 
 class SpiderAll(CrawlSpider):
-    name = None
+    name = "SpiderSolo"
     rules = None
     groupName = None
     count = 0
@@ -34,32 +34,31 @@ class SpiderAll(CrawlSpider):
     # images
     'mng', 'pct', 'bmp', 'gif', 'jpg', 'jpeg', 'png', 'pst', 'psp', 'tif',
     'tiff', 'ai', 'drw', 'dxf', 'eps', 'ps', 'svg',
-
     # audio
     'mp3', 'wma', 'ogg', 'wav', 'ra', 'aac', 'mid', 'au', 'aiff',
-
     # video
     '3gp', 'asf', 'asx', 'avi', 'mov', 'mp4', 'mpg', 'qt', 'rm', 'swf', 'wmv',
     'm4a',
-
     # office suites
     'xls', 'xlsx', 'ppt', 'pptx', 'doc', 'docx', 'odt', 'ods', 'odg', 'odp',
-
     # other
     'css', 'exe', 'bin', 'rss', 'zip', 'rar',
     ]
 
 
     def __init__(self, *a, **kw):
-        self.allowed_domains = kw['source_allowed_domains'].split(';')
-        self.start_urls = kw['source_start_urls'].split(';')
+        self.id = kw['id']
+        site = Site.objects.get(pk=self.id)
+        
+        self.allowed_domains = site.source_allowed_domains.split(';')
+        self.start_urls = site.source_start_urls.split(';')
         self.follow = []
         self.parsing = []
         self.deny = []
-        print self.allowed_domains
-        if kw['parse_parameters']:  self.parsing = kw['parse_parameters'].strip().encode('utf-8').split(";")
-        if kw['follow_parameters']:  self.follow = kw['follow_parameters'].strip().encode('utf-8').split(";")   
-        if kw['deny_parameters']: self.deny = kw['deny_parameters'].strip().encode('utf-8').split(";")    
+        if site.parse_parameters:  self.parsing = site.parse_parameters.strip().encode('utf-8').split(";")
+        if site.follow_parameters:  self.follow = site.follow_parameters.strip().encode('utf-8').split(";")   
+        if site.deny_parameters: self.deny = site.deny_parameters.strip().encode('utf-8').split(";")    
+        
         config = config_file.get_config()
         universal_deny = config.get('bblio','universal_deny').strip().split(";")
         self.deny.extend(universal_deny)
@@ -133,5 +132,3 @@ class SpiderAll(CrawlSpider):
             log.msg('* Cannot parse: ' + response.url,level=log.INFO)
             log.msg(sys.exc_info()[0], level=log.INFO)
             return
-    
-
