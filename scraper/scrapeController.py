@@ -11,6 +11,8 @@ import importlib
 import shutil
 import telnetlib
 import getpass
+import httplib, urllib
+import json
 
 #django imports
 from django.forms.models import model_to_dict
@@ -26,8 +28,13 @@ from scrapy import log, signals
 from scrapy.settings import CrawlerSettings
 from scrapy.xlib.pydispatch import dispatcher
 from scrapy.resolver import CachingThreadedResolver
-from spiders.spiderAll import SpiderAll
+from scraper.deployable.deployable.spiders.spiderAll import SpiderAll
 from scrapy import telnet
+
+
+#import aws 
+
+import aws.ec2 as ec2
 
 def get_settings():
     settings_module = importlib.import_module('settings')
@@ -80,6 +87,36 @@ def run_site_id(id):
     crawler.crawl(spider)
     process.start()    
 
+def post_curl(url, method, params=None):
+    params = urllib.urlencode(
+            {
+                'project': 'deployable',
+                'spider': 'SpiderAll',
+                })
+    headers = {
+            "Content-type": "application/x-www-form-urlencoded",
+            "Accept": "text/plain"}
+
+    conn = httplib.HTTPConnection(url, port=6800)
+    conn.request("POST", "/schedule.json", params, headers)
+    response = conn.getresponse()
+    print response.status, response.reason
+    data = response.read()
+    json_data = json.load(data)
+    print data
+    conn.close()
+    return json_data
+
+def curl_schedule_crawl(site_id, crawler_instance='i-260aa82e'):
+    url = ec2.getInstanceFromInstanceName(crawler_instance).ip_address
+    params = urllib.urlencode({'project': 'deployable', 'spider': 'SpiderAll', 'id' : site_id})
+    return post_curl(url, "/schedule.json",params)
+
+def curl_test():
+    curl_schedule_crawl(25, 'i-260aa82e')
+
+
+
 if __name__ == '__main__':
     arg = sys.argv
     if len(sys.argv) > 1:
@@ -87,6 +124,8 @@ if __name__ == '__main__':
             clear_schedule(arg[2])
         elif arg[1] == 'check':
             check_reactor()
+        elif arg[1] == 'curl':
+            curl_test()
         else:
             run_site_id(arg[1])
     else:

@@ -4,14 +4,14 @@ from datetime import datetime
 import sys
 import re
 sys.path.append('/home/ec2-user/bblio/')
+sys.path.append('/home/ec2-user/bblio/build/')
 
 #django imports
-from build.search.models import Site
+from search.models import Site, Document
 
 #scrapy imports
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.selector import Selector
-from scraper.items import URLItem
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy import log, signals
 from scrapy.xlib.pydispatch import dispatcher
@@ -23,7 +23,7 @@ import config_file
 import aws.ec2
 
 class SpiderAll(CrawlSpider):
-    name = "SpiderSolo"
+    name = "SpiderAll"
     rules = None
     groupName = None
     count = 0
@@ -47,7 +47,8 @@ class SpiderAll(CrawlSpider):
 
 
     def __init__(self, *a, **kw):
-        self.id = kw['id']
+        #self.id = kw['id']
+        self.id = 25
         site = Site.objects.get(pk=self.id)
         
         self.allowed_domains = site.source_allowed_domains.split(';')
@@ -101,22 +102,24 @@ class SpiderAll(CrawlSpider):
         return None
 
     def parse_item(self, response):
-        log.msg('Parsing: ' + response.url,level=log.INFO)
+        log.msg('Parsing Start: ' + response.url,level=log.INFO)
          
         try:
-            items = []
-            item = URLItem()
-            item['urlAddress'] = response.url
-            item['domain'] = self.allowed_domains
-            item['site'] = Site.objects.get(pk=self.id)
-            item['response_code'] = response.status
-            item['isUsed'] = 0
-            
+            item = {
+                    'urlAddress' : response.url,
+                    'domain' :  self.allowed_domains,
+                    'site' : Site.objects.get(pk=self.id),
+                    'response_code' : response.status, 
+                    'isUsed' : 0
+                    }
+
             if '.pdf' in str(response.url[-4:]):
                 pdf_name = str(self.id) + '_' + str(datetime.now().isoformat()) + '.pdf'
                 path = '/home/ec2-user/bblio/scraper/pdf/'
-                item['document_html'] = path + pdf_name
-                item['encoding'] = 'PDF'
+                item.update({
+                        'document_html' : path + pdf_name,
+                        'encoding' : 'PDF'
+                        })
                 log.msg('PDF path: ' + path + pdf_name,level=log.INFO)        
                 
                 with open(path + pdf_name, "wb") as f: 
@@ -124,11 +127,22 @@ class SpiderAll(CrawlSpider):
                 f.close()
                 aws.ec2.copy_file_to_web_server(path+pdf_name ,path + pdf_name)
             else:
-                item['encoding'] = response.headers['content-type'].split('charset=')[-1]
-                item['document_html'] = (response.body).decode('utf-8','ignore').encode('utf-8')
-            items.append(item)
-            return items
+                item.update({
+                    'encoding' : response.headers['content-type'].split('charset=')[-1],
+                    'document_html': (response.body).decode('utf-8','ignore').encode('utf-8')
+                    })
+            d = Document(**item)
+            d.save()
+            
+            log.msg('Parsing Success: ' + response.url,level=log.INFO)
+
+            return
         except AttributeError:
             log.msg('* Cannot parse: ' + response.url,level=log.INFO)
             log.msg(sys.exc_info()[0], level=log.INFO)
             return
+
+        except:
+            log.msg('* Unexpected error:' + str(sys.exc_info()[0]) + '\n' + str(sys.exc_info()[1]), level=log.INFO)
+            return
+

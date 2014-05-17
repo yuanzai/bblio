@@ -8,7 +8,7 @@ import chardet
 
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.http.response.html import HtmlResponse
-from spiders.spiderAll import SpiderAll
+from scraper.deployable.deployable.spiders.spiderAll import SpiderAll
 
 import re     
 from urlparse import urlparse

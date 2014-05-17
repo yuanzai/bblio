@@ -22,7 +22,7 @@ class AllPipeline(object):
         thisSite = Site.objects.get(pk=spider.id)
         thisSite.running = 1
         thisSite.save()
-        log.msg("Pipeline.spider_opened called", level=log.INFO)
+        #log.msg("Pipeline.spider_opened called", level=log.INFO)
 
     def spider_closed(self, spider):
         stats = spider.crawler.stats
@@ -32,9 +32,11 @@ class AllPipeline(object):
         result.lastupdate = pytz.UTC.localize(stats.get_value('finish_time'))
         result.running = 0
         result.save()
-        log.msg("Pipeline.spider_closed called", level=log.DEBUG)
+        #log.msg("Pipeline.spider_closed called", level=log.DEBUG)
    
     def process_item(self, item, spider):
+        
+        log.msg("Pipeline.process_item", level=log.INFO)
         if item:
             item.save()
         return item

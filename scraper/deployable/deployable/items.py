@@ -1,8 +1,7 @@
 import sys
-sys.path.append('/home/ec2-user/bblio/')
+sys.path.append('/home/ec2-user/bblio/build/')
 from scrapy.contrib.djangoitem import DjangoItem
-from build.search.models import Document, Site
-
+from search.models import Document
 
 class URLItem(DjangoItem):
     django_model = Document

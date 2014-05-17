@@ -33,6 +33,9 @@ def getESip():
 def getCrawlerIP():
     return conn().get_all_instances(instance_ids=get_config().get('bblio','crawler_instance'))[0].instances[0].dns_name
 
+def getInstanceFromInstanceName(instance_name):
+    return conn().get_all_instances(instance_ids=instance_name)[0].instances[0]
+
 def getCrawlerInstance():
     return conn().get_all_instances(instance_ids=get_config().get('bblio','crawler_instance').split(';')[0])[0].instances[0]
 

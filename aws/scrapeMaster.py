@@ -1,12 +1,39 @@
 import boto.ec2
 import keys
 import sys
-from ec2 import getCrawlerInstances
+from ec2 import getCrawlerInstances, getCrawlerInstance
 from boto.manage.cmdshell import sshclient_from_instance
 import os
 import fnmatch
+import httplib, urllib
 
 home_dir = '/home/ec2-user/bblio/'
+
+def curl(method, params=None):
+    params = urllib.urlencode(
+            {
+                'project': 'default', 
+                'spider': 'SpiderSolo', 
+                })
+    headers = {
+            "Content-type": "application/x-www-form-urlencoded",
+            "Accept": "text/plain"}
+    
+    conn = httplib.HTTPConnection("54.187.248.155", port=6800)
+    conn.request("POST", "/schedule.json", params, headers)
+    response = conn.getresponse()
+    print response.status, response.reason
+    data = response.read()
+    print data
+    conn.close()
+    return data
+
+def curl_add():
+    params = urllib.urlencode({'project': 'default', 'spider': 'SoloSpider', 'id':23})
+    curl("/schedule.json",params)
+    
+
+
 
 def get_ssh_client():
     return sshclient_from_instance(getCrawlerInstance(), host_key_file = '/home/ec2-user/.ssh/known_hosts', ssh_key_file=keys.aws_pem,user_name='ec2-user')
@@ -44,9 +71,12 @@ def copy_files():
     copyList.append(home_dir + 'bblio.cfg')
     copyList.append(home_dir + 'config_file.py')
     copyList.append(home_dir + '__init__.py')
+    copyList.append(home_dir + 'scrapyd.conf')
 
     for root, dirnames, filenames in os.walk(home_dir + 'scraper'):
         for filename in fnmatch.filter(filenames, '*.py'):
+            copyList.append(os.path.join(root, filename))
+        for filename in fnmatch.filter(filenames, '*.cfg'):
             copyList.append(os.path.join(root, filename))
     ssh_clients = get_ssh_client_list()
     dirList = []
@@ -78,5 +108,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         if arg[1] == 'copy':
             copy_files()
+        elif arg[1] == 'curl':
+            curl_add()
 
 
