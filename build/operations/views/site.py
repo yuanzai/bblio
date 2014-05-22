@@ -22,10 +22,8 @@ from es.YTHESController import YTHESController as ESController
 
 #crawler import
 import scraper.scrapeController
-import scraper.linkextract
 
 #distributed import
-import aws.scrapeMaster
 import aws.ec2
 
 def site(request, site_id):
@@ -119,7 +117,6 @@ def crawl_cancel(request, site_id):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def clear_crawl_schedule(request, site_id):
-    aws.scrapeMaster.clear_schedule(site_id)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 #database document code
@@ -220,7 +217,7 @@ def tree(request):
             for i,eachurl in enumerate(urllist):
                 linklist.append({'url':eachurl,'allow':'followed','linkno':i})
         else:
-            linklist  = scraper.linkextract.link_extractor(url,parse_parameters,follow_parameters,deny_parameters,source_allowed_domains)
+            linklist  = scraper.scrapeController.link_extractor(url,parse_parameters,follow_parameters,deny_parameters,source_allowed_domains)
         context.update({'list':linklist})
     return render(request, 'operations/tree.html',context)
 
