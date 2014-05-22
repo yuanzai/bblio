@@ -11,6 +11,7 @@ BOT_NAME = 'deployable'
 SPIDER_MODULES = ['deployable.spiders']
 NEWSPIDER_MODULE = 'deployable.spiders'
 ITEM_PIPELINES = {'deployable.pipelines.AllPipeline':1000}
+DOWNLOAD_DELAY = 0.25
 
 LOG_LEVEL = 'INFO'
 

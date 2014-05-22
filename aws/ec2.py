@@ -5,10 +5,6 @@ from boto.manage.cmdshell import sshclient_from_instance
 import keys
 from config_file import get_config
 
-es_instance = 'i-cacff0c3'
-crawler_instance = 'i-15fa081d'
-webserver_instance = 'i-2c5ff01a'
-
 
 def conn():
     return boto.ec2.connect_to_region("us-west-2",
@@ -21,14 +17,24 @@ def startES():
 def stopES():
     conn().stop_instances(instance_ids=get_config().get('bblio','es_instance'))
 
+def getInstance(instance_name, attr=None):
+    instance = conn().get_only_instances(instance_name)[0]
+    if attr:
+        try:
+            instanceA = getattr(instance, attr)
+            return instanceA
+        except AttributeError:
+            pass
+    return instance
+
 def getWebServerIP():
-    return conn().get_all_instances(instance_ids=get_config().get('bblio','web_server_instance'))[0].instances[0].dns_name
+    return getInstance(get_config().get('bblio','web_server_instance'),'dns_name')
 
 def getWebServerInstance():
-    return conn().get_all_instances(instance_ids=get_config().get('bblio','web_server_instance'))[0].instances[0]
+    return getInstance(get_config().get('bblio','web_server_instance'))
 
 def getESip():
-    return conn().get_all_instances(instance_ids=get_config().get('bblio','es_instance'))[0].instances[0].dns_name
+    return getInstance(get_config().get('bblio','es_instance'),'dns_name')
 
 def getCrawlerIP():
     return conn().get_all_instances(instance_ids=get_config().get('bblio','crawler_instance'))[0].instances[0].dns_name
@@ -40,7 +46,7 @@ def getCrawlerInstance():
     return conn().get_all_instances(instance_ids=get_config().get('bblio','crawler_instance').split(';')[0])[0].instances[0]
 
 def getCrawlerInstances():
-    return [conn().get_all_instances(instance_ids=i)[0].instances[0] for i in get_config().get('bblio','crawler_instance').split(';')]
+    return [getInstance(i) for i in get_config().get('bblio','crawler_instance').split(';')]
 
 
 def copy_file_to_web_server(local_filepath,web_server_filepath):

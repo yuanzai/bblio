@@ -24,7 +24,7 @@
                 return;
             }
         }
-        
+        //aint working on submit pal
         function validating() {
             validateForm();
             validateSAD();
@@ -59,7 +59,7 @@
             var follow_parameters = document.getElementById("id_follow_parameters").value;
             var deny_parameters = document.getElementById("id_deny_parameters").value;
             var source_allowed_domains = document.getElementById("id_source_allowed_domains").value;
-            
+
 
             var level = mySpan.attr("level");
             var linkno = mySpan.attr("linkno");
@@ -107,7 +107,7 @@
     <div class="row">
 
         <!-- Left Sidebar -->
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div class="col-sm-3 sidebar">
             <form action="{% url 'operations.views.site.site' site_id %}" method="post" role="form">
                 {% csrf_token %} <!-- HTTP: post method's authentication -->
                 <ul class="nav nav-sidebar">
@@ -156,13 +156,12 @@
             </div>
 
             <!-- Right Side -->
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div class="col-sm-9 col-sm-offset-3 main">
                 {% if site_id == '0' %} <!-- 0 is for CREATE NEW SITE -->
                 <h3 style="margin-bottom: 20px">New Site</h3>
                 {% else %}
                 <h2>Site {{ site_id }}{% if running == 1 %} [crawling] {% endif %}</h2>
                 {% endif %}
-
                 <!-- Buttons -->
                 <div class="row">
                     {% if docs %}
@@ -198,7 +197,10 @@
                         <!-- <h5>Crawler</h5> -->
                         {% if site_id != 0 %}
                         <a class="btn btn-primary btn-block" href="{% url 'operations.views.site.crawl' site_id %}">Crawl</a>
-                        <a class="btn btn-default btn-block" href="{% url 'operations.views.site.clear_crawl_schedule' site_id %}">Clear Schedule</a>
+                        <a class="btn btn-default btn-block" href="{% url 'operations.views.site.crawl_cancel' site_id %}">Cancel Crawl</a>
+                        
+                        {% if jobid %}<a class="btn btn-default btn-block" href="http://{{ instance_ip }}:6800/logs/deployable/SpiderAll/{{ jobid }}.log">Last Crawler Log</a>{% endif %}
+                        {{ site_form.instance }}
                         {% endif %}
                     </div>
                     <div class="col-xs-2">

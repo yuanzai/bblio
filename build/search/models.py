@@ -37,6 +37,13 @@ class Site(models.Model):
     running = models.BooleanField(default=False)
     depthlimit = models.IntegerField(default=30)
     jurisdiction = models.CharField(max_length=10,blank=True,null=True)
+    jobid = models.CharField(max_length=100, blank=True, null=True)
+    instance = models.CharField(max_length=30, blank=True, null=True)
+
+class Job(models.Model):
+    scrapyd_job_id = models.CharField(max_length=100, unique=True)
+    site = models.ForeignKey('Site')
+    instance = models.CharField(max_length=30)
 
 class TestingResult(models.Model):
     document = models.ForeignKey('Document')

@@ -1,7 +1,9 @@
 from django import forms
 from django.forms.formsets import BaseFormSet
-from django.forms import Textarea, TextInput
+from django.forms import Textarea, TextInput, Select
 from search.models import TestingResult,Site
+from aws.ec2 import getCrawlerInstances
+
 #class TestingFormSet(BaseFormSet):
 #    def add(self, form)
         
@@ -14,6 +16,9 @@ class TestingForm(forms.ModelForm):
 class SiteForm(forms.ModelForm):
     class Meta:
         model = Site
+        instance_list = [i.id for i in getCrawlerInstances()]
+        instance_list.append('')
+        instance_choices = ((i,i) for i in instance_list)
         fields = [
                 'name','grouping','depthlimit','jurisdiction',
                 'source_allowed_domains',
@@ -25,6 +30,7 @@ class SiteForm(forms.ModelForm):
                 'parse_parameters',
                 'follow_parameters',
                 'deny_parameters',
+                'instance',
                 ]
         widgets = {
                 'name': TextInput(attrs={'class': 'form-control'}),
@@ -51,6 +57,7 @@ class SiteForm(forms.ModelForm):
                     attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
                 'deny_parameters': Textarea(
                     attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
+                'instance': Select(attrs={'class': 'form-control'}, choices=instance_choices),
                 }
 
 

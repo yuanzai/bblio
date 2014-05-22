@@ -47,8 +47,8 @@ class SpiderAll(CrawlSpider):
 
 
     def __init__(self, *a, **kw):
-        #self.id = kw['id']
-        self.id = 25
+        self.id = kw['id']
+        #self.id = 25
         site = Site.objects.get(pk=self.id)
         
         self.allowed_domains = site.source_allowed_domains.split(';')

@@ -26,7 +26,7 @@ import scraper.linkextract
 
 #distributed import
 import aws.scrapeMaster
-
+import aws.ec2
 
 def site(request, site_id):
     if site_id !='0':
@@ -64,10 +64,19 @@ def site(request, site_id):
         context.update({
             'doc_count' : d.count(),
             'zero_count' : Document.objects.filter(site_id=site_id).filter(isUsed=0).count(),
-            'index_count' : es.get_document_count_for_site_id(site_id),
             'docs':d,
             'running' : site.running})
 
+        try:
+            context.update({'index_count' : es.get_document_count_for_site_id(site_id)})
+        except:
+            pass
+
+        try: 
+            context.update({'jobid': site.jobid,
+                            'instance_ip': aws.ec2.getInstanceFromInstanceName(site.instance).ip_address})
+        except:
+            pass
     site_form = SiteForm(instance=site)
     context.update({
             'site_id':site_id,
@@ -93,11 +102,20 @@ def delete(request, site_id):
 
 # crawler code
 def crawl(request, site_id):
-    if Site.objects.get(pk=site_id).running == 1:
-        return HttpResponse("Site is already being crawled")
-    aws.scrapeMaster.crawl_site_id(site_id)    
-    import time
-    time.sleep(2)
+    if scraper.scrapeController.get_jobs_for_site(site_id)=='Running':
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    site = Site.objects.get(pk=site_id)
+    
+    ret = scraper.scrapeController.curl_schedule_crawl(site_id, site.instance)
+    if 'jobid' in ret:
+        site.jobid = ret['jobid']
+        site.save()
+    else:
+        return HttpResponse("Error when scheduling job")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def crawl_cancel(request, site_id):
+    scraper.scrapeController.curl_cancel_crawl(site_id)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def clear_crawl_schedule(request, site_id):

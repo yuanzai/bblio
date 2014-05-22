@@ -32,6 +32,9 @@ urlpatterns = patterns('',
     url(r'^site/(?P<site_id>\d+)/crawl/$',
         operations.views.site.crawl),
     
+    url(r'^site/(?P<site_id>\d+)/crawl_cancel/$',
+        operations.views.site.crawl_cancel),
+    
     url(r'^site/(?P<site_id>\d+)/clear_crawl_schedule/$',    
         operations.views.site.clear_crawl_schedule),
     
@@ -39,7 +42,7 @@ urlpatterns = patterns('',
     url(r'^document/(?P<doc_id>\d+)/$',
         operations.views.site.document, name='get_document'),
 
-    url(r'^site/(?P<site_id>\d+)/idocument_duplicate_filter/$',
+    url(r'^site/(?P<site_id>\d+)/document_duplicate_filter/$',
         operations.views.site.document_duplicate_filter),
     url(r'^site/(?P<site_id>\d+)/document_reset_to_zero/$',
         operations.views.site.document_reset_to_zero), 
