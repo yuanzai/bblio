@@ -23,7 +23,6 @@ from es.YTHESController import YTHESController as ESController
 
 #crawler import
 import scraper.scrapeController
-import scraper.linkextract
 
 #distributed import
 import aws.scrapeMaster

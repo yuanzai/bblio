@@ -11,7 +11,7 @@ import importlib
 import shutil
 import telnetlib
 import getpass
-import httplib, urllib, chardet
+import httplib, urllib, urllib2, chardet
 from subprocess import Popen, PIPE
 import json, re
 from urlparse import urlparse
@@ -41,6 +41,11 @@ def get_settings():
     settings_module = importlib.import_module('settings')
     return CrawlerSettings(settings_module)
 
+"""
+Deploys spider to all crawler instances as defined in bblio.cfg
+returns string of failed deployments
+returns None if success
+"""
 def deploy():
     ret = None
     for i in ec2.getCrawlerInstances():
@@ -114,6 +119,13 @@ def get_jobs_for_all_instances():
     return job_dict
 
 def get_jobs_for_instance(crawler_instance='i-260aa82e'):
+    """
+    Gets the current jobs in the instance
+    return json
+    id:{
+        status, start_time, end_time, instance, site_id}
+        }
+    """
     url = ec2.getInstanceFromInstanceName(crawler_instance).ip_address
     ret = curl(url, "/listjobs.json?project=deployable","GET")
     inv_map = {}
@@ -121,16 +133,29 @@ def get_jobs_for_instance(crawler_instance='i-260aa82e'):
         for k,v in ret.items():
             if k != 'status':
                 for j in v:
-                    site_id = Job.objects.get(scrapyd_job_id=j['id']).site_id
                     inv_map.update({
                         j['id'] : {
                             'status':k,
-                            'start_time': j['start_time'],
-                            'end_time' : j['end_time'],
                             'instance' : crawler_instance,
-                            'site' : site_id
                             }
                         })
+    except:
+        inv_map = None
+    return inv_map
+
+def get_job_status_count_for_instance(crawler_instance):
+    """
+    Gets the status count in instance
+    return dict 
+    d['running'] ; d['finished'] ; d['pending']
+    """
+    url = ec2.getInstanceFromInstanceName(crawler_instance).ip_address
+    ret = curl(url, "/listjobs.json?project=deployable","GET")
+    inv_map = {}
+    try:
+        for k,v in ret.items():
+            if k != 'status':
+                inv_map.update({ k : len(v) })
     except:
         inv_map = None
     return inv_map
@@ -153,12 +178,12 @@ def get_jobs_for_site(site_id):
 
 def curl_cancel_crawl(site_id):
     s = Site.objects.get(pk=site_id)
-    if not s:
+    if s:
         url = ec2.getInstanceFromInstanceName(s.instance).ip_address
         params = urllib.urlencode({'project': 'deployable', 'job' : s.jobid})
         ret = curl(url, "/cancel.json", "POST", params)
         return ret
-    pass
+    return None
 
 def link_extractor(url, parse_parameters='', follow_parameters='', deny_parameters='', source_allowed_domains = ''):
     res = urllib2.urlopen(url)
@@ -218,8 +243,10 @@ if __name__ == '__main__':
             check_reactor()
         elif arg[1] == 'curl':
             curl_test()
+        elif arg[1] == 'count':
+            print get_job_status_count_for_instance()
         elif arg[1] == 'jobs':
-            get_jobs_for_all_instances()
+            print get_jobs_for_instance()
         elif arg[1] == 'deploy':
             deploy()
         else:

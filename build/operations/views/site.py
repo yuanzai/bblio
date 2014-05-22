@@ -26,6 +26,9 @@ import scraper.scrapeController
 #distributed import
 import aws.ec2
 
+#import config
+import config_file
+
 def site(request, site_id):
     if site_id !='0':
         site = Site.objects.get(pk=site_id)
@@ -100,20 +103,36 @@ def delete(request, site_id):
 
 # crawler code
 def crawl(request, site_id):
+    import time
+    site = Site.objects.get(pk=site_id)
+    if site.instance == '' or not site.instance:
+        return HttpResponse("Not working instance selected")
+     
     if scraper.scrapeController.get_jobs_for_site(site_id)=='Running':
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    site = Site.objects.get(pk=site_id)
-    
-    ret = scraper.scrapeController.curl_schedule_crawl(site_id, site.instance)
-    if 'jobid' in ret:
-        site.jobid = ret['jobid']
-        site.save()
+    try:
+        c_dict = scraper.scrapeController.get_job_status_count_for_instance(site.instance) 
+        print c_dict
+        count = int(c_dict['running']) + int(c_dict['pending'])
+    except:
+        count = 0
+    print config_file.get_config().get('bblio','crawler_instance_site_limit') 
+    if count < int(config_file.get_config().get('bblio','crawler_instance_site_limit')):
+        ret = scraper.scrapeController.curl_schedule_crawl(site_id, site.instance)
+        if 'jobid' in ret:
+            site.jobid = ret['jobid']
+            site.save()
+        else:
+            return HttpResponse("Error when scheduling job")
     else:
-        return HttpResponse("Error when scheduling job")
+        return HttpResponse("Worker instance is full. Please try another instance")
+    
+    time.sleep(4)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def crawl_cancel(request, site_id):
-    scraper.scrapeController.curl_cancel_crawl(site_id)
+    if not scraper.scrapeController.curl_cancel_crawl(site_id):
+        return HttpResponse("Cancel Failed")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def clear_crawl_schedule(request, site_id):

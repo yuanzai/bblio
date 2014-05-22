@@ -98,11 +98,11 @@ class SpiderAll(CrawlSpider):
         super(SpiderAll, self).__init__(*a, **kw) 
     
     def follow_item(self, response):
-        log.msg('Following: ' + response.url,level=log.INFO)
+        log.msg('[%s] Following: %s' % (self.id, response.url),level=log.INFO, spider=self)
         return None
 
     def parse_item(self, response):
-        log.msg('Parsing Start: ' + response.url,level=log.INFO)
+        log.msg('[%s] Parsing Start: %s' % (self.id, response.url),level=log.INFO,spider=self)
          
         try:
             item = {
@@ -134,7 +134,7 @@ class SpiderAll(CrawlSpider):
             d = Document(**item)
             d.save()
             
-            log.msg('Parsing Success: ' + response.url,level=log.INFO)
+            log.msg('[%s] Parsing Success: %s' % (self.id, response.url),level=log.INFO,spider=self)
 
             return
         except AttributeError:

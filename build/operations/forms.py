@@ -3,9 +3,8 @@ from django.forms.formsets import BaseFormSet
 from django.forms import Textarea, TextInput, Select
 from search.models import TestingResult,Site
 from aws.ec2 import getCrawlerInstances
-
-#class TestingFormSet(BaseFormSet):
-#    def add(self, form)
+import config_file
+from scraper.scrapeController import get_job_status_count_for_instance
         
 
 class TestingForm(forms.ModelForm):
@@ -16,9 +15,16 @@ class TestingForm(forms.ModelForm):
 class SiteForm(forms.ModelForm):
     class Meta:
         model = Site
-        instance_list = [i.id for i in getCrawlerInstances()]
-        instance_list.append('')
-        instance_choices = ((i,i) for i in instance_list)
+        instance_list = []
+        running_limit = config_file.get_config().get('bblio','crawler_instance_site_limit')
+        for i in getCrawlerInstances():            
+            dict = get_job_status_count_for_instance(i.id)
+            count = int(dict['pending']) + int(dict['running'])
+            instance_list.append({'name':i.id,'choice_name': i.id + ' ' + str(count) + '/' + str(running_limit)})
+
+        instance_list.append({'name':'','choice_name':''})
+
+        instance_choices = ((i['name'],i['choice_name']) for i in instance_list)
         fields = [
                 'name','grouping','depthlimit','jurisdiction',
                 'source_allowed_domains',

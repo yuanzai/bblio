@@ -52,3 +52,11 @@ def getCrawlerInstances():
 def copy_file_to_web_server(local_filepath,web_server_filepath):
     ssh_client = sshclient_from_instance(getWebServerInstance(),host_key_file = '/home/ec2-user/.ssh/known_hosts', ssh_key_file=keys.aws_pem,user_name='ec2-user')
     ssh_client.put_file(local_filepath, web_server_filepath)
+
+if __name__ == '__main__':
+        arg = sys.argv    
+        if len(sys.argv) > 1:
+            if arg[1] == 'crawlers':
+                for i in getCrawlerInstances():
+                    print i.id
+

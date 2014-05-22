@@ -20,6 +20,7 @@ def index(request):
             <a href="t1_L1">[L1] Type 1 - Never-ending Blog (fine, it ends at the maiden post)</a><br>
             <a href="t2_L1">[L1] Type 2 - Firm's Site / Archives</a><br>
             <a href="t3_L1">[L1] Type 3 - Firm's Site: Several Articles on Each Page</a>
+            <a href="http://www.quora.com/">This is QUORA!!</a>
             """)
 
 

@@ -47,22 +47,38 @@ class SpiderAll(CrawlSpider):
 
 
     def __init__(self, *a, **kw):
-        self.id = kw['id']
-        #self.id = 25
-        site = Site.objects.get(pk=self.id)
-        
-        self.allowed_domains = site.source_allowed_domains.split(';')
-        self.start_urls = site.source_start_urls.split(';')
         self.follow = []
         self.parsing = []
         self.deny = []
-        if site.parse_parameters:  self.parsing = site.parse_parameters.strip().encode('utf-8').split(";")
-        if site.follow_parameters:  self.follow = site.follow_parameters.strip().encode('utf-8').split(";")   
-        if site.deny_parameters: self.deny = site.deny_parameters.strip().encode('utf-8').split(";")    
+        site = None
+        if 'id' in kw:
+            self.id = kw['id']
+
+            site = Site.objects.get(pk=self.id)
+            self.start_urls = site.source_start_urls.split(';')
+            self.allowed_domains = site.source_allowed_domains.split(';')
+            if site.parse_parameters:  self.parsing = site.parse_parameters.strip().encode('utf-8').split(";")
+            if site.follow_parameters:  self.follow = site.follow_parameters.strip().encode('utf-8').split(";")   
+            if site.deny_parameters: self.deny = site.deny_parameters.strip().encode('utf-8').split(";")    
+        else:
+            self.allowed_domains = kw['source_allowed_domains'].split(';')
+            self.start_urls = kw['source_start_urls'].split(';')
+            if kw['parse_parameters']: self.parsing = kw['parse_parameters'].strip().encode('utf-8').split(';')
+            if kw['follow_parameters']: self.follow = kw['follow_parameters'].strip().encode('utf-8').split(';')
+            if kw['deny_parameters']: self.deny = kw['deny_parameters'].strip().encode('utf-8').split(';')
+        self.parsing = [i for i in self.parsing if i !='']
+        self.follow = [i for i in self.follow if i !='']
+        self.deny = [i for i in self.deny if i !='']
         
+        
+        
+
+
         config = config_file.get_config()
         universal_deny = config.get('bblio','universal_deny').strip().split(";")
+        universal_deny = [i for i in universal_deny if i != '']
         self.deny.extend(universal_deny)
+        print self.deny
         if len(self.follow) > 0:
             for i,d in enumerate(self.follow):
                 if "r'" in str(d[0:2]) and "'" in str(d[-1]):
@@ -98,11 +114,11 @@ class SpiderAll(CrawlSpider):
         super(SpiderAll, self).__init__(*a, **kw) 
     
     def follow_item(self, response):
-        log.msg('Following: ' + response.url,level=log.INFO)
+        log.msg('[%s] Following: %s' % (self.id, response.url),level=log.INFO, spider=self)
         return None
 
     def parse_item(self, response):
-        log.msg('Parsing Start: ' + response.url,level=log.INFO)
+        log.msg('[%s] Parsing Start: %s' % (self.id, response.url),level=log.INFO,spider=self)
          
         try:
             item = {
@@ -134,7 +150,7 @@ class SpiderAll(CrawlSpider):
             d = Document(**item)
             d.save()
             
-            log.msg('Parsing Success: ' + response.url,level=log.INFO)
+            log.msg('[%s] Parsing Success: %s' % (self.id, response.url),level=log.INFO,spider=self)
 
             return
         except AttributeError:
