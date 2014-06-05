@@ -15,6 +15,7 @@ import httplib, urllib, urllib2, chardet
 from subprocess import Popen, PIPE
 import json, re
 from urlparse import urlparse
+import string, random
 
 #django imports
 from django.forms.models import model_to_dict
@@ -80,14 +81,6 @@ project = deployable\n
     return ret
 
 def curl(url, method, request_type, params=None):
-    """
-    params = urllib.urlencode(
-            {
-                'project': 'deployable',
-                'spider': 'SpiderAll',
-
-                })
-    """
     headers = {
             "Content-type": "application/x-www-form-urlencoded",
             "Accept": "text/plain"}
@@ -101,12 +94,16 @@ def curl(url, method, request_type, params=None):
 
 def curl_schedule_crawl(site_id, crawler_instance='i-260aa82e'):
     url = ec2.getInstanceFromInstanceName(crawler_instance).ip_address
+    dl = Site.objects.get(pk=site_id).depthlimit
+    print dl
     params = urllib.urlencode({'project': 'deployable', 'spider': 'SpiderAll', 'id' : site_id})
+    params = params + '&setting=DEPTH_LIMIT=' + str(dl)
+    print params
     ret = curl(url, "/schedule.json", "POST", params)
     return ret
 
 def curl_test():
-    curl_schedule_crawl(25, 'i-260aa82e')
+    return curl_schedule_crawl(25, 'i-260aa82e')
 
 def get_jobs_for_all_instances():
     instance_list = ec2.getCrawlerInstances()
@@ -218,39 +215,53 @@ def link_extractor(url, parse_parameters='', follow_parameters='', deny_paramete
         host_regex = re.compile(regex)
 
 
-    for i,link in enumerate(a_list):
+    for link in a_list:
+        params = []
         if link in p_list:
             status='parsed'
+            params = get_effecting_param(link, spider.parsing)
         elif link in f_list:
             status='followed'
+            params = get_effecting_param(link, spider.follow)
         else:
             status='denied'
+            params = get_effecting_param(link, spider.deny)
 
         if not bool(host_regex.search(urlparse(link).hostname)):
             status='denied'
+            params.append('<hostname>')
 
-        tree_list.append({'url':link,'allow':status,'linkno':i})
+        tree_list.append({
+            'url':link,
+            'params':str(params),
+            'allow':status,
+            'linkno':''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])})
     return tree_list
 
 
-
+def get_effecting_param(link, param_list):
+    ret = []
+    for term in param_list:
+        r = re.compile(term)
+        if re.search(r, link):
+            ret.append(term)
+    return ret
+        
 if __name__ == '__main__':
     arg = sys.argv
     if len(sys.argv) > 1:
         if arg[1] == 'clear':
-            clear_schedule(arg[2])
+            curl_cancel_crawl(arg[2])
         elif arg[1] == 'check':
             check_reactor()
         elif arg[1] == 'curl':
-            curl_test()
+            print curl_test()
         elif arg[1] == 'count':
             print get_job_status_count_for_instance()
         elif arg[1] == 'jobs':
             print get_jobs_for_instance()
         elif arg[1] == 'deploy':
             deploy()
-        else:
-            run_site_id(arg[1])
 
     else:
         print('Site ID required')

@@ -6,7 +6,7 @@ class Document(models.Model):
     domain = models.TextField()
     title = models.TextField(blank=True, null=True, default=None)
     lastupdate = models.DateTimeField(auto_now=True)
-    isUsed = models.SmallIntegerField(default=1,db_index=True)
+    isUsed = models.SmallIntegerField(default=0,db_index=True)
     site = models.ForeignKey('Site')
     response_code = models.SmallIntegerField(blank=True, null = True)
     document_html = models.TextField(blank=True, null = True)
@@ -39,6 +39,7 @@ class Site(models.Model):
     jurisdiction = models.CharField(max_length=10,blank=True,null=True)
     jobid = models.CharField(max_length=100, blank=True, null=True)
     instance = models.CharField(max_length=30, blank=True, null=True)
+    owner = models.CharField(max_length=30, blank=True, null=True)
 
 class Job(models.Model):
     scrapyd_job_id = models.CharField(max_length=100, unique=True)

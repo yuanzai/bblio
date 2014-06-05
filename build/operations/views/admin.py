@@ -19,6 +19,8 @@ class ConfigForm(forms.Form):
     es_instance = forms.CharField(max_length = 20,widget=forms.TextInput(attrs={'class': 'form-control'}))
     web_server_instance = forms.CharField(max_length = 20,widget=forms.TextInput(attrs={'class': 'form-control'}))
     crawler_instance = forms.CharField(max_length = 255,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    owners = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
 
 def index(request):
     config = config_file.get_config()

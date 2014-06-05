@@ -6,17 +6,19 @@
 <body>
 {% include "operations/operations_navbar.html" %} <!-- NAV BAR -->
 <div class="container">
-<div class="row">
-<form action="{% url 'operations.views.admin.index' %}" method="post" role="form">
-    {% csrf_token %}
-    {{ form.as_p }}
-<input class="btn btn-primary" type="submit" value="Submit">
-</form>
-</div>
-<div class="row">
-    <br>
-    <a class="btn btn-default" href="{% url 'operations.views.admin.push_scrape' %}">Copy crawler files to workers</a>
-</div>
-</div>
+    <div class="row">
+        <div class="col-xs-6">
+        <form action="{% url 'operations.views.admin.index' %}" method="post" role="form">
+            {% csrf_token %}
+            {{ form.as_p }}
+        <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+        </div>
+        <div class="col-xs-6">
+            <br>
+            <a class="btn btn-default" href="{% url 'operations.views.admin.push_scrape' %}">Copy crawler files to workers</a>
+        </div>
+        </div>
+    <div>
 </body>
 </html>

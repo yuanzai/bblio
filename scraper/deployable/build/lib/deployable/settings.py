@@ -11,9 +11,12 @@ BOT_NAME = 'deployable'
 SPIDER_MODULES = ['deployable.spiders']
 NEWSPIDER_MODULE = 'deployable.spiders'
 ITEM_PIPELINES = {'deployable.pipelines.AllPipeline':1000}
-DOWNLOAD_DELAY = 0.25
+DOWNLOAD_DELAY = 0.5
+CONCURRENT_REQUESTS_PER_IP = 10
 
 LOG_LEVEL = 'INFO'
+
+REDIRECT_MAX_TIMES = 0
 
 import sys
 sys.path.append('/home/ec2-user/bblio/build/')

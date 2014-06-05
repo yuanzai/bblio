@@ -122,10 +122,12 @@ class YTHESController(BaseESController):
         l = []
         for re in res['hits']['hits']:
             d = {"urlAddress" : re['fields']['urlAddress'],
-                 "title": re['fields']['title'],
                  "id" : re['_id'],
                  "score" : re['_score'],}
-            if len(d['title']) == 0:
+           
+            try:
+                d.update({"title": re['fields']['title']})
+            except:
                 d.update({"title": d['urlAddress']})
 
             try:
@@ -203,7 +205,10 @@ class YTHESController(BaseESController):
 
     def title_parse(self, text):
         tree = self.get_tree(text)
-        return tree.xpath("title/text()")[0]
+        try:
+            return tree.xpath("title/text()")[0]
+        except:
+            return
 
     def text_parse(self, text):
         tree = self.get_tree(text)

@@ -2,6 +2,7 @@
 import string
 from datetime import datetime
 import sys
+import os
 import re
 sys.path.append('/home/ec2-user/bblio/')
 sys.path.append('/home/ec2-user/bblio/build/')
@@ -29,6 +30,8 @@ class SpiderAll(CrawlSpider):
     count = 0
     _restrict_xpath= ('//*[not(self::meta)]')
     id = None
+    
+    url_list = []
 
     ignored_extensions = [
     # images
@@ -70,15 +73,10 @@ class SpiderAll(CrawlSpider):
         self.follow = [i for i in self.follow if i !='']
         self.deny = [i for i in self.deny if i !='']
         
-        
-        
-
-
         config = config_file.get_config()
         universal_deny = config.get('bblio','universal_deny').strip().split(";")
         universal_deny = [i for i in universal_deny if i != '']
         self.deny.extend(universal_deny)
-        print self.deny
         if len(self.follow) > 0:
             for i,d in enumerate(self.follow):
                 if "r'" in str(d[0:2]) and "'" in str(d[-1]):
@@ -93,6 +91,8 @@ class SpiderAll(CrawlSpider):
             for i,d in enumerate(self.deny):
                 if "r'" in str(d[0:2]) and "'" in str(d[-1]):
                     self.deny[i] = d[2:-1]
+        if Document.objects.filter(site_id=self.id).count() > 0:
+            self.url_list = Document.objects.filter(site_id=self.id).values_list('urlAddress')
 
         self.rules = (
                 Rule(SgmlLinkExtractor(
@@ -119,8 +119,9 @@ class SpiderAll(CrawlSpider):
 
     def parse_item(self, response):
         log.msg('[%s] Parsing Start: %s' % (self.id, response.url),level=log.INFO,spider=self)
-         
+        log.msg('response header' + response.headers['content-type'], level=log.INFO, spider=self)
         try:
+
             item = {
                     'urlAddress' : response.url,
                     'domain' :  self.allowed_domains,
@@ -132,6 +133,8 @@ class SpiderAll(CrawlSpider):
             if '.pdf' in str(response.url[-4:]):
                 pdf_name = str(self.id) + '_' + str(datetime.now().isoformat()) + '.pdf'
                 path = '/home/ec2-user/bblio/scraper/pdf/'
+                if not os.path.exists(path):
+                    os.makedirs(path)
                 item.update({
                         'document_html' : path + pdf_name,
                         'encoding' : 'PDF'
@@ -147,8 +150,12 @@ class SpiderAll(CrawlSpider):
                     'encoding' : response.headers['content-type'].split('charset=')[-1],
                     'document_html': (response.body).decode('utf-8','ignore').encode('utf-8')
                     })
-            d = Document(**item)
-            d.save()
+            if item['urlAddress'] in self.url_list:
+                d = Document.objects.filter(site_id=self.id).filter(urlAddress=item['urlAddress'])[0]
+                d.update(**item)
+            else:
+                d = Document(**item)
+                d.save()
             
             log.msg('[%s] Parsing Success: %s' % (self.id, response.url),level=log.INFO,spider=self)
 

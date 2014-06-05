@@ -1,12 +1,16 @@
 
 
-
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'operations.views.index' %}">LitigoSearch Operations</a>
-        
-        <li class="navbar-text navbar-right"><a href="{% url 'operations.views.admin.index' %}" class="navbar-link">Admin</a></li>
-        <li class="navbar-text navbar-right"><a href="{% url 'operations.views.site.sites' %}" class="navbar-link">Sites</a></li>
-        <li class="navbar-text navbar-right"><a href="{% url 'operations.views.tester' %}" class="navbar-link">Tester</a></li>
+        <div class="container">
+        <ul class ="nav navbar-nav navbar-right"> 
+        <li><a href="#" class="navbar-link">Indexed <span class="badge">{{ es_count }}</span>
+            </a></li>
+        <li><a href="{% url 'operations.views.admin.index' %}" class="navbar-link">Admin</a></li>
+        <li><a href="{% url 'operations.views.site.sites' %}" class="navbar-link">Sites</a></li>
+        <li><a href="{% url 'operations.views.tester' %}" class="navbar-link">Tester</a></li>
+    </ul>
+    </div>
     </div>
 </nav>

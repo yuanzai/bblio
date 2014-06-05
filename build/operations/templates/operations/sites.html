@@ -12,18 +12,20 @@
     ); 
 </script>
 </head> 
-{% include "operations/operations_navbar.html" %}
+{% load tags %}
+{% navbar_inclusion %}
 
 <div class="container">
-    <h1>Sites</h1>
-<form action="{% url 'sites'%}0/" method="GET" role="form">
-<div class="row">
-    <div class="col-xs-2">
+    <div class="row">
+        <div class="col-xs-2">
+        <h1>Sites</h1>
+        <form action="{% url 'sites'%}0/" method="GET" role="form">
         <input type="submit" value="Create Site" class="form-control"> 
+        </form>
+        </div>
+
     </div>
-</div>
-</form>
-<br>
+    {{ score }}
 
 {% csrf_token %}
 <table class="table" >
@@ -31,8 +33,10 @@
 <tr>
     <th>ID</th>
     <th>Name</th>
+    <th>Owner</th>
     <th>Grouping</th>
     <th>Document Count</th>
+    <th>Index Count</th>
     <th>Last crawled</th>
     <th>Status</th>
 </tr>
@@ -47,13 +51,22 @@
         <a href="{% url 'site' site.id %}">{{ site.name }} </a>
     </td>
     <td>
+        {% if site.owner  %}
+
+        {{ site.owner }}
+        {% endif %}
+    </td>
+    <td>
         {{ site.grouping }}
     </td>
     <td>
         {{ site.doc_count }}
     </td>
     <td>
-        {{ site.lastupdate|date:"d M Y"  }}
+        {{ site.index_count }}
+    </td>
+    <td>
+        {{ site.lastupdate|date:"Y m d"  }}
     </td>
     <td>
         {% if site.running == 1 %}

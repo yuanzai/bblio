@@ -51,6 +51,28 @@ class BaseESController(object):
                     })
         for r in res['hits']['hits']:
             self.delete_one_doc(int(r['_id']))
+    
+    def get_document_count_by_site(self):
+        res = self._es.search(
+                index=self._es_index,
+                body = {
+                    "query" :{
+                        "match_all" :{}
+                        },
+                    "facets":{
+                        "site_id":{
+                            "terms" :{
+                                "field": "site_id",
+                                "size": 1000
+                                }
+                            }
+                        }
+                    }
+                )
+        site_dict = {}
+        for r in res['facets']['site_id']['terms']:
+            site_dict.update({ r['term'] : r['count']})
+        return site_dict
 
     def get_document_count_for_site_id(self, site_id):
         res = self._es.search(
@@ -71,7 +93,10 @@ class BaseESController(object):
 
     def index_site_id(self, site_id):   
         docs = Document.objects.filter(site_id=site_id).filter(isUsed=0)
-        for doc in docs:
+        for id, doc in enumerate(docs):
+            import time
+            if id % 50 == 0:
+                time.sleep(1)
             self.index_one_doc(doc)
             print('Indexing - ' + str(doc.id))
 
@@ -83,7 +108,14 @@ class BaseESController(object):
             current_page=1):
         raise ESControllerError("Method not defined")
         return
-
+    
+    def get_document_count(self):
+        #gets the document count in the main index
+        try:
+            return self._es.indices.stats(index=self._es_index)['_all']['primaries']['docs']['count']
+        except:
+            return None
+    
     def index_autocomplete(self):
         raise ESControllerError("Method not defined")
         return
@@ -99,6 +131,7 @@ class BaseESController(object):
         pass
 
 class ESControllerError(Exception):
+
     def __init__(self, *args):
         self.error_message = args[0]
         pass

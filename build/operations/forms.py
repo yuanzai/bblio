@@ -5,7 +5,7 @@ from search.models import TestingResult,Site
 from aws.ec2 import getCrawlerInstances
 import config_file
 from scraper.scrapeController import get_job_status_count_for_instance
-        
+from search.views import get_country_list 
 
 class TestingForm(forms.ModelForm):
     class Meta:
@@ -13,18 +13,28 @@ class TestingForm(forms.ModelForm):
         fields = ['document', 'score', 'testinggroup', 'searchterm']
 
 class SiteForm(forms.ModelForm):
-    class Meta:
-        model = Site
-        instance_list = []
+    def __init__(self, *args, **kwargs):
+        super(SiteForm, self).__init__(*args, **kwargs)
+        
         running_limit = config_file.get_config().get('bblio','crawler_instance_site_limit')
-        for i in getCrawlerInstances():            
-            dict = get_job_status_count_for_instance(i.id)
-            count = int(dict['pending']) + int(dict['running'])
-            instance_list.append({'name':i.id,'choice_name': i.id + ' ' + str(count) + '/' + str(running_limit)})
+        
+        instance_list = []
+        try:
+            for i in getCrawlerInstances():            
+                dict = get_job_status_count_for_instance(i.id)
+                count = int(dict['pending']) + int(dict['running'])
+                instance_list.append({'name':i.id,'choice_name': i.id + ' ' + str(count) + '/' + str(running_limit)})
+        except:
+            pass
 
         instance_list.append({'name':'','choice_name':''})
-
         instance_choices = ((i['name'],i['choice_name']) for i in instance_list)
+        self.fields['instance'].widget = Select(attrs={'class': 'form-control input-sm'}, choices=instance_choices)
+        self.fields['jurisdiction'].widget = Select(attrs={'class': 'form-control input-sm'}, choices=get_country_list())
+        self.fields['owner'].widget = Select(attrs={'class': 'form-control input-sm'}, choices=[(o, o) for o in config_file.get_config().get('bblio','owners').split(';')])
+    class Meta:
+        model = Site
+       
         fields = [
                 'name','grouping','depthlimit','jurisdiction',
                 'source_allowed_domains',
@@ -37,13 +47,14 @@ class SiteForm(forms.ModelForm):
                 'follow_parameters',
                 'deny_parameters',
                 'instance',
+                'owner'
                 ]
         widgets = {
                 'name': TextInput(attrs={'class': 'form-control'}),
                 'grouping': TextInput(attrs={'class': 'form-control'}),
-                'depthlimit': TextInput(attrs={'class': 'form-control'}),
+                'depthlimit': TextInput(attrs={'size':5, 'class': 'form-control'}),
 
-                'jurisdiction': TextInput(attrs={'class': 'form-control'}),
+                #'jurisdiction': TextInput(attrs={'class': 'form-control'}),
 
                 'source_allowed_domains': Textarea(
                     attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
@@ -58,12 +69,11 @@ class SiteForm(forms.ModelForm):
                 'source_denyFollow': Textarea(
                     attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
                 'parse_parameters': Textarea(
-                    attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
+                    attrs={'cols': 80, 'rows': 4, 'class': 'form-control input-sm'}),
                 'follow_parameters': Textarea(
-                    attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
+                    attrs={'cols': 80, 'rows': 2, 'class': 'form-control input-sm'}),
                 'deny_parameters': Textarea(
-                    attrs={'cols': 80, 'rows': 2, 'class': 'form-control'}),
-                'instance': Select(attrs={'class': 'form-control'}, choices=instance_choices),
+                    attrs={'cols': 80, 'rows': 4, 'class': 'form-control input-sm'}),
                 }
 
 
