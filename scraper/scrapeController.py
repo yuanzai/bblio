@@ -35,8 +35,11 @@ from scraper.deployable.deployable.spiders.spiderAll import SpiderAll
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.http.response.html import HtmlResponse
 
+from boto.manage.cmdshell import sshclient_from_instance
+
 #import aws 
 import aws.ec2 as ec2
+import aws.keys as keys
 
 def get_settings():
     settings_module = importlib.import_module('settings')
@@ -50,6 +53,51 @@ returns None if success
 def deploy():
     ret = None
     for i in ec2.getCrawlerInstances():
+        if not i.ip_address:
+            continue
+        print "[%s] %s" % (i.id, i.ip_address)
+                
+        ssh_client = sshclient_from_instance(ec2.getInstanceFromInstanceName(i.id), host_key_file = '/home/ec2-user/.ssh/known_hosts', ssh_key_file=keys.aws_pem,user_name='ec2-user')
+        ssh_client.put_file('/home/ec2-user/bblio/scraper/scrapyd.conf','/home/ec2-user/scrapyd.conf')
+
+        home_dir = '/home/ec2-user/bblio/'
+
+        copyList = []
+        copyList.append(home_dir + 'build/search/models.py')
+        copyList.append(home_dir + 'build/search/__init__.py')
+        copyList.append(home_dir + 'build/Build/__init__.py')
+        copyList.append(home_dir + 'build/Build/settings.py.crawler')
+        copyList.append(home_dir + 'build/Build/myScript.py.crawler')
+        copyList.append(home_dir + 'build/manage.py')
+        copyList.append(home_dir + 'build/__init__.py')
+        copyList.append(home_dir + 'aws/ec2.py')
+        copyList.append(home_dir + 'aws/keys.py')
+        copyList.append(home_dir + 'aws/key.pem')
+        copyList.append(home_dir + 'aws/__init__.py')
+        copyList.append(home_dir + 'config_file.py')
+        copyList.append(home_dir + '__init__.py')
+
+        dirList = []
+
+        for c in copyList:
+            c_dir = os.path.dirname(c)
+            prev_dir = ''
+            while c_dir != prev_dir and c_dir not in home_dir:
+                if c_dir not in dirList:
+                    dirList.append(c_dir)
+                prev_dir = c_dir
+                c_dir = os.path.dirname(c_dir)
+        dirList.append(home_dir)
+        dirList.sort(lambda x,y: cmp(len(x), len(y)))
+
+        for d in dirList:
+            print('[dir][%s] %s' % (ssh_client.server.instance_id, d))
+            ssh_client.run('mkdir %s' % d)
+
+        for c in copyList:
+            print('[file][%s] %s' % (ssh_client.server.instance_id, c))
+            ssh_client.put_file(c,c.replace('.crawler',''))
+
         with open("/home/ec2-user/bblio/scraper/deployable/scrapy.cfg", "w") as f:
             f.write(
 """
@@ -65,7 +113,7 @@ project = deployable\n
             print i.ip_address
         p = Popen(['scrapyd-deploy'],stdout=PIPE,shell=True,cwd='/home/ec2-user/bblio/scraper/deployable')
         j = None
-        
+
         while True:
             out = p.stdout.read()
             if out == '' and p.poll() != None:
@@ -91,6 +139,9 @@ def curl(url, method, request_type, params=None):
     json_data = json.loads(data)
     conn.close()
     return json_data
+
+def delete(ip):
+    print curl(ip,"/delproject.json", "POST") 
 
 def curl_schedule_crawl(site_id, crawler_instance='i-260aa82e'):
     url = ec2.getInstanceFromInstanceName(crawler_instance).ip_address
@@ -161,17 +212,14 @@ def get_jobs_for_site(site_id):
     j = Site.objects.get(pk=site_id).jobid
     i = Site.objects.get(pk=site_id).instance
     
-    if j:
-        instance_jobs = get_jobs_for_instance(i)
-        if instance_jobs:
-            if j in instance_jobs:
-                try:
+    try:
+        if j:
+            instance_jobs = get_jobs_for_instance(i)
+            if instance_jobs:
+                if j in instance_jobs:
                     return instance_jobs[j]['status']
-                except:
-                    pass
-    
-    return None
-
+    except:
+        return None
 
 def curl_cancel_crawl(site_id):
     s = Site.objects.get(pk=site_id)
@@ -260,6 +308,8 @@ if __name__ == '__main__':
             print get_job_status_count_for_instance()
         elif arg[1] == 'jobs':
             print get_jobs_for_instance()
+        elif arg[1] == 'delete':
+            delete(arg[2])
         elif arg[1] == 'deploy':
             deploy()
 

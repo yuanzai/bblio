@@ -13,4 +13,5 @@
 **/crawls/**
 keys.py
 *.pem
+*.pdf
 

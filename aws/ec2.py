@@ -1,10 +1,12 @@
 import boto.ec2
+import boto.s3
+from boto.s3.key import Key
 import sys
 sys.path.append('/home/ec2-user/bblio/')
 from boto.manage.cmdshell import sshclient_from_instance
 import keys
 from config_file import get_config
-
+import os
 
 def conn():
     return boto.ec2.connect_to_region("us-west-2",
@@ -18,7 +20,11 @@ def stopES():
     conn().stop_instances(instance_ids=get_config().get('bblio','es_instance'))
 
 def getInstance(instance_name, attr=None):
-    instance = conn().get_only_instances(instance_name)[0]
+    try:
+        instance = conn().get_only_instances(instance_name)[0]
+    except:
+        return None
+
     if attr:
         try:
             instanceA = getattr(instance, attr)
@@ -46,12 +52,29 @@ def getCrawlerInstance():
     return conn().get_all_instances(instance_ids=get_config().get('bblio','crawler_instance').split(';')[0])[0].instances[0]
 
 def getCrawlerInstances():
-    return [getInstance(i) for i in get_config().get('bblio','crawler_instance').split(';')]
-
+    return filter(None,[getInstance(i) for i in get_config().get('bblio','crawler_instance').split(';')])
 
 def copy_file_to_web_server(local_filepath,web_server_filepath):
     ssh_client = sshclient_from_instance(getWebServerInstance(),host_key_file = '/home/ec2-user/.ssh/known_hosts', ssh_key_file=keys.aws_pem,user_name='ec2-user')
     ssh_client.put_file(local_filepath, web_server_filepath)
+
+def copy_file_to_S3(s3_key, local_filename):
+    conn = boto.connect_s3(keys.aws_access_key_id, keys.aws_secret_access_key)
+    b = conn.get_bucket('bblio')
+    k = Key(b)
+    k.key = s3_key
+    ret = k.set_contents_from_filename(local_filename)
+    if ret > 0:
+        return True
+    else:
+        return False
+
+def retrieve_file_from_S3(s3_key, save_path):
+    conn = boto.connect_s3(keys.aws_access_key_id, keys.aws_secret_access_key)
+    b = conn.get_bucket('bblio')
+    k = Key(b)
+    k.key = s3_key
+    k.get_contents_to_filename(save_path)
 
 if __name__ == '__main__':
         arg = sys.argv    

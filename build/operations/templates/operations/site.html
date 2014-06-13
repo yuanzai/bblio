@@ -50,10 +50,18 @@
             $('a[name="confirm"]').click(function() {
                 return window.confirm(this.title || 'Proceed?');
             });
+            $("#parse_hint").on("change", parse_change);
 
             $("[level=0]").on("click",posted);
             console.log("ready");
         });
+
+        function parse_change() {
+            if ($("#id_parse_parameters").val() != '') {
+                $("#id_parse_parameters").val($("#id_parse_parameters").val() + ';');
+            }
+            $("#id_parse_parameters").val($("#id_parse_parameters").val() + $("#parse_hint").val());
+        }
 
         function hideunhide() {
             $('li[toggling="yes"]').toggle();
@@ -177,14 +185,25 @@
                         {{ site_form.source_start_urls }}
                     </li>
                     <li class="active">
-                        <br>To ID patterns in URL:
-                        <br>4 digits = \d{4}    |   2 digits = \d{2}
-                        <br>Unlimited text = [^\s/]+
-                        <br>Only at the end of a URL = $
-                        <br>Stuff all patterns within r' '
+                                <br>To ID patterns in URL:
+                                <br>4 digits = \d{4}    |   2 digits = \d{2}
+                                <br>Unlimited text = [^\s/]+
+                                <br>Only at the end of a URL = $
+                                <br>Stuff all patterns within r' '
                     </li>
                     <li class="active">
-                        {{ site_form.parse_parameters.label_tag }}
+                        <div class="row">
+                            <div class="col-xs-6">
+                                {{ site_form.parse_parameters.label_tag }}
+                            </div>
+                            <div class="col-xs-6">
+                            <select class="form-control input-sm" id="parse_hint">
+                                <option value="" selected="selected"></option>
+                                <option value="r'/\d{4}/\d{2}/\d{2}/[^\s/]+'">/\d{4}/\d{2}/\d{2}/[^\s/]+</option>
+                                <option value="r'/\d{4}/\d{2}/[^\s/]+'">/\d{4}/\d{2}/[^\s/]+</option>
+                            </select>
+                            </div>
+                        </div>
                         {{ site_form.parse_parameters }}
                     </li>
                     <li class="active">
@@ -214,6 +233,7 @@
                         </td>
                         <td class="col-xs-2">
                             {% if running == 1 %} [crawling] {% endif %}
+                            {% if running == 2 %} [pending] {% endif %}
                         </td>
                         <td class="col-xs-2">
                             Documents
@@ -285,6 +305,8 @@
                         <a class="btn btn-sm btn-default btn-block" href="{% url 'operations.views.site.document_delete' site_id %}">Delete all in DB</a>
                         </td>
                         <td class="col-xs-2">
+                        <a class="btn btn-sm btn-default btn-block" href="{% url 'operations.views.site.crawl_not_running' site_id %}">Reset running status</a>
+
                         </td>
                         <td class="col-xs-2">
                         </td>

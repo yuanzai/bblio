@@ -35,8 +35,8 @@ urlpatterns = patterns('',
     url(r'^site/(?P<site_id>\d+)/crawl_cancel/$',
         operations.views.site.crawl_cancel),
     
-    url(r'^site/(?P<site_id>\d+)/clear_crawl_schedule/$',    
-        operations.views.site.clear_crawl_schedule),
+    url(r'^site/(?P<site_id>\d+)/crawl_not_running/$',    
+        operations.views.site.crawl_not_running),
     
     # 4 - document
     url(r'^document/(?P<doc_id>\d+)/$',

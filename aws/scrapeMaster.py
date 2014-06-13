@@ -31,9 +31,6 @@ def curl(method, params=None):
 def curl_add():
     params = urllib.urlencode({'project': 'default', 'spider': 'SoloSpider', 'id':23})
     curl("/schedule.json",params)
-    
-
-
 
 def get_ssh_client():
     return sshclient_from_instance(getCrawlerInstance(), host_key_file = '/home/ec2-user/.ssh/known_hosts', ssh_key_file=keys.aws_pem,user_name='ec2-user')
@@ -46,9 +43,7 @@ def process_crawl(site_id):
 
 def crawl_site_id(site_id):
     import threading
-
     t = threading.Thread(target=process_crawl,args=(site_id,))
-
     t.setDaemon(True)
     t.start()
 

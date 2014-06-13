@@ -119,7 +119,7 @@ class SpiderAll(CrawlSpider):
 
     def parse_item(self, response):
         log.msg('[%s] Parsing Start: %s' % (self.id, response.url),level=log.INFO,spider=self)
-        log.msg('response header' + response.headers['content-type'], level=log.INFO, spider=self)
+        #log.msg('response header' + response.headers['content-type'], level=log.INFO, spider=self)
         try:
 
             item = {
@@ -144,15 +144,24 @@ class SpiderAll(CrawlSpider):
                 with open(path + pdf_name, "wb") as f: 
                     f.write(response.body)
                 f.close()
-                aws.ec2.copy_file_to_web_server(path+pdf_name ,path + pdf_name)
+                #aws.ec2.copy_file_to_web_server(path+pdf_name ,path + pdf_name)
+                aws.ec2.copy_file_to_S3(response.url, path + pdf_name)
+                os.remove(path + pdf_name)
             else:
                 item.update({
                     'encoding' : response.headers['content-type'].split('charset=')[-1],
                     'document_html': (response.body).decode('utf-8','ignore').encode('utf-8')
                     })
-            if item['urlAddress'] in self.url_list:
+
+            if Document.objects.filter(site_id=self.id).filter(urlAddress=item['urlAddress']).count() == 1:
+                log.msg('[%s] Parsing Doc Overwrite: %s' % (self.id, response.url),level=log.INFO,spider=self)
                 d = Document.objects.filter(site_id=self.id).filter(urlAddress=item['urlAddress'])[0]
-                d.update(**item)
+                d.document_html = item['document_html']
+                d.encoding = item['encoding']
+                d.domain = item['domain']
+                d.response_code = item['response_code']
+                d.isUsed = 0
+                d.save()
             else:
                 d = Document(**item)
                 d.save()

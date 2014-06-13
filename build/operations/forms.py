@@ -13,12 +13,15 @@ class TestingForm(forms.ModelForm):
         fields = ['document', 'score', 'testinggroup', 'searchterm']
 
 class SiteForm(forms.ModelForm):
+
+
     def __init__(self, *args, **kwargs):
         super(SiteForm, self).__init__(*args, **kwargs)
         
         running_limit = config_file.get_config().get('bblio','crawler_instance_site_limit')
-        
+    
         instance_list = []
+        grouping_list = [('works','works'),('works dirty','works dirty'),('WIP','WIP'),('error','error'),('condemned','condemned'),('start','start'), ('test','test')]
         try:
             for i in getCrawlerInstances():            
                 dict = get_job_status_count_for_instance(i.id)
@@ -32,6 +35,8 @@ class SiteForm(forms.ModelForm):
         self.fields['instance'].widget = Select(attrs={'class': 'form-control input-sm'}, choices=instance_choices)
         self.fields['jurisdiction'].widget = Select(attrs={'class': 'form-control input-sm'}, choices=get_country_list())
         self.fields['owner'].widget = Select(attrs={'class': 'form-control input-sm'}, choices=[(o, o) for o in config_file.get_config().get('bblio','owners').split(';')])
+        self.fields['grouping'].widget = Select(attrs={'class': 'form-control input-sm'}, choices=[(g,g) for g in config_file.get_config().get('bblio','grouping').split(';')])
+    
     class Meta:
         model = Site
        
@@ -51,7 +56,6 @@ class SiteForm(forms.ModelForm):
                 ]
         widgets = {
                 'name': TextInput(attrs={'class': 'form-control'}),
-                'grouping': TextInput(attrs={'class': 'form-control'}),
                 'depthlimit': TextInput(attrs={'size':5, 'class': 'form-control'}),
 
                 #'jurisdiction': TextInput(attrs={'class': 'form-control'}),

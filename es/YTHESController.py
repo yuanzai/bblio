@@ -176,7 +176,7 @@ class YTHESController(BaseESController):
             pdf = PDFController()
             doc.update({
                 "title" : Document.urlAddress,
-                "text" : pdf.get_string(Document.document_html),
+                "text" : pdf.get_string_from_s3_key(Document.urlAddress),
                 })
         else:
             doc.update({
@@ -191,8 +191,11 @@ class YTHESController(BaseESController):
         text = re.sub('\n','',text)
         text = re.sub('\t','',text)
         text = re.sub(r'\s+',' ',text)
-        parser = etree.HTMLParser()
-        tree = etree.parse(StringIO(text.encode('utf-8').decode('utf-8')), parser)
+        text = re.sub('\<\?xml version\=\"1.0\" encoding\=\"UTF-8\"\?\>', '',text)
+
+        parser = etree.HTMLParser(recover=True, encoding ='utf-8')
+        #tree = etree.parse(StringIO(text.encode('utf-8').decode('utf-8')), parser)
+        tree = etree.parse(StringIO(text), parser)
         return tree
 
     def get_body_html(self, text):
@@ -206,7 +209,7 @@ class YTHESController(BaseESController):
     def title_parse(self, text):
         tree = self.get_tree(text)
         try:
-            return tree.xpath("title/text()")[0]
+            return tree.xpath("//title/text()")[0]
         except:
             return
 

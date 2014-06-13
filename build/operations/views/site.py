@@ -32,10 +32,17 @@ import aws.ec2
 import config_file
 
 def site(request, site_id):
-    if site_id !='0':
+    context = {}
+    site = None
+
+    if site_id !='0': 
         site = Site.objects.get(pk=site_id)
-    else:
-        site = None
+        if not scraper.scrapeController.get_jobs_for_site(site_id):
+            site.running=0
+            site.save(update_fields=['running'])
+        elif scraper.scrapeController.get_jobs_for_site(site_id) == 'Finished':
+            site.running=0
+            site.save(update_fields=['running'])
 
     if request.method == 'POST':
         site_form  = SiteForm(request.POST,instance=site)
@@ -48,20 +55,9 @@ def site(request, site_id):
             if site_id == '0':
                 return HttpResponseRedirect(reverse('site', 
                     kwargs={ 'site_id' : new_site.id}))
-            elif 'deny_parameters' in request.POST: 
-                run_deny_params(site_id)
-                #form_deny = request.POST['deny_parameters']
-                #docs = Document.objects.filter(site=site)
-                #site.deny_parameters=form_deny
-                #if form_deny[-1:] == ';':
-                #    form_deny = form_deny[:-1]
-                #denys = form_deny.split(';')
-                #for deny in denys:
-                #    d = docs.filter(urlAddress__contains=deny)
-                #    d.update(isUsed=1)
         else:
             return HttpResponse('Error fields: ' + str(site_form.errors))
-    context = {}
+    
     if site_id !='0':
         es = ESController()
         site = Site.objects.get(pk=site_id)
@@ -116,16 +112,21 @@ def run_deny_params(site_id):
         if any([re.search(re.compile(d), doc.urlAddress) for d in denys if d != None]):
             doc.isUsed = 6
             doc.save()
-
         if not bool(host_regex.search(urlparse(doc.urlAddress).hostname)):
-            doc.filter(urlAddress=url).update(isUsed=6) 
+            doc.isUsed=6
+            doc.save()
     
 
 def sites(request):
     sites = Site.objects.all()
     site_list = []
     es = ESController()
-    site_doc_count = es.get_document_count_by_site()
+
+    try:
+        site_doc_count = es.get_document_count_by_site()
+    except:
+        site_doc_count = {}
+
     owners = config_file.get_config().get('bblio','owners').split(';')
     scoreboard = {}
     for o in owners:
@@ -147,6 +148,7 @@ def sites(request):
 
     context = {'sites':site_list, 'score':scoreboard}
     return render(request, 'operations/sites.html',context)
+
 # input code
 def delete(request, site_id):
     Site.objects.get(pk=site_id).delete()
@@ -163,11 +165,9 @@ def crawl(request, site_id):
         return HttpResponse("Crawler is running")
     try:
         c_dict = scraper.scrapeController.get_job_status_count_for_instance(site.instance) 
-        print c_dict
         count = int(c_dict['running']) + int(c_dict['pending'])
     except:
         count = 0
-    print config_file.get_config().get('bblio','crawler_instance_site_limit') 
     if count < int(config_file.get_config().get('bblio','crawler_instance_site_limit')):
         ret = scraper.scrapeController.curl_schedule_crawl(site_id, site.instance)
         if 'jobid' in ret:
@@ -178,7 +178,9 @@ def crawl(request, site_id):
     else:
         return HttpResponse("Worker instance is full. Please try another instance")
     
-    time.sleep(4)
+    site.running=2
+    site.save()
+    time.sleep(3)
     return HttpResponseRedirect(reverse('site', 
         kwargs={ 'site_id' : site_id}))
 
@@ -187,7 +189,10 @@ def crawl_cancel(request, site_id):
         return HttpResponse("Cancel Failed")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def clear_crawl_schedule(request, site_id):
+def crawl_not_running(request, site_id):
+    site = Site.objects.get(pk=site_id)
+    site.running = 0
+    site.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 #database document code
@@ -197,7 +202,8 @@ def document(request,doc_id):
     doc = Document.objects.get(pk=doc_id)
     context = {
             'html': '<code>' + re.sub('\n','</code>\n<code>',cgi.escape(es.get_body_html(doc.document_html))) + '</code>',
-            'parsed_text' : '<br>'.join(es.text_parse(doc.document_html))
+            'parsed_text' : '<br>'.join(es.text_parse(doc.document_html)),
+            'parsed_title' : es.title_parse(doc.document_html)
             }
 
     return render(request, 'operations/document.html',context)
@@ -210,9 +216,10 @@ def document_reset_to_zero(request,site_id):
 def document_duplicate_filter(request,site_id):
     docs = Document.objects.filter(site_id=site_id).filter(isUsed=0)
     urlList = docs.values_list('urlAddress',flat=True).distinct()
+    run_deny_params(site_id)
     
     for url in urlList:
-        print(url)
+
         #pure duplicate
         if docs.filter(urlAddress=url).count() > 1:
             first_id = docs.filter(urlAddress=url)[0].id
@@ -255,17 +262,13 @@ def document_delete(request, site_id):
 def es_index_site(request, site_id):
     import threading
     t = threading.Thread(target=index_process,args=(site_id,))
-
     t.setDaemon(True)
     t.start()
-    
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def index_process(site_id):
     es = ESController()
     es.index_site_id(site_id)
-
-
 
 def es_remove_site_from_index(request, site_id):
     es = ESController()
@@ -304,7 +307,6 @@ def tree(request):
         else:
             linklist  = scraper.scrapeController.link_extractor(url,parse_parameters,follow_parameters,deny_parameters,source_allowed_domains)
         context.update({'list':linklist})
-        print context
     return render(request, 'operations/tree.html',context)
 
 if __name__ == '__main__':
