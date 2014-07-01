@@ -18,7 +18,7 @@ from django.forms.models import modelformset_factory, modelform_factory
 from django.core.urlresolvers import reverse
 from django import forms
 from django.forms.models import model_to_dict
-
+from django.db.models import Count
 #es import
 from es.YTHESController import YTHESController as ESController
 
@@ -40,7 +40,7 @@ def site(request, site_id):
         if not scraper.scrapeController.get_jobs_for_site(site_id):
             site.running=0
             site.save(update_fields=['running'])
-        elif scraper.scrapeController.get_jobs_for_site(site_id) == 'Finished':
+        elif scraper.scrapeController.get_jobs_for_site(site_id) == 'finished':
             site.running=0
             site.save(update_fields=['running'])
 
@@ -135,6 +135,7 @@ def sites(request):
     for site in sites:
         s = model_to_dict(site)
         s.update({'doc_count': Document.objects.filter(site_id=site.id).count()})
+        s.update({'zero_count': Document.objects.filter(site_id=site.id).filter(isUsed=0).count()})
         try:
             doc = site_doc_count[site.id]
             s.update({'index_count':doc})
@@ -145,6 +146,9 @@ def sites(request):
             s.update({'index_count': 0})
 
         site_list.append(s)
+    if not site_doc_count:
+        d = Document.objects.filter(isUsed=0).values('site__owner').annotate(zero_count=Count('site__owner'))
+        scoreboard= d
 
     context = {'sites':site_list, 'score':scoreboard}
     return render(request, 'operations/sites.html',context)
@@ -202,7 +206,7 @@ def document(request,doc_id):
     doc = Document.objects.get(pk=doc_id)
     context = {
             'html': '<code>' + re.sub('\n','</code>\n<code>',cgi.escape(es.get_body_html(doc.document_html))) + '</code>',
-            'parsed_text' : '<br>'.join(es.text_parse(doc.document_html)),
+            'parsed_text' : es.text_parse(doc),
             'parsed_title' : es.title_parse(doc.document_html)
             }
 
@@ -221,15 +225,15 @@ def document_duplicate_filter(request,site_id):
     for url in urlList:
 
         #pure duplicate
-        if docs.filter(urlAddress=url).count() > 1:
-            first_id = docs.filter(urlAddress=url)[0].id
-            docs.filter(urlAddress=url).exclude(pk=first_id).update(isUsed=2)
-            continue
+        #if docs.filter(urlAddress=url).count() > 1:
+        #    first_id = docs.filter(urlAddress=url)[0].id
+        #    docs.filter(urlAddress=url).exclude(pk=first_id).update(isUsed=2)
+        #    continue
         
         #https filter
         if url[:5] == 'https':
             url_http = url[:4] + url[5:]
-            if docs.filter(urlAddress=url_http).count() > 0:
+            if url_http in urlList:
                 docs.filter(urlAddress=url).update(isUsed=3)
                 continue
 
@@ -242,14 +246,14 @@ def document_duplicate_filter(request,site_id):
             url_www = None
 
         if url_www:
-            if docs.filter(urlAddress=url_www).count() > 0:
+            if url_www in urlList:
                 docs.filter(urlAddress=url_www).update(isUsed=4)
                 continue
 
         #slash filter
         if url[-1:] == '/':
             url_slash = url[:-1]
-            if docs.filter(urlAddress=url_slash).count() > 0:
+            if url_slash in urlList:
                 docs.filter(urlAddress=url).update(isUsed=5)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

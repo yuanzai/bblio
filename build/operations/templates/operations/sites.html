@@ -34,8 +34,10 @@
     <th>ID</th>
     <th>Name</th>
     <th>Owner</th>
+    <th>Jurisdiction</th>
     <th>Grouping</th>
-    <th>Document Count</th>
+    <th>Doc Count</th>
+    <th>Zero Count</th>
     <th>Index Count</th>
     <th>Last crawled</th>
     <th>Status</th>
@@ -57,10 +59,16 @@
         {% endif %}
     </td>
     <td>
+        {{ site.jurisdiction }}
+    </td>
+    <td>
         {{ site.grouping }}
     </td>
     <td>
         {{ site.doc_count }}
+    </td>
+    <td>
+        {{ site.zero_count }}
     </td>
     <td>
         {{ site.index_count }}

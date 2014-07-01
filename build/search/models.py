@@ -1,5 +1,12 @@
 from django.db import models
 
+class TextFilter(models.Model):
+    site = models.ForeignKey('Site')
+    filter_type = models.CharField(max_length=30, db_index=True)
+    filter_text = models.TextField(blank=True, null=True)
+    filter_id = models.IntegerField(max_length=8, db_index=True, blank=True, null=True)
+
+
 class Document(models.Model):
     document_text = models.TextField(blank=True, null=True, default=None)
     urlAddress = models.URLField(max_length=1000)
@@ -13,6 +20,11 @@ class Document(models.Model):
     encoding = models.CharField(max_length=255, blank=True, null=True)
     update_group = models.SmallIntegerField(blank=True, null = True,db_index=True) 
     publish_date = models.DateTimeField(blank=True, null=True)
+    index_batch = models.IntegerField(blank=True, null=True, db_index=True)
+    head = models.ForeignKey(TextFilter,related_name='+', null=True, blank=True)
+    foot = models.ForeignKey(TextFilter,related_name='+', null=True, blank=True)
+    isPDF = models.BooleanField(default=False)
+
     def __unicode__(self):
         return self.document_text
 

@@ -110,11 +110,11 @@ window.location = "{% url 'search.views.index' %}?q=" + encodeURIComponent(Searc
 {{ r.urlAddress }}
 </font><br>
 <font size="2px">
-{% autoescape off %}
+    {% autoescape off %}
 {% for h in r.highlight %}
-{{ h }}<br>
+    {{ h }}<br>
 {% endfor %}
-{% endautoescape %}
+    {% endautoescape %}
 </font>
 </p>
 

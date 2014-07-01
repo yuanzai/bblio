@@ -5,6 +5,8 @@
         <a class="navbar-brand" href="{% url 'operations.views.index' %}">LitigoSearch Operations</a>
         <div class="container">
         <ul class ="nav navbar-nav navbar-right"> 
+        <li><a href="#" class="navbar-link">Zeroes <span class="badge">{{ zero_count }}</span>
+            </a></li>
         <li><a href="#" class="navbar-link">Indexed <span class="badge">{{ es_count }}</span>
             </a></li>
         <li><a href="{% url 'operations.views.admin.index' %}" class="navbar-link">Admin</a></li>

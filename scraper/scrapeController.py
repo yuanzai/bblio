@@ -231,7 +231,11 @@ def curl_cancel_crawl(site_id):
     return None
 
 def link_extractor(url, parse_parameters='', follow_parameters='', deny_parameters='', source_allowed_domains = ''):
-    res = urllib2.urlopen(url)
+    res = None
+    try:
+        res = urllib2.urlopen(url)
+    except:
+        return None
     html = res.read()
 
     if 'charset' in res.headers['content-type']:
