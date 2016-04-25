@@ -4,8 +4,11 @@ A curated legal document search engine
 - Search - ElasticSearch
 - Scraping - Scrapy
 
-![Alt text](https://github.com/yuanzai/bblio/blob/master/Main.png "LitigoSearch - Searching")
-http://jy-lau.me/search
+| Search URL | http://jy-lau.me/search |
+| Scraping URL | http://jy-lau.me/operations|
 
+## SEARCH SCREENSHOT
+![Alt text](https://github.com/yuanzai/bblio/blob/master/Main.png "LitigoSearch - Searching")
+
+## SCRAPING SCREENSHOT
 ![Alt text](https://github.com/yuanzai/bblio/blob/master/Ops.png "LitigoSearch - Curated Webscraping Interface")
-http://jy-lau.me/operations
