@@ -4,6 +4,8 @@ A curated legal document search engine
 - Search - ElasticSearch
 - Scraping - Scrapy
 
+| Description | URL |
+| --- | --- |
 | Search URL | http://jy-lau.me/search |
 | Scraping URL | http://jy-lau.me/operations|
 
